@@ -23,5 +23,9 @@ public class Projectile : MonoBehaviour
 
             Destroy(gameObject);
         }
+        else if(collision.CompareTag("TileMap"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
