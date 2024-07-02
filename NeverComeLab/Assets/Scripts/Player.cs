@@ -30,32 +30,32 @@ public class Player : MonoBehaviour
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    private void LateUpdate()
-    {
-        anim.SetFloat("Speed", inputVec.magnitude); //�ִϸ��̼� Float�� ����, ������ ������ ũ�� ��
+    //private void LateUpdate()
+    //{
+    //    //anim.SetFloat("Speed", inputVec.magnitude); //�ִϸ��̼� Float�� ����, ������ ������ ũ�� ��
 
-        anim.ResetTrigger("Forward");
-        anim.ResetTrigger("Back");
-        anim.ResetTrigger("Right");
+    //    //anim.ResetTrigger("Forward");
+    //    //anim.ResetTrigger("Back");
+    //    //anim.ResetTrigger("Right");
 
-        if (inputVec.y > 0)
-        {
-            anim.SetTrigger("Forward");
-        }
-        else if (inputVec.y < 0)
-        {
-            anim.SetTrigger("Back");
-        }
+    //    if (inputVec.y > 0)
+    //    {
+    //        anim.SetTrigger("Forward");
+    //    }
+    //    else if (inputVec.y < 0)
+    //    {
+    //        anim.SetTrigger("Back");
+    //    }
 
-        else if (inputVec.x > 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = false;
-        }
-        else if (inputVec.x < 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = true;
-        }
-    }
+    //    else if (inputVec.x > 0)
+    //    {
+    //        anim.SetTrigger("Right");
+    //        spriter.flipX = false;
+    //    }
+    //    else if (inputVec.x < 0)
+    //    {
+    //        anim.SetTrigger("Right");
+    //        spriter.flipX = true;
+    //    }
+    //}
 }
