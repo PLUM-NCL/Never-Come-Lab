@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterHp: 10
   monsterDamage: 5
-  monsterSpeed: 5
-  monsterAttackSpeed: 5
+  monsterSpeed: 2
+  monsterAttackSpeed: 1
   monsterDieClip: {fileID: 0}
   monsterAttackClip: {fileID: 0}
   monsterHitClip: {fileID: 0}
