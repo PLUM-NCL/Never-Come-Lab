@@ -30,32 +30,32 @@ public class Player : MonoBehaviour
         rigid.MovePosition(rigid.position + nextVec);
     }
 
-    private void LateUpdate()
-    {
-        anim.SetFloat("Speed", inputVec.magnitude); //¾Ö´Ï¸ÞÀÌ¼Ç Float°ª ¼öÁ¤, º¤ÅÍÀÇ ¼ø¼öÇÑ Å©±â °ª
+    //private void LateUpdate()
+    //{
+    //    //anim.SetFloat("Speed", inputVec.magnitude); //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Floatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½
 
-        anim.ResetTrigger("Forward");
-        anim.ResetTrigger("Back");
-        anim.ResetTrigger("Right");
+    //    //anim.ResetTrigger("Forward");
+    //    //anim.ResetTrigger("Back");
+    //    //anim.ResetTrigger("Right");
 
-        if (inputVec.y > 0)
-        {
-            anim.SetTrigger("Forward");
-        }
-        else if (inputVec.y < 0)
-        {
-            anim.SetTrigger("Back");
-        }
+    //    if (inputVec.y > 0)
+    //    {
+    //        anim.SetTrigger("Forward");
+    //    }
+    //    else if (inputVec.y < 0)
+    //    {
+    //        anim.SetTrigger("Back");
+    //    }
 
-        else if (inputVec.x > 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = false;
-        }
-        else if (inputVec.x < 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = true;
-        }
-    }
+    //    else if (inputVec.x > 0)
+    //    {
+    //        anim.SetTrigger("Right");
+    //        spriter.flipX = false;
+    //    }
+    //    else if (inputVec.x < 0)
+    //    {
+    //        anim.SetTrigger("Right");
+    //        spriter.flipX = true;
+    //    }
+    //}
 }
