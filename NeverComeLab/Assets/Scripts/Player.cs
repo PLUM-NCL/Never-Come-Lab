@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
-    public float speed;
+    public float speed = 4f;
     Animator anim;
 
     Rigidbody2D rigid;
@@ -22,40 +22,57 @@ public class Player : MonoBehaviour
     {
         inputVec.x = Input.GetAxis("Horizontal");
         inputVec.y = Input.GetAxis("Vertical");
+
+        rigid.velocity = inputVec.normalized * speed;
+        if (inputVec.magnitude == 0)
+        {
+            AnimReset();
+        }
     }
 
     private void FixedUpdate()
     {
-        Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
-        rigid.MovePosition(rigid.position + nextVec);
+        //Jeong's 방법 : 물리적 이동 고려 x -> FixedUpdate에 써야함
+        //if (inputVec != Vector2.zero)
+        //{
+        //    Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
+        //    rigid.MovePosition(rigid.position + nextVec);
+        //}
+        //지섭쿤 방법 : 물리적 이동 고려시.. -> Update에 써야함 
+        //rigid.velocity = inputVec.normalized * speed; 
     }
 
-    //private void LateUpdate()
-    //{
-    //    //anim.SetFloat("Speed", inputVec.magnitude); //�ִϸ��̼� Float�� ����, ������ ������ ũ�� ��
+    private void LateUpdate()
+    {
+        anim.SetFloat("Speed", inputVec.magnitude); //애니메이션 Float값 수정, 벡터의 순수한 크기 값
 
-    //    //anim.ResetTrigger("Forward");
-    //    //anim.ResetTrigger("Back");
-    //    //anim.ResetTrigger("Right");
+        AnimReset();
 
-    //    if (inputVec.y > 0)
-    //    {
-    //        anim.SetTrigger("Forward");
-    //    }
-    //    else if (inputVec.y < 0)
-    //    {
-    //        anim.SetTrigger("Back");
-    //    }
+        if (inputVec.y > 0)
+        {
+            anim.SetTrigger("Forward");
+        }
+        else if (inputVec.y < 0)
+        {
+            anim.SetTrigger("Back");
+        }
 
-    //    else if (inputVec.x > 0)
-    //    {
-    //        anim.SetTrigger("Right");
-    //        spriter.flipX = false;
-    //    }
-    //    else if (inputVec.x < 0)
-    //    {
-    //        anim.SetTrigger("Right");
-    //        spriter.flipX = true;
-    //    }
-    //}
+        else if (inputVec.x > 0)
+        {
+            anim.SetTrigger("Right");
+            spriter.flipX = false;
+        }
+        else if (inputVec.x < 0)
+        {
+            anim.SetTrigger("Right");
+            spriter.flipX = true;
+        }
+    }
+
+    private void AnimReset()
+    {
+        anim.ResetTrigger("Forward");
+        anim.ResetTrigger("Back");
+        anim.ResetTrigger("Right");
+    }
 }
