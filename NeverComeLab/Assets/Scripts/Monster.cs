@@ -1,9 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
+    private enum State { Patrol, Chase, Return }
+    private State currentState = State.Patrol;
+
+    private Vector3 initialPosition;
+    private Vector3 target;
+    NavMeshAgent agent;
+    public TextMeshPro mark;
+
+
     [SerializeField]
     private MonsterData enemyData;
 
@@ -42,23 +53,76 @@ public class Monster : MonoBehaviour
         isPlayerDetected = detected;
     }
 
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        // �÷��̾ ǥ�鿡�� �����̴� ���� ����
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
+
     private void Start()
     {
+        initialPosition = transform.position;
         monsterHp = enemyData.monsterHp;
         monsterDamage = enemyData.monsterDamage;
-        monsterSpeed = enemyData.monsterSpeed;
         monsterAttackSpeed = enemyData.monsterAttackSpeed;
+
+        agent.speed = enemyData.monsterSpeed;
 
         monsterAnimator = GetComponent<Animator>();
         monsterAudio = GetComponent<AudioSource>();
-        
         rigid = GetComponent<Rigidbody2D>();
+
+        StartCoroutine(PatrolRoutine());
     }
 
     private void Update()
     {
+        distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
+        switch (currentState)
+        {
+            case State.Patrol:
+                if (isPlayerDetected && distanceToPlayer <= stopChasingDistance)
+                {
+                    currentState = State.Chase;
+                    StopCoroutine(PatrolRoutine());
+                    mark.text = "!";
+                }
+                break;
+            case State.Chase:
+               Chase();
+                if (distanceToPlayer > stopChasingDistance)
+                {
+                    SetPlayerDetected(false);
+                    currentState = State.Return;
+                    mark.text = "?";
+                    agent.velocity = Vector2.zero;
+                }
+                break;
+            case State.Return:
+                
+                Invoke("Return", 3);
+                if (Vector2.Distance(transform.position, initialPosition) < 0.1f)
+                {
+                    mark.text = "";
+                    currentState = State.Patrol;
+                    StartCoroutine(PatrolRoutine());
+                }
+                break;
+        }
+    }
 
+    private void Patrol()
+    {
+        // ���⿡ ���� �������� �����̴� ������ ����
+        monsterAnimator.SetBool("isMove", true);
+    }
+
+    private void Chase()
+    {
         if (!isDie && isPlayerDetected)
         {
             if (!isShooting)
@@ -67,36 +131,45 @@ public class Monster : MonoBehaviour
             }
             else
             {
-                // 플레이어와 몬스터 사이의 거리 계산
-                distanceToPlayer = Vector2.Distance(transform.position, player.position);
-                Debug.Log(distanceToPlayer + "m");
-
-                if (distanceToPlayer > stopChasingDistance)
-                {
-                    // 플레이어와의 거리가 stopChasingDistance보다 크면 추적 중지
-                    SetPlayerDetected(false);
-                    rigid.velocity = Vector3.zero;
-                }
-                else
-                {
-                    // 플레이어 방향으로 몬스터 이동
-                    Vector2 direction = (player.position - transform.position).normalized;
-                    rigid.velocity = direction * monsterSpeed;
-                }
+                agent.SetDestination(player.position);
+                agent.isStopped = false;
+                monsterAnimator.SetBool("isMove", true);
             }
         }
     }
-    
+
+    private void Return()
+    {
+        
+        agent.SetDestination(initialPosition);
+        agent.isStopped = false;
+        monsterAnimator.SetBool("isMove", true);
+    }
+
+    IEnumerator PatrolRoutine()
+    {
+        while (currentState == State.Patrol)
+        {
+            // �������� �̵�
+            agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
+            yield return new WaitForSeconds(2f); // 2�� ���� �̵�
+
+            // ���������� �̵�
+            agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
+            yield return new WaitForSeconds(2f); // 2�� ���� �̵�
+        }
+    }
 
     IEnumerator Shoot()
     {
         isShooting = true;
+
         yield return new WaitForSeconds(monsterAttackSpeed);
         Vector2 direction = (player.position - pos.position).normalized;
         GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
-        Rigidbody2D rigid = newProjectile.GetComponent<Rigidbody2D>();
-        rigid.velocity = direction * projectileSpeed;
+        newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         Debug.Log(rigid.velocity);
+
         isShooting = false;
     }
 
