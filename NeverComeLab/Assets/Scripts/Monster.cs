@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
+    private Vector3 target;
+    NavMeshAgent agent;
+
     [SerializeField]
     private MonsterData enemyData;
 
@@ -42,22 +46,34 @@ public class Monster : MonoBehaviour
         isPlayerDetected = detected;
     }
 
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+
+        // 플레이어가 표면에서 움직이는 것을 방지
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
     private void Start()
     {
         monsterHp = enemyData.monsterHp;
         monsterDamage = enemyData.monsterDamage;
-        monsterSpeed = enemyData.monsterSpeed;
         monsterAttackSpeed = enemyData.monsterAttackSpeed;
+
+        agent.speed = enemyData.monsterSpeed;
 
         monsterAnimator = GetComponent<Animator>();
         monsterAudio = GetComponent<AudioSource>();
-        
         rigid = GetComponent<Rigidbody2D>();
+    }
+    void SetAgentPosition()
+    {
+        agent.SetDestination(player.position);
     }
 
     private void Update()
     {
-
+        
 
         if (!isDie && isPlayerDetected)
         {
@@ -75,13 +91,18 @@ public class Monster : MonoBehaviour
                 {
                     // 플레이어와의 거리가 stopChasingDistance보다 크면 추적 중지
                     SetPlayerDetected(false);
-                    rigid.velocity = Vector3.zero;
+                    agent.isStopped = true; // NavMeshAgent 멈추기
+                    agent.ResetPath(); // 현재 경로 초기화
+                    monsterAnimator.SetBool("isMove", false);
                 }
                 else
                 {
                     // 플레이어 방향으로 몬스터 이동
-                    Vector2 direction = (player.position - transform.position).normalized;
-                    rigid.velocity = direction * monsterSpeed;
+                    //Vector2 direction = (player.position - transform.position).normalized;
+                    //rigid.velocity = direction * monsterSpeed;
+                    SetAgentPosition();
+                    agent.isStopped = false;
+                    monsterAnimator.SetBool("isMove", true);
                 }
             }
         }
@@ -91,12 +112,13 @@ public class Monster : MonoBehaviour
     IEnumerator Shoot()
     {
         isShooting = true;
+
         yield return new WaitForSeconds(monsterAttackSpeed);
         Vector2 direction = (player.position - pos.position).normalized;
         GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
-        Rigidbody2D rigid = newProjectile.GetComponent<Rigidbody2D>();
-        rigid.velocity = direction * projectileSpeed;
+        newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         Debug.Log(rigid.velocity);
+
         isShooting = false;
     }
 }
