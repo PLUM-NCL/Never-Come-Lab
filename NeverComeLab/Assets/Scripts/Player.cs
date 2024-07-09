@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     public float speed = 4f;
     public float playerHp = 10;
     private bool isDie = false;
+    private bool isStopped = false;
+
 
     Animator anim;
     Rigidbody2D rigid;
@@ -49,28 +51,37 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
-        anim.SetFloat("Speed", inputVec.magnitude); //애니메이션 Float값 수정, 벡터의 순수한 크기 값
+        if (inputVec.magnitude > 0)
+        {
+            isStopped = false;
+            anim.speed = 1; // 애니메이션 재생 속도 정상화
+            anim.SetFloat("Speed", inputVec.magnitude); // 애니메이션 Float값 수정, 벡터의 순수한 크기 값
 
-        AnimReset();
+            AnimReset();    //없애도 되려나..? 
 
-        if (inputVec.y > 0)
-        {
-            anim.SetTrigger("Forward");
+            if (inputVec.y > 0)
+            {
+                anim.SetTrigger("Forward");
+            }
+            else if (inputVec.y < 0)
+            {
+                anim.SetTrigger("Back");
+            }
+            else if (inputVec.x > 0)
+            {
+                anim.SetTrigger("Right");
+                spriter.flipX = false;
+            }
+            else if (inputVec.x < 0)
+            {
+                anim.SetTrigger("Right");
+                spriter.flipX = true;
+            }
         }
-        else if (inputVec.y < 0)
+        else if (!isStopped)    //움직임 멈추면 애니메이션 정지 시키기 
         {
-            anim.SetTrigger("Back");
-        }
-
-        else if (inputVec.x > 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = false;
-        }
-        else if (inputVec.x < 0)
-        {
-            anim.SetTrigger("Right");
-            spriter.flipX = true;
+            StopAnimation();
+            isStopped = true;
         }
     }
 
@@ -79,6 +90,13 @@ public class Player : MonoBehaviour
         anim.ResetTrigger("Forward");
         anim.ResetTrigger("Back");
         anim.ResetTrigger("Right");
+    }
+
+    private void StopAnimation()
+    {
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);  //현재 재생중인 애니메이션 정보 가져옴
+        anim.Play(stateInfo.fullPathHash, 0, stateInfo.normalizedTime); //현재 애니 해시값, 애니메이션 시작부분, 현재 상태값
+        anim.speed = 0; // 애니메이션 멈춤
     }
 
     public void TakeDamage(int damage)
