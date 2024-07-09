@@ -28,10 +28,11 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //if (!collision.CompareTag("Enemy"))
-        //    return;
-        
-        //사거리에 따른 SetActive(false) 추가 필요 
+        if (!collision.CompareTag("Enemy"))
+            return;
+
+        rigid.velocity = Vector2.zero;
+        gameObject.SetActive(false);
     }
 
     //몬스터쪽에서 Bullet과 몬스터 충돌 부분 필요함.  

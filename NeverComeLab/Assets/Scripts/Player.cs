@@ -6,8 +6,10 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 4f;
-    Animator anim;
+    public float playerHp = 10;
+    private bool isDie = false;
 
+    Animator anim;
     Rigidbody2D rigid;
     SpriteRenderer spriter;
 
@@ -20,13 +22,16 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        inputVec.x = Input.GetAxis("Horizontal");
-        inputVec.y = Input.GetAxis("Vertical");
-
-        rigid.velocity = inputVec.normalized * speed;
-        if (inputVec.magnitude == 0)
+        if (!isDie)
         {
-            AnimReset();
+            inputVec.x = Input.GetAxis("Horizontal");
+            inputVec.y = Input.GetAxis("Vertical");
+
+            rigid.velocity = inputVec.normalized * speed;
+            if (inputVec.magnitude == 0)
+            {
+                AnimReset();
+            }
         }
     }
 
@@ -74,5 +79,18 @@ public class Player : MonoBehaviour
         anim.ResetTrigger("Forward");
         anim.ResetTrigger("Back");
         anim.ResetTrigger("Right");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        playerHp -= damage;
+
+        Debug.Log("남은 플레이어 체력: " + playerHp);
+
+        if (playerHp <= 0)
+        {
+            isDie = true;
+            Debug.Log("으앙 플레이어 죽음");
+        }
     }
 }

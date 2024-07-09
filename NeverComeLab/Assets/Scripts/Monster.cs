@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,24 +13,24 @@ public class Monster : MonoBehaviour
     [SerializeField]
     Transform pos;
 
-    private float monsterHp; // Ã¼·Â
-    private float monsterDamage; // °ø°İ·Â
-    private float monsterSpeed; // ÀÌ¼Ó
-    private float monsterAttackSpeed; // °ø¼Ó (³·À» ¼ö·Ï ºü¸§) µô·¹ÀÌ ½Ã°£
-    private int monsterType; // ¸ó½ºÅÍ À¯Çü
+    private float monsterHp; // ì²´ë ¥
+    private float monsterDamage; // ê³µê²©ë ¥
+    private float monsterSpeed; // ì´ì†
+    private float monsterAttackSpeed; // ê³µì† (ë‚®ì„ ìˆ˜ë¡ ë¹ ë¦„) ë”œë ˆì´ ì‹œê°„
+    private int monsterType; // ëª¬ìŠ¤í„° ìœ í˜•
 
     private bool isHit = false;
     private bool isShooting = false;
-    private bool isDie = false; // Á×¾ú´ÂÁö ¾ÈÁ×¾ú´ÂÁö
+    private bool isDie = false; // ì£½ì—ˆëŠ”ì§€ ì•ˆì£½ì—ˆëŠ”ì§€
     private bool isPlayerDetected = false;
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
 
-    private float distanceToPlayer; // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®
-    private bool isAttack = false; // °ø°İ ±¸ºĞ
-    private float attackSpeed = 1f; // °ø¼Ó (°ø°İ °£°İ)
-    private float stopChasingDistance = 5f; // ÃßÀûÀ» ¸ØÃâ °Å¸®
+    private float distanceToPlayer; // í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬
+    private bool isAttack = false; // ê³µê²© êµ¬ë¶„
+    private float attackSpeed = 1f; // ê³µì† (ê³µê²© ê°„ê²©)
+    private float stopChasingDistance = 5f; // ì¶”ì ì„ ë©ˆì¶œ ê±°ë¦¬
 
     public Transform player;
     public float projectileSpeed = 5f;
@@ -67,19 +67,19 @@ public class Monster : MonoBehaviour
             }
             else
             {
-                // ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌÀÇ °Å¸® °è»ê
+                // í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„° ì‚¬ì´ì˜ ê±°ë¦¬ ê³„ì‚°
                 distanceToPlayer = Vector2.Distance(transform.position, player.position);
                 Debug.Log(distanceToPlayer + "m");
 
                 if (distanceToPlayer > stopChasingDistance)
                 {
-                    // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®°¡ stopChasingDistanceº¸´Ù Å©¸é ÃßÀû ÁßÁö
+                    // í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬ê°€ stopChasingDistanceë³´ë‹¤ í¬ë©´ ì¶”ì  ì¤‘ì§€
                     SetPlayerDetected(false);
                     rigid.velocity = Vector3.zero;
                 }
                 else
                 {
-                    // ÇÃ·¹ÀÌ¾î ¹æÇâÀ¸·Î ¸ó½ºÅÍ ÀÌµ¿
+                    // í”Œë ˆì´ì–´ ë°©í–¥ìœ¼ë¡œ ëª¬ìŠ¤í„° ì´ë™
                     Vector2 direction = (player.position - transform.position).normalized;
                     rigid.velocity = direction * monsterSpeed;
                 }
@@ -98,5 +98,29 @@ public class Monster : MonoBehaviour
         rigid.velocity = direction * projectileSpeed;
         Debug.Log(rigid.velocity);
         isShooting = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Bullet"))
+            return;
+
+        monsterHp -= collision.GetComponent<Bullet>().damage;
+        Debug.Log("ë‚¨ì€ ëª¬ìŠ¤í„° ì²´ë ¥: " + monsterHp);
+
+        if (monsterHp > 0)
+        {
+            //Hit ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ß°ï¿½ ï¿½Ê¿ï¿½ 
+        }
+        else
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        gameObject.SetActive(false);
+        Debug.Log("ìœ¼ì•™ ëª¬ìŠ¤í„° ì£½ìŒ");
     }
 }
