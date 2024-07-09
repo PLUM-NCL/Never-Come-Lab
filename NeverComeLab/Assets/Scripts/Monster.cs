@@ -1,4 +1,4 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -24,24 +24,23 @@ public class Monster : MonoBehaviour
     [SerializeField]
     Transform pos;
 
-    private float monsterHp; // ì²´ë ¥
-    private float monsterDamage; // ê³µê²©ë ¥
-    private float monsterSpeed; // ì´ì†
-    private float monsterAttackSpeed; // ê³µì† (ë‚®ì„ ìˆ˜ë¡ ë¹ ë¦„) ë”œë ˆì´ ì‹œê°„
-    private int monsterType; // ëª¬ìŠ¤í„° ìœ í˜•
+    private float monsterHp;
+    private float monsterDamage;
+    private float monsterSpeed;
+    private float monsterAttackSpeed;
+    private int monsterType;
 
     private bool isHit = false;
     private bool isShooting = false;
-    private bool isDie = false; // ì£½ì—ˆëŠ”ì§€ ì•ˆì£½ì—ˆëŠ”ì§€
+    private bool isDie = false;
     private bool isPlayerDetected = false;
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
 
-    private float distanceToPlayer; // í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬
-    private bool isAttack = false; // ê³µê²© êµ¬ë¶„
-    private float attackSpeed = 1f; // ê³µì† (ê³µê²© ê°„ê²©)
-    private float stopChasingDistance = 5f; // ì¶”ì ì„ ë©ˆì¶œ ê±°ë¦¬
+    private float distanceToPlayer;
+    private float attackSpeed = 1f;
+    private float stopChasingDistance = 5f;
 
     public Transform player;
     public float projectileSpeed = 5f;
@@ -57,7 +56,7 @@ public class Monster : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ Ç¥ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ÇÃ·¹ÀÌ¾î°¡ Ç¥¸é¿¡¼­ ¿òÁ÷ÀÌ´Â °ÍÀ» ¹æÁö
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -103,8 +102,7 @@ public class Monster : MonoBehaviour
                 }
                 break;
             case State.Return:
-                
-                Invoke("Return", 3);
+                Return();
                 if (Vector2.Distance(transform.position, initialPosition) < 0.1f)
                 {
                     mark.text = "";
@@ -117,7 +115,7 @@ public class Monster : MonoBehaviour
 
     private void Patrol()
     {
-        // ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        // ¿©±â¿¡ ÀÏÁ¤ °£°İÀ¸·Î ¿òÁ÷ÀÌ´Â ·ÎÁ÷À» ±¸Çö
         monsterAnimator.SetBool("isMove", true);
     }
 
@@ -150,13 +148,13 @@ public class Monster : MonoBehaviour
     {
         while (currentState == State.Patrol)
         {
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+            // ¿ŞÂÊÀ¸·Î ÀÌµ¿
             agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
-            yield return new WaitForSeconds(2f); // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+            yield return new WaitForSeconds(2f); // 2ÃÊ µ¿¾È ÀÌµ¿
 
-            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+            // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
             agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
-            yield return new WaitForSeconds(2f); // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+            yield return new WaitForSeconds(2f); // 2ÃÊ µ¿¾È ÀÌµ¿
         }
     }
 
@@ -171,40 +169,5 @@ public class Monster : MonoBehaviour
         Debug.Log(rigid.velocity);
 
         isShooting = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Bullet") || isHit)   //í”¼ê²©í›„ 0.5ì´ˆê°„ì€ ë¬´ì íŒì •
-            return;
-
-        collision.gameObject.SetActive(false);
-        monsterHp -= collision.GetComponent<Bullet>().damage;
-        Debug.Log("ë‚¨ì€ ëª¬ìŠ¤í„° ì²´ë ¥: " + monsterHp);
-
-
-        if (monsterHp > 0)
-        {
-            //Hit ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ì½”ë“œ ì¶”ê°€ í•„ìš”
-            isHit = true;
-            StartCoroutine(ResetHit());
-        }
-        else
-        {
-            Dead();
-        }
-    }
-
-    IEnumerator ResetHit()
-    {
-        // 0.1ì´ˆ ëŒ€ê¸°
-        yield return new WaitForSeconds(0.5f);
-        isHit = false;
-    }
-
-    void Dead()
-    {
-        gameObject.SetActive(false);
-        Debug.Log("ìœ¼ì•™ ëª¬ìŠ¤í„° ì£½ìŒ");
     }
 }
