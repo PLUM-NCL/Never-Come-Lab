@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//몬스터 공격 관련, 피격 필요  
+//몬스터->플레이어 공격 관련, 피격 효과 필요, 몬스터 공격시 여러번 적용되는 버그 수정 필요 
 
 public class Weapon : MonoBehaviour
 {
@@ -21,24 +21,59 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        switch (id) //무기 아이디별로 무기로직 실행 
-        {
-            case 0: //공격 총알인 경우 
-                timer += Time.deltaTime;
 
-                if (timer > speed)
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        timer = 0;
-                        Fire();
-                    }
-                }
-                break;
-            default:
-                break;
+        //임시용! 왼쪽마우스시 죽이는 무기, 오른쪽마우스시 기절 무기 
+        timer += Time.deltaTime;
+
+        if (timer > speed)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                timer = 0;
+                id = 0;
+                prefabId = 0;
+                damage = 2;
+                Fire();
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                timer = 0;
+                id = 1;
+                prefabId = 1;
+                damage = 0;
+                Fire();
+            }
         }
     }
+        //switch (id) //무기 아이디별로 무기로직 실행 
+        //{
+
+            //case 0: //공격 총알인 경우 
+            //    timer += Time.deltaTime;
+
+            //    if (timer > speed)
+            //    {
+            //        if (Input.GetMouseButtonDown(0))
+            //        {
+            //            timer = 0;
+            //            Fire();
+            //        }
+            //    }
+            //    break;
+            //case 1:
+            //    if (timer > speed)
+            //    {
+            //        if (Input.GetMouseButtonDown(0))
+            //        {
+            //            timer = 0;
+            //            Fire();
+            //        }
+            //    }
+            //    break;
+            //default:
+            //    break;
+    //    }
+    //}
 
     public void Init()
     {
@@ -50,6 +85,9 @@ public class Weapon : MonoBehaviour
                 //Transform bullet = GameManager.Instance.pool.Get(prefabId).transform;
                 //bullet.parent = transform;
                 //bullet.GetComponent<Bullet>().Init(damage, Vector3.zero);
+                break;
+            case 1:
+                speed = 0.3f;
                 break;
             default:
                 break;

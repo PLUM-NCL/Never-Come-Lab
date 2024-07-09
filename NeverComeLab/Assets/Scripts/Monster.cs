@@ -102,20 +102,31 @@ public class Monster : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet") || isHit)   //피격후 0.5초간은 무적판정
             return;
 
+        collision.gameObject.SetActive(false);
         monsterHp -= collision.GetComponent<Bullet>().damage;
         Debug.Log("남은 몬스터 체력: " + monsterHp);
 
+
         if (monsterHp > 0)
         {
-            //Hit �ִϸ��̼� �߰� �ʿ� 
+            //Hit 애니메이션 관련 코드 추가 필요
+            isHit = true;
+            StartCoroutine(ResetHit());
         }
         else
         {
             Dead();
         }
+    }
+
+    IEnumerator ResetHit()
+    {
+        // 0.1초 대기
+        yield return new WaitForSeconds(0.5f);
+        isHit = false;
     }
 
     void Dead()
