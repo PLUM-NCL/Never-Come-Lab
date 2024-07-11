@@ -26,7 +26,6 @@ public class Monster : MonoBehaviour
 
     private float monsterHp;
     private float monsterDamage;
-    private float monsterSpeed;
     private float monsterAttackSpeed;
     private int monsterType;
 
@@ -39,7 +38,6 @@ public class Monster : MonoBehaviour
     private AudioSource monsterAudio;
 
     private float distanceToPlayer;
-    private float attackSpeed = 1f;
     private float stopChasingDistance = 5f;
 
     public Transform player;
@@ -80,11 +78,11 @@ public class Monster : MonoBehaviour
     private void Update()
     {
         distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
+        
         switch (currentState)
         {
             case State.Patrol:
-                if (isPlayerDetected && distanceToPlayer <= stopChasingDistance)
+                if (isPlayerDetected && distanceToPlayer <= stopChasingDistance || isHit)
                 {
                     currentState = State.Chase;
                     StopCoroutine(PatrolRoutine());
@@ -98,7 +96,7 @@ public class Monster : MonoBehaviour
                     SetPlayerDetected(false);
                     currentState = State.Return;
                     mark.text = "?";
-                    agent.velocity = Vector2.zero;
+                    StartCoroutine(StopAndResume(3f));
                 }
                 break;
             case State.Return:
@@ -113,24 +111,17 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void Patrol()
-    {
-        // 여기에 일정 간격으로 움직이는 로직을 구현
-        monsterAnimator.SetBool("isMove", true);
-    }
-
     private void Chase()
     {
-        if (!isDie && isPlayerDetected)
+        if ((!isDie && isPlayerDetected) || (!isDie && isHit))
         {
-            if (!isShooting)
+            if (!isShooting && !isHit)
             {
                 StartCoroutine(Shoot());
             }
             else
             {
                 agent.SetDestination(player.position);
-                agent.isStopped = false;
                 monsterAnimator.SetBool("isMove", true);
             }
         }
@@ -138,9 +129,7 @@ public class Monster : MonoBehaviour
 
     private void Return()
     {
-        
         agent.SetDestination(initialPosition);
-        agent.isStopped = false;
         monsterAnimator.SetBool("isMove", true);
     }
 
@@ -162,12 +151,31 @@ public class Monster : MonoBehaviour
     {
         isShooting = true;
 
-        yield return new WaitForSeconds(monsterAttackSpeed);
+        
         Vector2 direction = (player.position - pos.position).normalized;
         GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
         newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         Debug.Log(rigid.velocity);
-
+        yield return new WaitForSeconds(monsterAttackSpeed);
         isShooting = false;
+    }
+    IEnumerator StopAndResume(float delay)
+    {
+        agent.isStopped = true;
+        yield return new WaitForSeconds(delay);
+        agent.isStopped = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //float knockBackForce = 0.5f;
+        Vector2 knockBack = transform.position - collision.transform.position;
+        if (collision.CompareTag("Bullet"))
+        {
+            isHit = true;
+            StartCoroutine(StopAndResume(1f));
+            isHit = false;
+            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
+        }
     }
 }
