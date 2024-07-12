@@ -84,6 +84,7 @@ public class Monster : MonoBehaviour
             case State.Patrol:
                 if (isPlayerDetected && distanceToPlayer <= stopChasingDistance || isHit)
                 {
+                    monsterAnimator.SetBool("isMove", true);
                     currentState = State.Chase;
                     StopCoroutine(PatrolRoutine());
                     mark.text = "!";
@@ -122,7 +123,7 @@ public class Monster : MonoBehaviour
             else
             {
                 agent.SetDestination(player.position);
-                monsterAnimator.SetBool("isMove", true);
+                
             }
         }
     }
@@ -139,11 +140,15 @@ public class Monster : MonoBehaviour
         {
             // 왼쪽으로 이동
             agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
-            yield return new WaitForSeconds(2f); // 2초 동안 이동
+            yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance); // 2초 동안 이동
+
+            StartCoroutine(StopAndResume(1f));
 
             // 오른쪽으로 이동
             agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
-            yield return new WaitForSeconds(2f); // 2초 동안 이동
+            yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance); // 2초 동안 이동
+
+            StartCoroutine(StopAndResume(1f));
         }
     }
 
@@ -162,7 +167,9 @@ public class Monster : MonoBehaviour
     IEnumerator StopAndResume(float delay)
     {
         agent.isStopped = true;
+        monsterAnimator.SetBool("isMove", false);
         yield return new WaitForSeconds(delay);
+        monsterAnimator.SetBool("isMove", true);
         agent.isStopped = false;
     }
 
@@ -173,6 +180,11 @@ public class Monster : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             isHit = true;
+            if(currentState == State.Patrol)
+            {
+                currentState = State.Chase;
+            }
+            
             StartCoroutine(StopAndResume(1f));
             isHit = false;
             //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
