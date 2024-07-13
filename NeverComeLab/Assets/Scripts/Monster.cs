@@ -93,12 +93,13 @@ public class Monster : MonoBehaviour
 
         
         Patrol();
-        monsterAnimator.SetBool("isForward", true);
     }
 
     private void Update()
     {
         if (isDie) return;
+
+        AnimationSet();
 
         distanceToPlayer = Vector2.Distance(transform.position, player.position); // 프레임마다 플레이어와 몬스터 사이 거리 계산
         
@@ -118,6 +119,37 @@ public class Monster : MonoBehaviour
         }
     }
 
+    private void AnimationSet() // 몬스터 상하좌우 애니메이션 적용
+    {
+        Vector3 velocity = agent.velocity;
+        float inputX = 0f;
+        float inputY = 0f;
+
+        if (velocity.x > 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // right 이동
+        {
+            inputX = 1f;
+            inputY = 0f;
+        }
+        else if (velocity.x < 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // left 이동
+        {
+            inputX = -1f;
+            inputY = 0f;
+        }
+        else if (velocity.y > 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // back 이동
+        {
+            inputX = 0f;
+            inputY = 1f;
+        }
+        else if (velocity.y < 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // forward 이동
+        {
+            inputX = 0f;
+            inputY = -1f;
+        }
+
+        monsterAnimator.SetFloat("inputX", inputX);
+        monsterAnimator.SetFloat("inputY", inputY);
+    }
+
     private void Patrol()
     {
         if (!isPatrol)
@@ -127,7 +159,6 @@ public class Monster : MonoBehaviour
 
         if (isPlayerDetected && distanceToPlayer <= stopChasingDistance) // 몬스터가 플레이어를 감지하면 Chase
         {
-            monsterAnimator.SetBool("isForward", true);
             currentState = State.Chase;
             StopCoroutine(PatrolRoutine());
             mark.text = "!";
@@ -205,9 +236,7 @@ public class Monster : MonoBehaviour
     {
         agent.isStopped = true;
 
-        monsterAnimator.SetBool("isForward", false);
         yield return new WaitForSeconds(delay);
-        monsterAnimator.SetBool("isForward", true);
 
         agent.isStopped = false;
     }
@@ -221,7 +250,6 @@ public class Monster : MonoBehaviour
             isHit = true;
             if(currentState == State.Patrol || currentState == State.Return)
             {
-                monsterAnimator.SetBool("isForward", true);
                 currentState = State.Chase;
                 StopCoroutine(PatrolRoutine());
                 mark.text = "!";
