@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,8 +9,8 @@ public class Monster : MonoBehaviour
     private State currentState = State.Patrol;
 
     private Vector3 initialPosition;
-    private Vector3 target;
     NavMeshAgent agent;
+
     public TextMeshPro mark;
 
 
@@ -24,7 +23,26 @@ public class Monster : MonoBehaviour
     [SerializeField]
     Transform pos;
 
-    private float monsterHp;
+    private float monsterHp = 100;
+    public float Hp
+    {
+        get { return monsterHp; }
+        set {
+            monsterHp = value;
+            if (monsterHp > 100)
+            {
+                monsterHp = 100;
+                Debug.Log("Hp 100 범위 초과");
+            }
+            else if(monsterHp < 0)
+            {
+                monsterHp = 0;
+                Debug.Log("Hp 0 범위 초과");
+            }
+            
+        }
+
+    }
     private float monsterDamage;
     private float monsterAttackSpeed;
     private int monsterType;
@@ -33,6 +51,7 @@ public class Monster : MonoBehaviour
     private bool isShooting = false;
     private bool isDie = false;
     private bool isPlayerDetected = false;
+    private bool isPatrol = false;
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
@@ -72,104 +91,124 @@ public class Monster : MonoBehaviour
         monsterAudio = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
 
-        StartCoroutine(PatrolRoutine());
+        
+        Patrol();
+        monsterAnimator.SetBool("isForward", true);
     }
 
     private void Update()
     {
-        distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        if (isDie) return;
+
+        distanceToPlayer = Vector2.Distance(transform.position, player.position); // 프레임마다 플레이어와 몬스터 사이 거리 계산
         
-        switch (currentState)
+        switch (currentState) // 현재 상태가
         {
-            case State.Patrol:
-                if (isPlayerDetected && distanceToPlayer <= stopChasingDistance || isHit)
-                {
-                    monsterAnimator.SetBool("isMove", true);
-                    currentState = State.Chase;
-                    StopCoroutine(PatrolRoutine());
-                    mark.text = "!";
-                }
+            case State.Patrol: // 순찰 중이면
+                Patrol();
                 break;
-            case State.Chase:
-               Chase();
-                if (distanceToPlayer > stopChasingDistance)
-                {
-                    SetPlayerDetected(false);
-                    currentState = State.Return;
-                    mark.text = "?";
-                    StartCoroutine(StopAndResume(3f));
-                }
+
+            case State.Chase: // 추적 중이면
+                Chase();
                 break;
-            case State.Return:
+
+            case State.Return: // 놓쳐서 돌아가는 중이면
                 Return();
-                if (Vector2.Distance(transform.position, initialPosition) < 0.1f)
-                {
-                    mark.text = "";
-                    currentState = State.Patrol;
-                    StartCoroutine(PatrolRoutine());
-                }
                 break;
+        }
+    }
+
+    private void Patrol()
+    {
+        if (!isPatrol)
+        {
+            StartCoroutine(PatrolRoutine());
+        }
+
+        if (isPlayerDetected && distanceToPlayer <= stopChasingDistance) // 몬스터가 플레이어를 감지하면 Chase
+        {
+            monsterAnimator.SetBool("isForward", true);
+            currentState = State.Chase;
+            StopCoroutine(PatrolRoutine());
+            mark.text = "!";
         }
     }
 
     private void Chase()
     {
-        if ((!isDie && isPlayerDetected) || (!isDie && isHit))
+
+        if (!isShooting && !isHit)
         {
-            if (!isShooting && !isHit)
-            {
-                StartCoroutine(Shoot());
-            }
-            else
-            {
-                agent.SetDestination(player.position);
-                
-            }
+            StartCoroutine(Shoot());
+        }
+        else
+        {
+            agent.SetDestination(player.position);
+        }
+
+        if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
+        {
+            SetPlayerDetected(false);
+
+            mark.text = "?";
+            StartCoroutine(StopAndResume(3f));
+            currentState = State.Return;
         }
     }
 
     private void Return()
     {
         agent.SetDestination(initialPosition);
-        monsterAnimator.SetBool("isMove", true);
+
+        if (Vector2.Distance(transform.position, initialPosition) < 0.1f) // 제자리로 돌아가면 Patrol
+        {
+            mark.text = "";
+            currentState = State.Patrol;
+            StartCoroutine(PatrolRoutine());
+        }
     }
 
     IEnumerator PatrolRoutine()
     {
-        while (currentState == State.Patrol)
-        {
-            // 왼쪽으로 이동
-            agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
-            yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance); // 2초 동안 이동
+        isPatrol = true;
 
-            StartCoroutine(StopAndResume(1f));
+        // 왼쪽으로 이동
+        agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
+        yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-            // 오른쪽으로 이동
-            agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
-            yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance); // 2초 동안 이동
+        StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
-            StartCoroutine(StopAndResume(1f));
-        }
+        // 오른쪽으로 이동
+        agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
+        yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
+
+        StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
+
+        isPatrol = false;
+
     }
 
-    IEnumerator Shoot()
+    IEnumerator Shoot() // projectile 발사
     {
         isShooting = true;
 
-        
         Vector2 direction = (player.position - pos.position).normalized;
         GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
         newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
         Debug.Log(rigid.velocity);
         yield return new WaitForSeconds(monsterAttackSpeed);
+
         isShooting = false;
     }
-    IEnumerator StopAndResume(float delay)
+
+    IEnumerator StopAndResume(float delay) // delay초 동안 멈췄다 다시 움직임
     {
         agent.isStopped = true;
-        monsterAnimator.SetBool("isMove", false);
+
+        monsterAnimator.SetBool("isForward", false);
         yield return new WaitForSeconds(delay);
-        monsterAnimator.SetBool("isMove", true);
+        monsterAnimator.SetBool("isForward", true);
+
         agent.isStopped = false;
     }
 
@@ -180,9 +219,12 @@ public class Monster : MonoBehaviour
         if (collision.CompareTag("Bullet"))
         {
             isHit = true;
-            if(currentState == State.Patrol)
+            if(currentState == State.Patrol || currentState == State.Return)
             {
+                monsterAnimator.SetBool("isForward", true);
                 currentState = State.Chase;
+                StopCoroutine(PatrolRoutine());
+                mark.text = "!";
             }
             
             StartCoroutine(StopAndResume(1f));
