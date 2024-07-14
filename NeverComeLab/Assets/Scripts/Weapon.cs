@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public Transform pos;
+
     //무기 id, 프리펩 ID, 데미지, 속도
     public int id;
     public int prefabId;
@@ -98,16 +100,14 @@ public class Weapon : MonoBehaviour
 
     void Fire()
     {
-        //dir = targetPos(마우스 클릭한 지점) - transform.position(플레이어 현재 위치)
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 dir = mousePos - transform.position;
-        dir = dir.normalized;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        float rotation = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;    //dir 각 구하기 * 라디안을 도로 바꾸기
+        transform.rotation = Quaternion.Euler(0, 0, rotation); //실제겜 오브젝트 회전값으로 설정
 
-        Transform bullet = GameManager.Instance.pool.Get(prefabId).transform;
-        bullet.position = transform.position;
-        //bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);  //FromToRotation: 지정된 축을 중심으로 목표를 향해 회전하는 함수 
-        bullet.GetComponent<Bullet>().Init(damage, dir);
-
+        GameObject bullet = GameManager.Instance.pool.Get(prefabId);    //기존 오브젝트 재활용 하기 
+        bullet.transform.position = pos.position;
+        bullet.transform.rotation = transform.rotation;
+        bullet.GetComponent<Bullet>().Init(damage);
     }
 
     

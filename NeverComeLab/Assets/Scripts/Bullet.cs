@@ -5,7 +5,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
-    public int per;     //ºÒ¸´ °üÅë¼ö
 
     Rigidbody2D rigid;
 
@@ -16,14 +15,14 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        transform.Translate(Vector2.right * 5f * Time.deltaTime);
+
         Dead();
     }
 
-    public void Init(float damage, Vector3 dir)
+    public void Init(float damage)
     {
         this.damage = damage;
-        
-        rigid.velocity = dir * 15f;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
