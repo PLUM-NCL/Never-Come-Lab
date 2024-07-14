@@ -498,11 +498,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8934845458394470261, guid: 8200035a9327dde4783584522d1fa327, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.05
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 8934845458394470261, guid: 8200035a9327dde4783584522d1fa327, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.48
+      value: 1.33
       objectReference: {fileID: 0}
     - target: {fileID: 8934845458394470261, guid: 8200035a9327dde4783584522d1fa327, type: 3}
       propertyPath: m_LocalPosition.z
@@ -639,6 +639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c9b71203d540944d9ffd06ee764b783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mark: {fileID: 0}
   enemyData: {fileID: 11400000, guid: d1fd56114b87cad46bea3b552bf74013, type: 2}
   projectile: {fileID: 6257034514559443706, guid: 66594902a221d0b48b4883cc2feb33bd, type: 3}
   pos: {fileID: 1999819219}
