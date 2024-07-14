@@ -29,15 +29,16 @@ public class Monster : MonoBehaviour
         get { return monsterHp; }
         set {
             monsterHp = value;
-            if (monsterHp > 100)
+            if (monsterHp > 100) // Hp는 100 이상 못올라감
             {
                 monsterHp = 100;
-                Debug.Log("Hp 100 범위 초과");
+                Debug.Log("Hp 100 한도 초과");
             }
-            else if(monsterHp < 0)
+            else if(monsterHp <= 0) // Hp가 0 이하로 내려가면 죽음
             {
-                monsterHp = 0;
-                Debug.Log("Hp 0 범위 초과");
+                Death();
+                mark.text = "꾸웱";
+                Debug.Log("꾸웱");
             }
             
         }
@@ -91,18 +92,17 @@ public class Monster : MonoBehaviour
         monsterAudio = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
 
-        
         Patrol();
     }
 
     private void Update()
     {
-        if (isDie) return;
+        if (isDie) return; // 죽으면 동작 안하도록
 
-        AnimationSet();
+        AnimationSet(); // 상하좌우 애니메이션
 
         distanceToPlayer = Vector2.Distance(transform.position, player.position); // 프레임마다 플레이어와 몬스터 사이 거리 계산
-        
+
         switch (currentState) // 현재 상태가
         {
             case State.Patrol: // 순찰 중이면
@@ -152,6 +152,8 @@ public class Monster : MonoBehaviour
 
     private void Patrol()
     {
+        
+
         if (!isPatrol)
         {
             StartCoroutine(PatrolRoutine());
@@ -167,6 +169,7 @@ public class Monster : MonoBehaviour
 
     private void Chase()
     {
+        //if (isDie) return;
 
         if (!isShooting && !isHit)
         {
@@ -189,14 +192,26 @@ public class Monster : MonoBehaviour
 
     private void Return()
     {
+        //if (isDie) return;
+
         agent.SetDestination(initialPosition);
 
-        if (Vector2.Distance(transform.position, initialPosition) < 0.1f) // 제자리로 돌아가면 Patrol
+        if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // 제자리로 돌아가면 Patrol
         {
             mark.text = "";
             currentState = State.Patrol;
             StartCoroutine(PatrolRoutine());
         }
+    }
+
+    private void Death() // 죽음
+    {
+        isDie = true;
+        agent.enabled = false; // NavMesh 멈춰!
+        rigid.velocity = Vector2.zero; // 속도 멈춰!
+        monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
+        Destroy(gameObject, 3f); // 3초 후 오브젝트 할당 해제
+        return;
     }
 
     IEnumerator PatrolRoutine()
@@ -216,7 +231,6 @@ public class Monster : MonoBehaviour
         StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
         isPatrol = false;
-
     }
 
     IEnumerator Shoot() // projectile 발사
@@ -247,6 +261,9 @@ public class Monster : MonoBehaviour
         Vector2 knockBack = transform.position - collision.transform.position;
         if (collision.CompareTag("Bullet"))
         {
+
+            Hp = Hp - 50; // 데미지 입음
+
             isHit = true;
             if(currentState == State.Patrol || currentState == State.Return)
             {
