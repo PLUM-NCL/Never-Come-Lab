@@ -26,8 +26,8 @@ public class Player : MonoBehaviour
     {
         if (!isDie)
         {
-            inputVec.x = Input.GetAxis("Horizontal");
-            inputVec.y = Input.GetAxis("Vertical");
+            inputVec.x = Input.GetAxisRaw("Horizontal");
+            inputVec.y = Input.GetAxisRaw("Vertical");
 
             rigid.velocity = inputVec.normalized * speed;
             if (inputVec.magnitude == 0)
