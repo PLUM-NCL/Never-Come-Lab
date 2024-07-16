@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 
     public PoolManager pool;
     public Player player;
+    private int killedMonsters = 0;
 
     void Awake()
     {
@@ -19,5 +20,10 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void IncrementKilledMonsters()
+    {
+        killedMonsters++;
     }
 }
