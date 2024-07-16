@@ -13,6 +13,8 @@ public class Monster : MonoBehaviour
 
     public TextMeshPro mark;
 
+    private SpriteRenderer spriteRenderer;
+
 
     [SerializeField]
     private MonsterData enemyData;
@@ -29,7 +31,7 @@ public class Monster : MonoBehaviour
         get { return monsterHp; }
         set {
             monsterHp = value;
-            if (monsterHp > 100) // Hp는 100 이상 못올라감
+            if (monsterHp > 10000000) // Hp는 100 이상 못올라감
             {
                 monsterHp = 100;
                 Debug.Log("Hp 100 한도 초과");
@@ -48,11 +50,12 @@ public class Monster : MonoBehaviour
     private float monsterAttackSpeed;
     private int monsterType;
 
-    private bool isHit = false;
-    private bool isShooting = false;
-    private bool isDie = false;
-    private bool isPlayerDetected = false;
-    private bool isPatrol = false;
+    private bool isHit = false; // 공격받음?
+    private bool isShooting = false; // 발사 중?
+    private bool isDie = false; // 죽음?
+    private bool isPlayerDetected = false; // 플레이어 발견?
+    private bool isPatrol = false; // 순찰 중?
+    private bool isBlink = false; // 무적?
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
@@ -88,6 +91,7 @@ public class Monster : MonoBehaviour
 
         agent.speed = enemyData.monsterSpeed;
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
         monsterAnimator = GetComponent<Animator>();
         monsterAudio = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
@@ -152,7 +156,7 @@ public class Monster : MonoBehaviour
 
     private void Patrol()
     {
-        
+        //if (!agent.enabled) return;
 
         if (!isPatrol)
         {
@@ -169,7 +173,7 @@ public class Monster : MonoBehaviour
 
     private void Chase()
     {
-        //if (isDie) return;
+        //if (!agent.enabled) return;
 
         if (!isShooting && !isHit)
         {
@@ -192,7 +196,7 @@ public class Monster : MonoBehaviour
 
     private void Return()
     {
-        //if (isDie) return;
+        //if (!agent.enabled) return;
 
         agent.SetDestination(initialPosition);
 
@@ -248,31 +252,91 @@ public class Monster : MonoBehaviour
 
     IEnumerator StopAndResume(float delay) // delay초 동안 멈췄다 다시 움직임
     {
-        agent.isStopped = true;
+        if (!agent.isStopped)
+        {
+            agent.isStopped = true;
 
-        yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(delay);
 
-        agent.isStopped = false;
+            agent.isStopped = false;
+        }
     }
+
+    // // 빨간색으로 blink
+    //private IEnumerator BlinkEffect()
+    //{
+    //    Color originalColor = spriteRenderer.color;
+    //    Color blinkColor = Color.red;
+    //    float duration = 1.0f;
+    //    float blinkInterval = 0.1f;
+    //    float elapsedTime = 0f;
+
+    //    while (elapsedTime < duration)
+    //    {
+    //        spriteRenderer.color = blinkColor;
+    //        yield return new WaitForSeconds(blinkInterval);
+    //        spriteRenderer.color = originalColor;
+    //        yield return new WaitForSeconds(blinkInterval);
+    //        elapsedTime += blinkInterval * 2;
+    //    }
+
+    //    spriteRenderer.color = originalColor;
+    //}
+
+    // 투명+빨강하게 blink
+    private IEnumerator BlinkEffect()
+    {
+        Color originalColor = spriteRenderer.color;
+        Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // 빨간색(1, 0, 0)과 반투명(알파값 0.5)
+        float duration = 1.0f;
+        float blinkInterval = 0.1f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            // 빨간색 반투명으로 변경
+            spriteRenderer.color = blinkColor;
+            yield return new WaitForSeconds(blinkInterval);
+
+            // 원래 색상으로 변경
+            spriteRenderer.color = originalColor;
+            yield return new WaitForSeconds(blinkInterval);
+
+            elapsedTime += blinkInterval * 2;
+        }
+
+        // Blink 효과가 끝난 후 원래 색상으로 되돌리기
+        spriteRenderer.color = originalColor;
+        isBlink = false;
+    }
+
+    private void TakeDamage()
+    {
+        Hp = Hp - 50; // 데미지 입음
+        if (isBlink) return;
+        isBlink = true;
+        StartCoroutine(BlinkEffect());
+    }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //float knockBackForce = 0.5f;
-        Vector2 knockBack = transform.position - collision.transform.position;
+        // Vector2 knockBack = transform.position - collision.transform.position;
+
         if (collision.CompareTag("Bullet"))
         {
-
-            Hp = Hp - 50; // 데미지 입음
+            TakeDamage();
 
             isHit = true;
-            if(currentState == State.Patrol || currentState == State.Return)
+            if (currentState == State.Patrol || currentState == State.Return)
             {
                 currentState = State.Chase;
                 StopCoroutine(PatrolRoutine());
                 mark.text = "!";
             }
-            
             StartCoroutine(StopAndResume(1f));
+
             isHit = false;
             //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
         }
