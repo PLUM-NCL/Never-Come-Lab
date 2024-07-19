@@ -16,17 +16,13 @@ public class Weapon : MonoBehaviour
 
     float timer;
 
-    private void Start()
-    {
-        Init();
-        player = GameManager.Instance.player;
-    }
-
     private void Awake()
     {
-        // player = GameManager.Instance.player;
+        //Init();
+        player = GameManager.Instance.player;
+        pos = GetComponent<Transform>();
     }
-
+    
     private void Update()
     {
 
@@ -75,8 +71,27 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        //기본 셋팅
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform;    //weapon 부모를 player로 지정 
+        transform.localPosition = Vector3.zero;    //지역위치로 함으로써 플레이어 안으로 지정
+
+        //속성 셋팅
+        id = data.itemId;
+        damage = data.baseDamage;
+
+        //스크립트블 오브젝트의 독립성을 위해 인덱스가 아닌 프리펩으로 설정하기 
+        for (int index = 0; index < GameManager.Instance.pool.prefabs.Length; index++)
+        {
+            if (data.projectile == GameManager.Instance.pool.prefabs[index])
+            {
+                prefabId = index;
+                break;
+            }
+        }
+
         //id에 따라 다르게..
         switch (id)
         {

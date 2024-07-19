@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Item", menuName = "Scriptble Object/ItemData")]
 public class ItemData : ScriptableObject
 {
-    //[Header("# Main Info")]
+    public enum ItemType { Weapon0, Weapon1 }
 
-    //[Header("# Level Data")]
+    [Header("# Main Info")]
+    public ItemType itemType;
+    public int itemId;
+    public string itemName;
+    public Sprite ItemIcon;
 
-    //[Header("# Weapon")]
+    [Header("# Level Data")]
+    public float baseDamage;
+    public int level;
+
+    [Header("# Weapon")]
+    public GameObject projectile;
 }
