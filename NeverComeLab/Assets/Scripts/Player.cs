@@ -11,9 +11,9 @@ public class Player : MonoBehaviour
     private bool isStopped = false;
 
 
-    Animator anim;
+    public Animator anim;
     Rigidbody2D rigid;
-    SpriteRenderer spriter;
+    public SpriteRenderer spriter;
 
     void Start()
     {
