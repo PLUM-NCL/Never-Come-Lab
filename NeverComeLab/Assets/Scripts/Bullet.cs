@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
     }
 
     private void Update()
@@ -23,6 +24,7 @@ public class Bullet : MonoBehaviour
     public void Init(float damage)
     {
         this.damage = damage;
+        rigid.velocity = Vector2.zero;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,6 +48,7 @@ public class Bullet : MonoBehaviour
         if (dir > 5f)
         {
             this.gameObject.SetActive(false);
+            rigid.velocity = Vector2.zero;
         }
     }
 }

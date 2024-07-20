@@ -8,11 +8,14 @@ public class Weapon : MonoBehaviour
     Player player;
     Vector3 inputVec;
 
+
     //무기 id, 프리펩 ID, 데미지, 속도
     public int id;
     public int prefabId;
     public float damage;
     public float speed;
+    public bool isSelected;
+    public ItemData Itemdata;
 
     float timer;
 
@@ -25,7 +28,10 @@ public class Weapon : MonoBehaviour
     
     private void Update()
     {
+        isSelected = Itemdata.isSelected;
 
+        if (isSelected == false)
+            return;
         //임시용! 왼쪽마우스시 죽이는 무기, 오른쪽마우스시 기절 무기 
         //    if (timer > speed)
         //    {
@@ -73,6 +79,8 @@ public class Weapon : MonoBehaviour
 
     public void Init(ItemData data)
     {
+        Itemdata = data;
+
         //기본 셋팅
         name = "Weapon " + data.itemId;
         transform.parent = player.transform;    //weapon 부모를 player로 지정 
@@ -81,6 +89,7 @@ public class Weapon : MonoBehaviour
         //속성 셋팅
         id = data.itemId;
         damage = data.baseDamage;
+        isSelected = data.isSelected;
 
         //스크립트블 오브젝트의 독립성을 위해 인덱스가 아닌 프리펩으로 설정하기 
         for (int index = 0; index < GameManager.Instance.pool.prefabs.Length; index++)
