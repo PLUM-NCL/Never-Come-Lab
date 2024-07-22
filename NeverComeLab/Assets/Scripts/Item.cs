@@ -9,6 +9,8 @@ public class Item : MonoBehaviour
     public int level;
     public Weapon weapon;
     public Player player;
+    public Button thisButton;
+    public GameObject weaponbutton;
 
     Image icon;
     Text textLevel;
@@ -46,9 +48,24 @@ public class Item : MonoBehaviour
                         {
                             existingWeapon = child.gameObject;
                         }
-                        else
+                        else // 다른 무기라면 off 시킴  
                         {
                             child.GetComponent<Weapon>().Itemdata.isSelected = false;
+                            foreach (Transform button in weaponbutton.transform)
+                            {
+                                if(button.name != data.itemType.ToString())
+                                {
+                                    print("찾긴했네..."+ button.name + " "+ data.itemType.ToString());
+                                    Button buttonComponent = button.GetComponent<Button>();
+
+                                    ColorBlock colorBlock = buttonComponent.colors; // 현재 색상 블록 가져오기
+                                    colorBlock.normalColor = Color.white;
+                                    colorBlock.selectedColor = Color.white;
+                                    colorBlock.highlightedColor= Color.white;
+                                    button.GetComponent<Button>().colors = colorBlock; // 수정된 색상 블록 다시 할당
+                                    print(button.GetComponent<Button>().colors.normalColor);
+                                }
+                            }
                         }
                     }
 
@@ -63,13 +80,23 @@ public class Item : MonoBehaviour
                     {
                         data.isSelected = true;
                     }
+                    ColorBlock thisColorBlock = thisButton.GetComponent<Button>().colors; // 현재 색상 블록 가져오기
+                    thisColorBlock.normalColor = Color.gray;
+                    thisColorBlock.selectedColor = Color.gray;
+                    thisColorBlock.highlightedColor = Color.gray;
+                    thisButton.GetComponent<Button>().colors = thisColorBlock;
 
 
                 }
                 else // 무기on상태에서 버튼 클릭시 
                 {
                     data.isSelected = false;
-                    print("test3" + data.isSelected);
+
+                    ColorBlock thisColorBlock = thisButton.GetComponent<Button>().colors; // 현재 색상 블록 가져오기
+                    thisColorBlock.normalColor = Color.white;
+                    thisColorBlock.selectedColor = Color.white;
+                    thisColorBlock.highlightedColor = Color.white;
+                    thisButton.GetComponent<Button>().colors = thisColorBlock;
                 }
 
                 break;
