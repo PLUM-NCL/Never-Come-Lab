@@ -68,6 +68,9 @@ public class Monster : MonoBehaviour
 
     Rigidbody2D rigid;
 
+    private Coroutine patrolCoroutine;
+    private Coroutine stopAndResume;
+
     public void SetPlayerDetected(bool detected)
     {
         isPlayerDetected = detected;
@@ -101,7 +104,8 @@ public class Monster : MonoBehaviour
 
     private void Update()
     {
-        if (isDie) return; // 죽으면 동작 안하도록
+        if (isDie) 
+            return; // 죽으면 동작 안하도록
 
         AnimationSet(); // 상하좌우 애니메이션
 
@@ -156,24 +160,29 @@ public class Monster : MonoBehaviour
 
     private void Patrol()
     {
-        //if (!agent.enabled) return;
+        if (!agent.enabled) return;
 
         if (!isPatrol)
         {
-            StartCoroutine(PatrolRoutine());
+            patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
 
-        if (isPlayerDetected && distanceToPlayer <= stopChasingDistance) // 몬스터가 플레이어를 감지하면 Chase
+        if (isPlayerDetected) // 몬스터가 플레이어를 감지하면 Chase
         {
+            
+            //if (patrolCoroutine != null)
+            {
+                StopCoroutine(patrolCoroutine);
+                patrolCoroutine = null;
+            }
             currentState = State.Chase;
-            StopCoroutine(PatrolRoutine());
             mark.text = "!";
         }
     }
 
     private void Chase()
     {
-        //if (!agent.enabled) return;
+        if (!agent.enabled) return;
 
         if (!isShooting && !isHit)
         {
@@ -189,14 +198,14 @@ public class Monster : MonoBehaviour
             SetPlayerDetected(false);
 
             mark.text = "?";
-            StartCoroutine(StopAndResume(3f));
+            stopAndResume = StartCoroutine(StopAndResume(3f));
             currentState = State.Return;
         }
     }
 
     private void Return()
     {
-        //if (!agent.enabled) return;
+        if (!agent.enabled) return;
 
         agent.SetDestination(initialPosition);
 
@@ -204,62 +213,82 @@ public class Monster : MonoBehaviour
         {
             mark.text = "";
             currentState = State.Patrol;
-            StartCoroutine(PatrolRoutine());
+            patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
     }
 
     private void Death() // 죽음
     {
+        if (!agent.enabled) return;
+
         isDie = true;
-        agent.enabled = false; // NavMesh 멈춰!
-        rigid.velocity = Vector2.zero; // 속도 멈춰!
+        if (patrolCoroutine != null)
+        {
+            StopCoroutine(patrolCoroutine);
+            patrolCoroutine = null;
+        }
+        if (stopAndResume != null)
+        {
+            StopCoroutine(stopAndResume);
+            stopAndResume = null;
+        }
+        agent.enabled = false; // 에이전트 비활성화
+
+        //rigid.velocity = Vector2.zero; // 속도 멈춰
+
         monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
+
         Destroy(gameObject, 3f); // 3초 후 오브젝트 할당 해제
-        return;
     }
 
     IEnumerator PatrolRoutine()
     {
+        if (!agent.enabled) yield break;
+        
         isPatrol = true;
 
         // 왼쪽으로 이동
         agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
         // 오른쪽으로 이동
         agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
         isPatrol = false;
+
     }
 
     IEnumerator Shoot() // projectile 발사
     {
-        isShooting = true;
+        if (agent.enabled)
+        {
+            isShooting = true;
 
-        Vector2 direction = (player.position - pos.position).normalized;
-        GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
-        newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
-        Debug.Log(rigid.velocity);
-        yield return new WaitForSeconds(monsterAttackSpeed);
+            Vector2 direction = (player.position - pos.position).normalized;
+            GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
+            newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            Debug.Log(rigid.velocity);
+            yield return new WaitForSeconds(monsterAttackSpeed);
 
-        isShooting = false;
+            isShooting = false;
+        }
     }
 
     IEnumerator StopAndResume(float delay) // delay초 동안 멈췄다 다시 움직임
     {
-        if (!agent.isStopped)
-        {
-            agent.isStopped = true;
+        if (!agent.enabled || agent.isStopped) yield break;
 
-            yield return new WaitForSeconds(delay);
+        agent.isStopped = true;
 
-            agent.isStopped = false;
-        }
+        yield return new WaitForSeconds(delay);
+
+        agent.isStopped = false;
+
     }
 
     // // 빨간색으로 blink
@@ -286,6 +315,8 @@ public class Monster : MonoBehaviour
     // 투명+빨강하게 blink
     private IEnumerator BlinkEffect()
     {
+        if (!agent.enabled) yield break;
+
         Color originalColor = spriteRenderer.color;
         Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // 빨간색(1, 0, 0)과 반투명(알파값 0.5)
         float duration = 1.0f;
@@ -296,7 +327,7 @@ public class Monster : MonoBehaviour
         {
             // 빨간색 반투명으로 변경
             spriteRenderer.color = blinkColor;
-            yield return new WaitForSeconds(blinkInterval);
+            yield return new WaitForSeconds(blinkInterval); //여기
 
             // 원래 색상으로 변경
             spriteRenderer.color = originalColor;
@@ -326,16 +357,21 @@ public class Monster : MonoBehaviour
 
         if (collision.CompareTag("Bullet"))
         {
+            SetPlayerDetected(true);
             TakeDamage();
 
             isHit = true;
-            if (currentState == State.Patrol || currentState == State.Return)
+            if (currentState == State.Return)
             {
                 currentState = State.Chase;
-                StopCoroutine(PatrolRoutine());
+                if (patrolCoroutine != null)
+                {
+                    StopCoroutine(PatrolRoutine());
+                    patrolCoroutine = null;
+                }
                 mark.text = "!";
             }
-            StartCoroutine(StopAndResume(1f));
+            stopAndResume = StartCoroutine(StopAndResume(1f));
 
             isHit = false;
             //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
