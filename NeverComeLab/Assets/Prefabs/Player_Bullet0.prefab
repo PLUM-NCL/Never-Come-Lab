@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 370525870397859044}
   - component: {fileID: 8586397729649820131}
   - component: {fileID: 9039587886568930035}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player_Bullet0
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7950596668381060084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.033, y: 0.92, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -119,7 +119,7 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.28, y: -0.02}
+  m_Offset: {x: -0.28, y: -0}
   m_Size: {x: 0.42, y: 0.0001}
   m_Direction: 0
 --- !u!114 &8586397729649820131
