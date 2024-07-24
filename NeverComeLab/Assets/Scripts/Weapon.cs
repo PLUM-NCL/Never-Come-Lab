@@ -60,7 +60,6 @@ public class Weapon : MonoBehaviour
                 if (timer > speed)
                 {
                     timer = 0f;
-                    print("파이어!!");
                     Fire();
                 }
                 break;
@@ -129,16 +128,29 @@ public class Weapon : MonoBehaviour
         }
 
         float rotation = 0;
+        Vector3 currentPosition = Vector3.zero;
         if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("RightWalk") && player.spriter.flipX == false)
+        {
             rotation = 0;
+            currentPosition = new Vector3(1f, 0, 0);
+            //currentPosition = new Vector3(-0.5f, -0.1f, 0);
+        }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("RightWalk") && player.spriter.flipX == true)
         {
             rotation = 180;
+            currentPosition = new Vector3(-1f, 0, 0);
+            //currentPosition = new Vector3(-0.5f, -0.1f, 0);
         }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("ForwardWalk"))
+        {
             rotation = 90;
+            currentPosition = new Vector3(0f, 1f, 0);
+        }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("BackWalk"))
+        {
             rotation = 270;
+            currentPosition = new Vector3(0f, -1f, 0);
+        }
 
         //Vector2 playerPos = inputVec - transform.position;
         //float rotation = Mathf.Atan2(playerPos.y, playerPos.x) * Mathf.Rad2Deg;
@@ -150,8 +162,12 @@ public class Weapon : MonoBehaviour
         //transform.rotation = Quaternion.Euler(0, 0, rotation); //실제겜 오브젝트 회전값으로 설정
 
         GameObject bullet = GameManager.Instance.pool.Get(prefabId);    //기존 오브젝트 재활용 하기 
-        bullet.transform.position = pos.position;
+
+        //bullet.transform.position = pos.position;
+        bullet.transform.position = pos.position + currentPosition;
         bullet.transform.rotation = transform.rotation;
+        print("pos test" + bullet.transform.rotation);
+
         bullet.GetComponent<Bullet>().Init(damage);
     }
 

@@ -33,10 +33,6 @@ public class Item : MonoBehaviour
         {
             case ItemData.ItemType.Weapon0:
             case ItemData.ItemType.Weapon1:
-                //if (player == null)
-                //    print("test1");
-                //else if (player.transform == null)
-                //    print("test2");
 
                 if (data.isSelected == false) // 무기off상태에서 버튼 클릭시 
                 {
@@ -55,7 +51,6 @@ public class Item : MonoBehaviour
                             {
                                 if(button.name != data.itemType.ToString())
                                 {
-                                    print("찾긴했네..."+ button.name + " "+ data.itemType.ToString());
                                     Button buttonComponent = button.GetComponent<Button>();
 
                                     ColorBlock colorBlock = buttonComponent.colors; // 현재 색상 블록 가져오기
@@ -63,7 +58,6 @@ public class Item : MonoBehaviour
                                     colorBlock.selectedColor = Color.white;
                                     colorBlock.highlightedColor= Color.white;
                                     button.GetComponent<Button>().colors = colorBlock; // 수정된 색상 블록 다시 할당
-                                    print(button.GetComponent<Button>().colors.normalColor);
                                 }
                             }
                         }
