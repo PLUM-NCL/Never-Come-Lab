@@ -153,7 +153,6 @@ GameObject:
   - component: {fileID: 352180656}
   - component: {fileID: 352180660}
   - component: {fileID: 352180658}
-  - component: {fileID: 352180657}
   - component: {fileID: 352180659}
   m_Layer: 0
   m_Name: Wall
@@ -844,20 +843,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &352180657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352180652}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffectedAgents: ffffffff
-  m_TileModifiers: []
 --- !u!114 &352180658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1309,8 +1294,8 @@ MonoBehaviour:
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_OverrideVoxelSize: 1
+  m_VoxelSize: 0.022
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: fab1a253f92bb024e87ef820be017a36, type: 2}
@@ -1322,7 +1307,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480676242}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.70723015}
   m_LocalPosition: {x: -5.0792685, y: -1.3038911, z: 0.06366431}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1341,7 +1326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70bd44a44cd62c64fbfc1eea95b24880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OverrideByGrid: 1
+  m_OverrideByGrid: 0
   m_UseMeshPrefab: {fileID: 0}
   m_CompressBounds: 1
   m_OverrideVector: {x: 1, y: 1, z: 1}
@@ -1357,7 +1342,6 @@ GameObject:
   - component: {fileID: 1585465273}
   - component: {fileID: 1585465272}
   - component: {fileID: 1585465275}
-  - component: {fileID: 1585465274}
   m_Layer: 0
   m_Name: City
   m_TagString: TileMap
@@ -4439,20 +4423,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1585465274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1585465270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709c8d6349be44c68dff3d220992400c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AffectedAgents: ffffffff
-  m_TileModifiers: []
 --- !u!114 &1585465275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4800,7 +4770,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3856555069466430095, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5227228962407859836, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4820,11 +4790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.56
+      value: -1.87
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.75
+      value: 4.95
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.z

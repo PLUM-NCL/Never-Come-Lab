@@ -170,7 +170,7 @@ public class Monster : MonoBehaviour
         if (isPlayerDetected) // 몬스터가 플레이어를 감지하면 Chase
         {
             
-            //if (patrolCoroutine != null)
+            if (patrolCoroutine != null)
             {
                 StopCoroutine(patrolCoroutine);
                 patrolCoroutine = null;
