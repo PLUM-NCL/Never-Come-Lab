@@ -9,12 +9,11 @@ public class Monster : MonoBehaviour
     private State currentState = State.Patrol;
 
     private Vector3 initialPosition;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
 
     public TextMeshPro mark;
 
     private SpriteRenderer spriteRenderer;
-
 
     [SerializeField]
     private MonsterData enemyData;
@@ -170,7 +169,7 @@ public class Monster : MonoBehaviour
         if (isPlayerDetected) // 몬스터가 플레이어를 감지하면 Chase
         {
             
-            //if (patrolCoroutine != null)
+            if (patrolCoroutine != null)
             {
                 StopCoroutine(patrolCoroutine);
                 patrolCoroutine = null;
@@ -341,40 +340,34 @@ public class Monster : MonoBehaviour
         isBlink = false;
     }
 
-    private void TakeDamage()
+    public void TakeDamage()
     {
         Hp = Hp - 50; // 데미지 입음
         if (isBlink) return;
         isBlink = true;
         StartCoroutine(BlinkEffect());
+        isHit = true;
+        if (currentState == State.Return)
+        {
+            currentState = State.Chase;
+            if (patrolCoroutine != null)
+            {
+                StopCoroutine(PatrolRoutine());
+                patrolCoroutine = null;
+            }
+            mark.text = "!";
+        }
+        stopAndResume = StartCoroutine(StopAndResume(1f));
+
+        isHit = false;
     }
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //float knockBackForce = 0.5f;
-        // Vector2 knockBack = transform.position - collision.transform.position;
+        //Vector2 knockBack = transform.position - collision.transform.position;
 
-        if (collision.CompareTag("Bullet"))
-        {
-            SetPlayerDetected(true);
-            TakeDamage();
-
-            isHit = true;
-            if (currentState == State.Return)
-            {
-                currentState = State.Chase;
-                if (patrolCoroutine != null)
-                {
-                    StopCoroutine(PatrolRoutine());
-                    patrolCoroutine = null;
-                }
-                mark.text = "!";
-            }
-            stopAndResume = StartCoroutine(StopAndResume(1f));
-
-            isHit = false;
-            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
-        }
+        
     }
 }

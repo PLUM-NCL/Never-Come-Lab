@@ -8,9 +8,10 @@ public class Bullet : MonoBehaviour
     public int per;     //불릿 관통수
 
     Rigidbody2D rigid;
-
+    private Monster monster;
     private void Awake()
     {
+        monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
     }
 
@@ -28,11 +29,16 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy"))
-            return;
+        if (collision.CompareTag("Enemy"))
+        {
+            monster.SetPlayerDetected(true);
+            monster.TakeDamage();
+            rigid.velocity = Vector2.zero;
+            gameObject.SetActive(false);
+            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // 넉백 시 문제가 좀 있음..
+        }
 
-        rigid.velocity = Vector2.zero;
-        gameObject.SetActive(false);
+        
     }
 
     //몬스터쪽에서 Bullet과 몬스터 충돌 부분 필요함.  
