@@ -4,7 +4,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("# Game Object")]
     public PoolManager pool;
     public Player player;
     private int killedMonsters = 0;
