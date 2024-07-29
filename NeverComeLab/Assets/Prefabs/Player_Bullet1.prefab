@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 370525870397859044}
   - component: {fileID: 8586397729649820131}
   - component: {fileID: 9039587886568930035}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Player_Bullet1
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -29,9 +29,9 @@ Transform:
   m_GameObject: {fileID: 7950596668381060084}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0.033, y: 0.92, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 2140631066, guid: 227bf7dfd97d88844907173cfe046a2e, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 1045798061, guid: 7a0b38754c8082047a31e88033e96c92, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,8 +119,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0, y: -0.01}
-  m_Size: {x: 0.3, y: 0.36}
+  m_Offset: {x: -0.01, y: -0.34}
+  m_Size: {x: 0.42, y: 0.0001}
   m_Direction: 0
 --- !u!114 &8586397729649820131
 MonoBehaviour:
@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bde17926ed5e9a3418afd5c7d605b803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 11
+  per: 0
 --- !u!50 &9039587886568930035
 Rigidbody2D:
   serializedVersion: 4
@@ -161,4 +162,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
