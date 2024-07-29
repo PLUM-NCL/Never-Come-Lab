@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         rigid.velocity = Vector2.zero;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("TileMap"))
             return;

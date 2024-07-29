@@ -132,22 +132,24 @@ public class Weapon : MonoBehaviour
         if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("RightWalk") && player.spriter.flipX == false)
         {
             rotation = 0;
-            currentPosition = new Vector3(0.5f, 0, 0);
+            currentPosition = new Vector3(1f, 0, 0);
+            //currentPosition = new Vector3(-0.5f, -0.1f, 0);
         }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("RightWalk") && player.spriter.flipX == true)
         {
             rotation = 180;
-            currentPosition = new Vector3(-0.5f, 0, 0);
+            currentPosition = new Vector3(-1f, 0, 0);
+            //currentPosition = new Vector3(-0.5f, -0.1f, 0);
         }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("ForwardWalk"))
         {
             rotation = 90;
-            currentPosition = new Vector3(0f, 0.5f, 0);
+            currentPosition = new Vector3(0f, 1f, 0);
         }
         else if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("BackWalk"))
         {
             rotation = 270;
-            currentPosition = new Vector3(0f, -0.5f, 0);
+            currentPosition = new Vector3(0f, -1f, 0);
         }
 
         //Vector2 playerPos = inputVec - transform.position;
@@ -159,30 +161,12 @@ public class Weapon : MonoBehaviour
         //float rotation = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;    //dir 각 구하기 * 라디안을 도로 바꾸기
         //transform.rotation = Quaternion.Euler(0, 0, rotation); //실제겜 오브젝트 회전값으로 설정
 
-        
-        //바로앞에 벽있는지 확인, 벽있다면 발사 안하게끔 return 
-        float rayDistance = 0.05f;
-        Vector2 bulletDirection = new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad));
-        Debug.DrawLine(transform.position + currentPosition, bulletDirection * rayDistance, Color.red, 1f); // 1초간 지속
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + currentPosition, bulletDirection, rayDistance, ~LayerMask.GetMask("Bullet"));
-
-        if (hit.collider != null)
-        {
-            print("Hit object: " + hit.collider.gameObject.name);
-            if (hit.collider.CompareTag("Wall"))
-            {
-                print("return됌");
-                return;
-            }
-        }
-
-        //벽이 없다면 총알 정상 생성 
         GameObject bullet = GameManager.Instance.pool.Get(prefabId);    //기존 오브젝트 재활용 하기 
 
         //bullet.transform.position = pos.position;
-        bullet.transform.position = transform.position + currentPosition;
+        bullet.transform.position = pos.position + currentPosition;
         bullet.transform.rotation = transform.rotation;
+        print("pos test" + bullet.transform.rotation);
 
         bullet.GetComponent<Bullet>().Init(damage);
     }
