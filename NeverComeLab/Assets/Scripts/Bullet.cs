@@ -7,10 +7,9 @@ public class Bullet : MonoBehaviour
     public float damage;
 
     Rigidbody2D rigid;
-    private Monster monster;
+
     private void Awake()
     {
-        monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = Vector2.zero;
     }
@@ -37,10 +36,9 @@ public class Bullet : MonoBehaviour
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
         }
-
     }
 
-    //ëª¬ìŠ¤í„°ìª½ì—ì„œ Bulletê³¼ ëª¬ìŠ¤í„° ì¶©ëŒ ë¶€ë¶„ í•„ìš”í•¨.  
+    //¸ó½ºÅÍÂÊ¿¡¼­ Bullet°ú ¸ó½ºÅÍ Ãæµ¹ ºÎºĞ ÇÊ¿äÇÔ.  
 
     void Dead()
     {

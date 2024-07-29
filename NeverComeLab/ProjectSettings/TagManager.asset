@@ -8,18 +8,15 @@ TagManager:
   - Bullet
   - Enemy
   - Wall
-  - player
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - Player
   - Bullet
-  - Enemy
-  - 
   - 
   - 
   - 
