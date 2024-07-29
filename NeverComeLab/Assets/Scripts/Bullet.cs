@@ -5,7 +5,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
-    public int per;     //ºÒ¸´ °üÅë¼ö
 
     Rigidbody2D rigid;
     private Monster monster;
@@ -13,35 +12,35 @@ public class Bullet : MonoBehaviour
     {
         monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
     }
 
     private void Update()
     {
+        transform.Translate(Vector2.right * 5f * Time.deltaTime);
+
         Dead();
     }
 
-    public void Init(float damage, Vector3 dir)
+    public void Init(float damage)
     {
         this.damage = damage;
-        
-        rigid.velocity = dir * 15f;
+        rigid.velocity = Vector2.zero;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("TileMap"))
+            return;
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
         {
-            monster.SetPlayerDetected(true);
-            monster.TakeDamage();
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
-            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // ³Ë¹é ½Ã ¹®Á¦°¡ Á» ÀÖÀ½..
         }
 
-        
     }
 
-    //¸ó½ºÅÍÂÊ¿¡¼­ Bullet°ú ¸ó½ºÅÍ Ãæµ¹ ºÎºÐ ÇÊ¿äÇÔ.  
+    //ëª¬ìŠ¤í„°ìª½ì—ì„œ Bulletê³¼ ëª¬ìŠ¤í„° ì¶©ëŒ ë¶€ë¶„ í•„ìš”í•¨.  
 
     void Dead()
     {
@@ -51,6 +50,7 @@ public class Bullet : MonoBehaviour
         if (dir > 5f)
         {
             this.gameObject.SetActive(false);
+            rigid.velocity = Vector2.zero;
         }
     }
 }

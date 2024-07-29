@@ -7,6 +7,7 @@ TagManager:
   - TileMap
   - Bullet
   - Enemy
+  - Wall
   - player
   layers:
   - Default
@@ -15,6 +16,8 @@ TagManager:
   - Player
   - Water
   - UI
+  - Player
+  - Bullet
   - Enemy
   - 
   - 
@@ -44,4 +47,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 
+    uniqueID: 722637515
+    locked: 0
+  - name: 
+    uniqueID: 1168827973
     locked: 0
