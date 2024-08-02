@@ -7,9 +7,10 @@ public class Bullet : MonoBehaviour
     public float damage;
 
     Rigidbody2D rigid;
-
+    private Monster monster;
     private void Awake()
     {
+        monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = Vector2.zero;
     }
@@ -31,14 +32,22 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("TileMap"))
             return;
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Wall"))
+        else if(collision.CompareTag("Wall"))
         {
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
         }
+        else if (collision.CompareTag("Enemy"))
+        {
+            monster.SetPlayerDetected(true);
+            monster.TakeDamage();
+            rigid.velocity = Vector2.zero;
+            gameObject.SetActive(false);
+            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // ï¿½Ë¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
+        }
     }
 
-    //¸ó½ºÅÍÂÊ¿¡¼­ Bullet°ú ¸ó½ºÅÍ Ãæµ¹ ºÎºÐ ÇÊ¿äÇÔ.  
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ Bulletï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½Îºï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½.  
 
     void Dead()
     {
