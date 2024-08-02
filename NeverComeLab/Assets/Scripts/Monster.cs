@@ -363,16 +363,12 @@ public class Monster : MonoBehaviour
     }
 
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //float knockBackForce = 0.5f;
         //Vector2 knockBack = transform.position - collision.transform.position;
 
-        
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (!collision.CompareTag("Bullet") || isHit)   //피격후 0.5초간은 무적판정
             return;
 
