@@ -5,7 +5,6 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float damage;
-    public int per;     //ºÒ¸´ °üÅë¼ö
 
     Rigidbody2D rigid;
     private Monster monster;
@@ -13,35 +12,42 @@ public class Bullet : MonoBehaviour
     {
         monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = Vector2.zero;
     }
 
     private void Update()
     {
+        transform.Translate(Vector2.right * 5f * Time.deltaTime);
+
         Dead();
     }
 
-    public void Init(float damage, Vector3 dir)
+    public void Init(float damage)
     {
         this.damage = damage;
-        
-        rigid.velocity = dir * 15f;
+        rigid.velocity = Vector2.zero;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("TileMap"))
+            return;
+        else if(collision.CompareTag("Wall"))
+        {
+            rigid.velocity = Vector2.zero;
+            gameObject.SetActive(false);
+        }
+        else if (collision.CompareTag("Enemy"))
         {
             monster.SetPlayerDetected(true);
             monster.TakeDamage();
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
-            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // ³Ë¹é ½Ã ¹®Á¦°¡ Á» ÀÖÀ½..
+            //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // ï¿½Ë¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
         }
-
-        
     }
 
-    //¸ó½ºÅÍÂÊ¿¡¼­ Bullet°ú ¸ó½ºÅÍ Ãæµ¹ ºÎºÐ ÇÊ¿äÇÔ.  
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ Bulletï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ ï¿½Îºï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½.  
 
     void Dead()
     {
@@ -51,6 +57,7 @@ public class Bullet : MonoBehaviour
         if (dir > 5f)
         {
             this.gameObject.SetActive(false);
+            rigid.velocity = Vector2.zero;
         }
     }
 }

@@ -11,9 +11,9 @@ public class Player : MonoBehaviour
     private bool isStopped = false;
 
 
-    Animator anim;
+    public Animator anim;
     Rigidbody2D rigid;
-    SpriteRenderer spriter;
+    public SpriteRenderer spriter;
 
     void Start()
     {
@@ -56,8 +56,7 @@ public class Player : MonoBehaviour
             isStopped = false;
             anim.speed = 1; // 애니메이션 재생 속도 정상화
             anim.SetFloat("Speed", inputVec.magnitude); // 애니메이션 Float값 수정, 벡터의 순수한 크기 값
-
-            AnimReset();    //없애도 되려나..? 
+            AnimReset();
 
             if (inputVec.y > 0)
             {
