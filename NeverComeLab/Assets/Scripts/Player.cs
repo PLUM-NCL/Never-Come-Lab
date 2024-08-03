@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 4f;
-    public float playerHp = 100;
+    //public float playerHp = 100;
     private bool isDie = false;
     private bool isStopped = false;
     public bool isHit = false;
@@ -128,15 +128,15 @@ public class Player : MonoBehaviour
         gameObject.layer = 9;
         spriter.color = new Color(1, 1, 1, 0.4f);
 
-        playerHp -= damage;
+        GameManager.Instance.health -= damage;
 
-        Debug.Log("남은 플레이어 체력: " + playerHp);
+        Debug.Log("남은 플레이어 체력: " + GameManager.Instance.health);
 
-        if (playerHp <= 0)
+        if (GameManager.Instance.health <= 0)
         {
             isDie = true;
             Debug.Log("으앙 플레이어 죽음");
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         Invoke("OffDamaged", 0.2f);
