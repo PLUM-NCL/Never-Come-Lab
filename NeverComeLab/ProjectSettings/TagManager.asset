@@ -3,17 +3,25 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - TileMap
+  - Bullet
+  - Enemy
+  - Wall
+  - player
+  - BindBullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Bullet
+  - Enemy
+  - PlayerDamaged
+  - Foreground
+  - Background
   - 
   - 
   - 
@@ -40,4 +48,15 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 
+    uniqueID: 722637515
+    locked: 0
+  - name: 
+    uniqueID: 1168827973
+  - name: Foreground
+    uniqueID: 607328335
+    locked: 0
+  - name: Background
+    uniqueID: 1934508855
     locked: 0
