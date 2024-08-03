@@ -340,13 +340,11 @@ public class Monster : MonoBehaviour
         isBlink = false;
     }
 
-    public void TakeDamage(GameObject bullet)
+    public void TakeDamage()
     {
-        if (bullet.CompareTag("Bullet"))
-        {
-            Hp = Hp - bullet.GetComponent<Bullet>().damage; // 데미지 입음
-            Debug.Log("남은 몬스터 체력: " + Hp);
-        }
+        Hp -= 10; // 데미지 입음
+        Debug.Log("남은 몬스터 체력: " + Hp);
+       
         if (isBlink) return;
         isBlink = true;
         StartCoroutine(BlinkEffect());
@@ -362,6 +360,27 @@ public class Monster : MonoBehaviour
             mark.text = "!";
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
+
+        isHit = false;
+    }
+
+    public void TakeSleep()
+    {
+        if (isBlink) return;
+        isBlink = true;
+        StartCoroutine(BlinkEffect());
+        isHit = true;
+        if (currentState == State.Return)
+        {
+            currentState = State.Chase;
+            if (patrolCoroutine != null)
+            {
+                StopCoroutine(PatrolRoutine());
+                patrolCoroutine = null;
+            }
+            mark.text = "!";
+        }
+        stopAndResume = StartCoroutine(StopAndResume(3f));
 
         isHit = false;
     }
