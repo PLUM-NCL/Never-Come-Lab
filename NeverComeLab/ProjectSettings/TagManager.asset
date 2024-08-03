@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Wall
   - player
+  - BindBullet
   layers:
   - Default
   - TransparentFX

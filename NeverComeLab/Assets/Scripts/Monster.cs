@@ -340,9 +340,13 @@ public class Monster : MonoBehaviour
         isBlink = false;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(GameObject bullet)
     {
-        Hp = Hp - 50; // 데미지 입음
+        if (bullet.CompareTag("Bullet"))
+        {
+            Hp = Hp - bullet.GetComponent<Bullet>().damage; // 데미지 입음
+            Debug.Log("남은 몬스터 체력: " + Hp);
+        }
         if (isBlink) return;
         isBlink = true;
         StartCoroutine(BlinkEffect());
@@ -364,30 +368,39 @@ public class Monster : MonoBehaviour
 
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //float knockBackForce = 0.5f;
-        //Vector2 knockBack = transform.position - collision.transform.position;
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    //float knockBackForce = 0.5f;
+    //    //Vector2 knockBack = transform.position - collision.transform.position;
 
-        if (!collision.CompareTag("Bullet") || isHit)   //피격후 0.5초간은 무적판정
-            return;
+    //    if (!collision.CompareTag("Bullet") || isHit)   //피격후 0.5초간은 무적판정
+    //        return;
 
-        collision.gameObject.SetActive(false);
-        monsterHp -= collision.GetComponent<Bullet>().damage;
-        Debug.Log("남은 몬스터 체력: " + monsterHp);
+    //    collision.gameObject.SetActive(false);
+
+    //    if (collision.CompareTag("BindBullet"))
+    //    {
+    //        StartCoroutine(StopAndResume(5));
+    //        Debug.Log("몬스터 바인드 걸림");
+    //        return;
+    //    }
+
+    //    monsterHp -= collision.GetComponent<Bullet>().damage;
+    //    Debug.Log("남은 몬스터 체력: " + monsterHp);
 
 
-        if (monsterHp > 0)
-        {
-            //Hit 애니메이션 관련 코드 추가 필요
-            isHit = true;
-            StartCoroutine(ResetHit());
-        }
-        else
-        {
-            Dead();
-        }
-    }
+
+    //    if (monsterHp > 0)
+    //    {
+    //        //Hit 애니메이션 관련 코드 추가 필요
+    //        isHit = true;
+    //        StartCoroutine(ResetHit());
+    //    }
+    //    else
+    //    {
+    //        Dead();
+    //    }
+    //}
 
     IEnumerator ResetHit()
     {
