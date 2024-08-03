@@ -104,13 +104,13 @@ public class Weapon : MonoBehaviour
         switch (id)
         {
             case 0: //공격 총알인 경우 
-                speed = 1f;   //연사속도 
+                speed = 0.5f;   //연사속도 
                 //Transform bullet = GameManager.Instance.pool.Get(prefabId).transform;
                 //bullet.parent = transform;
                 //bullet.GetComponent<Bullet>().Init(damage, Vector3.zero);
                 break;
             case 1:
-                speed = 1f;
+                speed = 0.5f;
                 break;
             default:
                 break;

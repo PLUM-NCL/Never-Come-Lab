@@ -40,7 +40,10 @@ public class Bullet : MonoBehaviour
         else if (collision.CompareTag("Enemy"))
         {
             monster.SetPlayerDetected(true);
-            monster.TakeDamage();
+            if (gameObject.CompareTag("Bullet"))
+                monster.TakeDamage();
+            else
+                monster.TakeSleep();
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
             //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // �˹� �� ������ �� ����..

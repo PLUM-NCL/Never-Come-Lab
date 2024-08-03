@@ -6,9 +6,10 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 4f;
-    public float playerHp = 10;
+    //public float playerHp = 100;
     private bool isDie = false;
     private bool isStopped = false;
+    public bool isHit = false;
 
 
     public Animator anim;
@@ -98,16 +99,53 @@ public class Player : MonoBehaviour
         anim.speed = 0; // 애니메이션 멈춤
     }
 
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (!collision.CompareTag("MonsterBullet"))  
+    //        return;
+
+    //    collision.gameObject.SetActive(false);
+    //    playerHp -= collision.GetComponent<Bullet>().damage;
+    //    Debug.Log("남은 몬스터 체력: " + playerHp);
+
+    //    Debug.Log("남은 플레이어 체력: " + playerHp);
+
+    //    if (playerHp > 0)
+    //    {
+    //        //Hit 애니메이션 관련 코드 추가 필요
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("으앙 플레이어 죽음");
+    //    }
+    //}
+
     public void TakeDamage(int damage)
     {
-        playerHp -= damage;
+        if (isHit == true)
+            return;
 
-        Debug.Log("남은 플레이어 체력: " + playerHp);
+        gameObject.layer = 9;
+        spriter.color = new Color(1, 1, 1, 0.4f);
 
-        if (playerHp <= 0)
+        GameManager.Instance.health -= damage;
+
+        Debug.Log("남은 플레이어 체력: " + GameManager.Instance.health);
+
+        if (GameManager.Instance.health <= 0)
         {
             isDie = true;
             Debug.Log("으앙 플레이어 죽음");
+            //Destroy(gameObject);
         }
+
+        Invoke("OffDamaged", 0.2f);
+        isHit = false;
+    }
+
+    void OffDamaged()
+    {
+        gameObject.layer = 3;
+        spriter.color = new Color(1, 1, 1, 1);
     }
 }

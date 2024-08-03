@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     public Player player;
     private int killedMonsters = 0;
 
+    [Header("# Player Info")]
+    public int health;
+    public int maxHealth = 100 ;
+
     void Awake()
     {
         if (Instance == null)
@@ -21,6 +25,11 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        health = maxHealth;
     }
 
     public void IncrementKilledMonsters()
