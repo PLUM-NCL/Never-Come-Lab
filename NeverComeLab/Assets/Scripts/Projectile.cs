@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
             Player player = collision.GetComponent<Player>();
             if (player != null)
             {
-                //player.takeDamage(1f); // 데미지 값을 설정
+                player.TakeDamage(5); // 데미지 값을 설정
             }
 
             Destroy(gameObject);
