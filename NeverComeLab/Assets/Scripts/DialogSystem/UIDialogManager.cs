@@ -9,6 +9,7 @@ public class UIDialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogText;
     private string textString;
     private int dialogCount = 1;
+    public GameObject Canvas;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,8 @@ public class UIDialogManager : MonoBehaviour
                 dialogText.text = "ÈåÈå.. ÀÌ ¸ðµç°Ô ´Ù ²ÞÀÌ¾ú´Ù¸é.....";
 
                 StartCoroutine(TypingRoutine());
+                
+                Canvas.SetActive(false);
             }
         }
     }
