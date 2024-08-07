@@ -5,8 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableObject/Dialog")]
 public class DialogText : ScriptableObject
 {
-    public string speakerName;
+    [System.Serializable]
+    public class SpeakerData
+    {
+        public string speakerName;
 
-    [TextArea(5, 10)]
-    public string[] dialogTexts;
+        [TextArea(5, 10)]
+        public string dialogText;
+    }
+    public SpeakerData[] speakerData;
 }
