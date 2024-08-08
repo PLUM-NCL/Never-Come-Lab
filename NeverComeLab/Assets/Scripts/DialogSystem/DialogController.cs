@@ -12,6 +12,10 @@ public class DialogController : MonoBehaviour
     private Queue<DialogText.SpeakerData> textsQueue = new Queue<DialogText.SpeakerData>();
 
     private bool isConversationEnd;
+    public bool IsEnd
+    {
+        get { return isConversationEnd; }
+    }
     private DialogText.SpeakerData temp;
     private Coroutine typingRoutine = null;
     public void DisplayNextText(DialogText dialogText)
