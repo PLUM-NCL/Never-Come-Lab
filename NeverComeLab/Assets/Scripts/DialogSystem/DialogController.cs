@@ -8,6 +8,7 @@ public class DialogController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI conversationText;
+    [SerializeField] private GameObject nextMark;
 
     private Queue<DialogText.SpeakerData> textsQueue = new Queue<DialogText.SpeakerData>();
 
@@ -20,7 +21,9 @@ public class DialogController : MonoBehaviour
     private Coroutine typingRoutine = null;
     public void DisplayNextText(DialogText dialogText)
     {
-        if(textsQueue.Count == 0 && typingRoutine == null)
+        nextMark.SetActive(false);
+
+        if (textsQueue.Count == 0 && typingRoutine == null)
         {
             if(!isConversationEnd) 
             {
@@ -38,8 +41,7 @@ public class DialogController : MonoBehaviour
             StopCoroutine(typingRoutine); 
             typingRoutine = null;
             conversationText.text = temp.dialogText;
-
-            
+            nextMark.SetActive(true);
             return;
         }
 
@@ -49,12 +51,13 @@ public class DialogController : MonoBehaviour
             nameText.text = temp.speakerName;
             conversationText.text = temp.dialogText;
              typingRoutine = StartCoroutine(TypingRoutine());
+
         }
 
         if (textsQueue.Count == 0)
             isConversationEnd = true;
 
-
+        
     }
 
     private void StartConversation(DialogText dialogText)
@@ -94,7 +97,7 @@ public class DialogController : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
             
         }
-
+        nextMark.SetActive(true);
         typingRoutine = null;
     }
 
