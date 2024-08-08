@@ -13,10 +13,10 @@ public class DialogController : MonoBehaviour
 
     private bool isConversationEnd;
     private DialogText.SpeakerData temp;
-
+    private Coroutine typingRoutine = null;
     public void DisplayNextText(DialogText dialogText)
     {
-        if(textsQueue.Count == 0)
+        if(textsQueue.Count == 0 && typingRoutine == null)
         {
             if(!isConversationEnd) 
             {
@@ -29,26 +29,40 @@ public class DialogController : MonoBehaviour
             }
         }
 
-        if(textsQueue.Count > 0) {
-        temp = textsQueue.Dequeue();
-        nameText.text = temp.speakerName;
-        conversationText.text = temp.dialogText;
-        StartCoroutine(TypingRoutine());
-            }
+        if (typingRoutine != null)
+        {
+            StopCoroutine(typingRoutine); 
+            typingRoutine = null;
+            conversationText.text = temp.dialogText;
 
-        if (textsQueue.Count == 0) isConversationEnd = true;
-        
+            
+            return;
+        }
+
+        if (textsQueue.Count > 0 && typingRoutine == null) {
+            
+            temp = textsQueue.Dequeue();
+            nameText.text = temp.speakerName;
+            conversationText.text = temp.dialogText;
+             typingRoutine = StartCoroutine(TypingRoutine());
+        }
+
+        if (textsQueue.Count == 0)
+            isConversationEnd = true;
+
+
     }
 
     private void StartConversation(DialogText dialogText)
     {
+        
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
         }
         
 
-        for(int i = 0; i< dialogText.speakerData.Length; i++)
+         for(int i = 0; i< dialogText.speakerData.Length; i++)
         {
             textsQueue.Enqueue(dialogText.speakerData[i]);
         }
@@ -56,7 +70,9 @@ public class DialogController : MonoBehaviour
 
     private void EndConversation()
     {
+        
         isConversationEnd = false;
+
         if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
@@ -66,12 +82,16 @@ public class DialogController : MonoBehaviour
     IEnumerator TypingRoutine() // 타이핑 코루틴
     {
         temp.dialogText = conversationText.text;
-        int typingLength = temp.dialogText.GetTypingLength();
 
+        int typingLength = temp.dialogText.GetTypingLength();
         for (int index = 0; index <= typingLength; index++)
         {
             conversationText.text = temp.dialogText.Typing(index);
             yield return new WaitForSeconds(0.05f);
+            
         }
+
+        typingRoutine = null;
     }
+
 }
