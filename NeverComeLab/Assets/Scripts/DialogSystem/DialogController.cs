@@ -17,6 +17,12 @@ public class DialogController : MonoBehaviour
     {
         get { return isConversationEnd; }
     }
+    private static bool isConversation = false;
+    public static bool IsConversation
+    {
+        get { return isConversation; }
+    }
+
     private DialogText.SpeakerData temp;
     private Coroutine typingRoutine = null;
     public void DisplayNextText(DialogText dialogText)
@@ -65,6 +71,7 @@ public class DialogController : MonoBehaviour
         
         if (!gameObject.activeSelf)
         {
+            isConversation = true;
             gameObject.SetActive(true);
         }
         
@@ -83,6 +90,7 @@ public class DialogController : MonoBehaviour
         if (gameObject.activeSelf)
         {
             gameObject.SetActive(false);
+            isConversation = false;
         }
     }
 

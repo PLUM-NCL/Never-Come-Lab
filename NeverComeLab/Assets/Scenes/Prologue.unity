@@ -4289,6 +4289,7 @@ GameObject:
   - component: {fileID: 1174681025}
   - component: {fileID: 1174681024}
   - component: {fileID: 1174681023}
+  - component: {fileID: 1174681027}
   m_Layer: 0
   m_Name: God
   m_TagString: Untagged
@@ -4407,13 +4408,29 @@ Transform:
   m_GameObject: {fileID: 1174681022}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.92, y: 6.15, z: 0}
+  m_LocalPosition: {x: 6.15, y: 6.35, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 439688936}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174681027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174681022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83f59e3dd66fe346aa1202f4319cb46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  virtualCamera: {fileID: 1665224412}
+  zoomInSize: 3
+  zoomOutSize: 5
+  zoomSpeed: 5
 --- !u!1 &1180154499
 GameObject:
   m_ObjectHideFlags: 0
@@ -8305,7 +8322,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1382529721}
-  - component: {fileID: 1382529720}
   - component: {fileID: 1382529719}
   m_Layer: 0
   m_Name: Box Volume
@@ -8326,32 +8342,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsGlobal: 0
+  m_IsGlobal: 1
   priority: 0
   blendDistance: 10
   weight: 1
   sharedProfile: {fileID: 11400000, guid: 585d6cfd3b85b474d9cb498c754a1bdd, type: 2}
---- !u!65 &1382529720
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1382529718}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.3470435, y: 5.106835, z: 1}
-  m_Center: {x: 0.0061924458, y: -0.12629724, z: 0}
 --- !u!4 &1382529721
 Transform:
   m_ObjectHideFlags: 0
@@ -8628,7 +8623,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.9443064
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -8653,7 +8648,7 @@ Transform:
   m_GameObject: {fileID: 1492524625}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.710043, y: 4.70283, z: -10}
+  m_LocalPosition: {x: -5.0851536, y: 4.7023897, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9550,7 +9545,7 @@ MonoBehaviour:
   m_Follow: {fileID: 524829799}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 4.9443064
+    OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
