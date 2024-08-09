@@ -7,6 +7,8 @@ public class God : NPC, ITalkable
 {
     [SerializeField] private DialogText dialogText;
     [SerializeField] private DialogController dialogController;
+
+    [SerializeField] GameObject timeLoop;
     
     public override void Interact()
     {
@@ -18,8 +20,8 @@ public class God : NPC, ITalkable
         if (!DialogController.IsConversation)
         {
             isTalkable = false;
+            timeLoop.SetActive(true);
         }
-        
     }
 
     public void Talk(DialogText dialogText)
