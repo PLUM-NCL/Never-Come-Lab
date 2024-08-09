@@ -6,9 +6,10 @@ public abstract class NPC : MonoBehaviour, Iinteractable
 {
     [SerializeField] private SpriteRenderer interactCheckSprite;
     private Transform playerTransform;
-
+  
     private const float INTERACT_DISTANCE = 2f;
 
+    protected bool isTalkable = true;
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -20,7 +21,7 @@ public abstract class NPC : MonoBehaviour, Iinteractable
             Interact();
         }
 
-        if (interactCheckSprite.gameObject.activeSelf && !IsInteract())
+        if (interactCheckSprite.gameObject.activeSelf && !IsInteract() || !isTalkable)
         {
             interactCheckSprite.gameObject.SetActive(false);
         }
@@ -33,9 +34,9 @@ public abstract class NPC : MonoBehaviour, Iinteractable
 
     public abstract void Interact();
 
-    private bool IsInteract()
+    protected virtual bool IsInteract()
     {
-        if (Vector2.Distance(playerTransform.position, transform.position) < INTERACT_DISTANCE)
+        if (Vector2.Distance(playerTransform.position, transform.position) < INTERACT_DISTANCE && isTalkable)
         {
             return true;
         }

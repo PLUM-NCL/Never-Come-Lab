@@ -12,11 +12,8 @@ public class DialogController : MonoBehaviour
 
     private Queue<DialogText.SpeakerData> textsQueue = new Queue<DialogText.SpeakerData>();
 
-    private bool isConversationEnd;
-    public bool IsEnd
-    {
-        get { return isConversationEnd; }
-    }
+    private bool isTellAll;
+
     private static bool isConversation = false;
     public static bool IsConversation
     {
@@ -31,7 +28,7 @@ public class DialogController : MonoBehaviour
 
         if (textsQueue.Count == 0 && typingRoutine == null)
         {
-            if(!isConversationEnd) 
+            if(!isTellAll) 
             {
                 StartConversation(dialogText);
             }
@@ -61,7 +58,7 @@ public class DialogController : MonoBehaviour
         }
 
         if (textsQueue.Count == 0)
-            isConversationEnd = true;
+            isTellAll = true;
 
         
     }
@@ -85,7 +82,7 @@ public class DialogController : MonoBehaviour
     private void EndConversation()
     {
         
-        isConversationEnd = false;
+        isTellAll = false;
 
         if (gameObject.activeSelf)
         {

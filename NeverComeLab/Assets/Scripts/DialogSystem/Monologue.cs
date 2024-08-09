@@ -15,7 +15,7 @@ public class Monologue : MonoBehaviour, ITalkable
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(!dialogController.IsEnd)
+            if(!DialogController.IsConversation)
                 Talk(dialogText);
             else gameObject.SetActive(false);
         }
