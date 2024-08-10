@@ -17,6 +17,8 @@ public class LayerSetting : MonoBehaviour
         {
             sprite.color = new Color(1, 1, 1, 0.5f);
         }
+        //else if (collision.CompareTag("Monster")) { 
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
