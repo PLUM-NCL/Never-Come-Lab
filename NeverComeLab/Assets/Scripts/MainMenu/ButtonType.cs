@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class ButtonType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -19,6 +21,7 @@ public class ButtonType : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         switch(currentType)
         {
             case BtnType.New:
+                SceneManager.LoadScene("Prologue");
                 Debug.Log("새로운 시작");
                 break;
             case BtnType.Load:
