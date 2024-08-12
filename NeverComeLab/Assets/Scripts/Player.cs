@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     Rigidbody2D rigid;
     public SpriteRenderer spriter;
+    List<Collider2D> colliders = new List<Collider2D>();
 
     void Start()
     {
@@ -35,6 +36,16 @@ public class Player : MonoBehaviour
             {
                 AnimReset();
             }
+        }
+
+        //플레이어와 충돌이 일어난 리스트들 각각에게 해당 메세지 전송 
+        if (Input.GetMouseButton(0))
+        {
+            colliders.ForEach(n =>
+            {
+                if (n.CompareTag("Lever"))
+                    n.SendMessage("Use", SendMessageOptions.DontRequireReceiver);
+            });
         }
     }
 
@@ -147,5 +158,22 @@ public class Player : MonoBehaviour
     {
         gameObject.layer = 3;
         spriter.color = new Color(1, 1, 1, 1);
+    }
+
+    //충돌한 물체(lever)를 colliders 리스트에 추가
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Lever"))
+        {
+            colliders.Add(collision);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Lever"))
+        {
+            colliders.Remove(collision);
+        }
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - player
   - BindBullet
+  - Lever
   layers:
   - Default
   - TransparentFX
@@ -43,8 +44,6 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
@@ -54,6 +53,7 @@ TagManager:
     locked: 0
   - name: 
     uniqueID: 1168827973
+    locked: 0
   - name: Foreground
     uniqueID: 607328335
     locked: 0
