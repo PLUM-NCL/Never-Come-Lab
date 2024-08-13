@@ -20,7 +20,7 @@ public class LeverWall : MonoBehaviour
             SetState(true);
             Color color = spriteRenderer.material.color; 
             color.a = 0.0f;
-            spriteRenderer.material.color = color; 
+            spriteRenderer.material.color = color;  //투명화
 
         }
     }
@@ -32,7 +32,7 @@ public class LeverWall : MonoBehaviour
             SetState(false);
             Color color = spriteRenderer.material.color;
             color.a = 1f;
-            spriteRenderer.material.color = color;
+            spriteRenderer.material.color = color;  //원래대로 
         }
     }
 
