@@ -194,12 +194,27 @@ public class Monster : MonoBehaviour
 
         if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
         {
-            SetPlayerDetected(false);
+            Miss();
+            //SetPlayerDetected(false);
 
-            mark.text = "?";
-            stopAndResume = StartCoroutine(StopAndResume(3f));
-            currentState = State.Return;
+            //mark.text = "?";
+            //stopAndResume = StartCoroutine(StopAndResume(3f));
+            //currentState = State.Return;
         }
+
+        if (GameManager.Instance.player.isHide == true)
+        {
+            Miss();
+        }
+    }
+
+    private void Miss()
+    {
+        SetPlayerDetected(false);
+
+        mark.text = "?";
+        stopAndResume = StartCoroutine(StopAndResume(3f));
+        currentState = State.Return;
     }
 
     private void Return()
