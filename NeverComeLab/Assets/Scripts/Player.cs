@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -38,15 +39,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        //플레이어와 충돌이 일어난 리스트들 각각에게 해당 메세지 전송 
-        if (Input.GetMouseButton(0))
-        {
-            colliders.ForEach(n =>
-            {
-                if (n.CompareTag("Lever"))
-                    n.SendMessage("Use", SendMessageOptions.DontRequireReceiver);
-            });
-        }
+        
     }
 
     private void FixedUpdate()
@@ -175,5 +168,15 @@ public class Player : MonoBehaviour
         {
             colliders.Remove(collision);
         }
+    }
+
+    public void UseLever()
+    {
+        //플레이어와 충돌이 일어난 리스트들 각각에게 해당 메세지 전송 
+        colliders.ForEach(n =>
+        {
+            if (n.CompareTag("Lever"))
+                n.SendMessage("Use", SendMessageOptions.DontRequireReceiver);
+        });
     }
 }

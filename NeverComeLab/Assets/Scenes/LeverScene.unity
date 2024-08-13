@@ -216,6 +216,8 @@ GameObject:
   - component: {fileID: 78196328}
   - component: {fileID: 78196327}
   - component: {fileID: 78196331}
+  - component: {fileID: 78196333}
+  - component: {fileID: 78196332}
   m_Layer: 0
   m_Name: lever
   m_TagString: Lever
@@ -235,10 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e531e6139ef76544a953438a0bf5be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resetType: 1
   target: {fileID: 1052218655}
   OnMessage: Open
   OffMessage: Close
   isOn: 0
+  resetTime: 0
 --- !u!95 &78196328
 Animator:
   serializedVersion: 5
@@ -372,6 +376,62 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.18, y: 0.18}
   m_EdgeRadius: 0
+--- !u!114 &78196332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78196326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 326468014}
+          m_TargetAssemblyTypeName: Player, Assembly-CSharp
+          m_MethodName: UseLever
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!50 &78196333
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 78196326}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!114 &130328640 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6377930201410459891, guid: 155414691e21cd24eb3060142583a16b, type: 3}
@@ -1475,10 +1535,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e531e6139ef76544a953438a0bf5be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resetType: 1
   target: {fileID: 1052218655}
   OnMessage: Open
   OffMessage: Close
   isOn: 0
+  resetTime: 0
 --- !u!95 &390028387
 Animator:
   serializedVersion: 5
@@ -1584,6 +1646,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1699,6 +1762,22 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &717503203
 GameObject:
   m_ObjectHideFlags: 0
