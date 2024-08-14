@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class LeverWall : MonoBehaviour
+public class TileLeverWall : MonoBehaviour
 {
     public bool isOpen;
-    Collider2D spriteCollider;
+    //Collider2D spriteCollider;
+    TilemapCollider2D tilemapCollider;
     Renderer spriteRenderer;
     void Start()
     {
-        spriteCollider = GetComponent<Collider2D>();
+        //spriteCollider = GetComponent<Collider2D>();
+        tilemapCollider = GetComponent<TilemapCollider2D>();
         spriteRenderer = GetComponent<Renderer>();
         Color color = spriteRenderer.material.color;
         color.a = 1f;
@@ -23,7 +25,7 @@ public class LeverWall : MonoBehaviour
         if (!isOpen)
         {
             SetState(true);
-            Color color = spriteRenderer.material.color; 
+            Color color = spriteRenderer.material.color;
             color.a = 0.0f;
             spriteRenderer.material.color = color;  //≈ı∏Ì»≠
 
@@ -52,6 +54,6 @@ public class LeverWall : MonoBehaviour
     void SetState(bool open)
     {
         isOpen = open;
-        spriteCollider.isTrigger = open;
+        tilemapCollider.isTrigger = open;
     }
 }
