@@ -11,47 +11,49 @@ public class LeverWall : MonoBehaviour
     void Start()
     {
         spriteCollider = GetComponent<Collider2D>();
+        if (spriteCollider == null)
+            spriteCollider = GetComponent<TilemapCollider2D>();
+
         spriteRenderer = GetComponent<Renderer>();
+
+        if (isOpen)
+            Invisibility();
+        else if (!isOpen)
+            Visibility();
+    }
+
+    public void Visibility()
+    {
         Color color = spriteRenderer.material.color;
         color.a = 1f;
-        spriteRenderer.material.color = color;
+        spriteRenderer.material.color = color;  //원래대로 
+    }
+    public void Invisibility()
+    {
+        Color color = spriteRenderer.material.color;
+        color.a = 0.0f;
+        spriteRenderer.material.color = color;  //투명화
     }
 
     public void Open()
     {
-        print("이게 왜 실행됌?");
-        if (!isOpen)
-        {
-            SetState(true);
-            Color color = spriteRenderer.material.color; 
-            color.a = 0.0f;
-            spriteRenderer.material.color = color;  //투명화
-
-        }
+        isOpen = !isOpen;
+        Invisibility();
+        spriteCollider.isTrigger = !spriteCollider.isTrigger;
     }
 
     public void Close()
     {
-        if (isOpen)
-        {
-            SetState(false);
-            Color color = spriteRenderer.material.color;
-            color.a = 1f;
-            spriteRenderer.material.color = color;  //원래대로 
-        }
+        isOpen = !isOpen;
+        Visibility();
+        spriteCollider.isTrigger = !spriteCollider.isTrigger;
     }
 
     public void Toggle()
     {
         if (isOpen)
             Close();
-        else
+        else if(!isOpen)
             Open();
-    }
-
-    void SetState(bool open)
-    {
-        isOpen = open;
-        spriteCollider.isTrigger = open;
     }
 }
