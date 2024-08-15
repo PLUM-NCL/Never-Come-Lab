@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - player
   - BindBullet
+  - Lever
   - HideObject
   layers:
   - Default
