@@ -1,6 +1,8 @@
+using NavMeshPlus.Components;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Tilemaps;
 
 public class LeverWall : MonoBehaviour
@@ -8,6 +10,9 @@ public class LeverWall : MonoBehaviour
     public bool isOpen;
     Collider2D spriteCollider;
     Renderer spriteRenderer;
+
+    private NavMeshSurface navSurface;
+    private NavMeshModifier navModifier;
     void Start()
     {
         spriteCollider = GetComponent<Collider2D>();
@@ -15,6 +20,9 @@ public class LeverWall : MonoBehaviour
             spriteCollider = GetComponent<TilemapCollider2D>();
 
         spriteRenderer = GetComponent<Renderer>();
+
+        navModifier = GetComponent<NavMeshModifier>();
+        navSurface = FindObjectOfType<NavMeshSurface>();
 
         if (isOpen)
             Invisibility();
@@ -27,12 +35,14 @@ public class LeverWall : MonoBehaviour
         Color color = spriteRenderer.material.color;
         color.a = 1f;
         spriteRenderer.material.color = color;  //원래대로 
+        
     }
     public void Invisibility()
     {
         Color color = spriteRenderer.material.color;
         color.a = 0.0f;
         spriteRenderer.material.color = color;  //투명화
+        
     }
 
     public void Open()
@@ -40,6 +50,7 @@ public class LeverWall : MonoBehaviour
         isOpen = !isOpen;
         Invisibility();
         spriteCollider.isTrigger = !spriteCollider.isTrigger;
+        DynamicBake("Walkable");
     }
 
     public void Close()
@@ -47,6 +58,7 @@ public class LeverWall : MonoBehaviour
         isOpen = !isOpen;
         Visibility();
         spriteCollider.isTrigger = !spriteCollider.isTrigger;
+        DynamicBake("Not Walkable");
     }
 
     public void Toggle()
@@ -55,5 +67,11 @@ public class LeverWall : MonoBehaviour
             Close();
         else if(!isOpen)
             Open();
+    }
+
+    private void DynamicBake(string areaName)
+    {
+        navModifier.area = NavMesh.GetAreaFromName(areaName);
+        navSurface.BuildNavMesh();
     }
 }
