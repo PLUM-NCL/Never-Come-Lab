@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private bool isDie = false;
     private bool isStopped = false;
     public bool isHit = false;
+    public bool isHide = false;
 
 
     public Animator anim;
@@ -101,6 +102,21 @@ public class Player : MonoBehaviour
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);  //현재 재생중인 애니메이션 정보 가져옴
         anim.Play(stateInfo.fullPathHash, 0, stateInfo.normalizedTime); //현재 애니 해시값, 애니메이션 시작부분, 현재 상태값
         anim.speed = 0; // 애니메이션 멈춤
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HideObject")){
+            isHide = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HideObject"))
+        {
+            isHide = false;
+        }
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)

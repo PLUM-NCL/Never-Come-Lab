@@ -11,6 +11,7 @@ TagManager:
   - player
   - BindBullet
   - Lever
+  - HideObject
   layers:
   - Default
   - TransparentFX
