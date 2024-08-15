@@ -109,6 +109,12 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("HideObject")){
             isHide = true;
         }
+
+        //충돌한 물체(lever)를 colliders 리스트에 추가
+        if (collision.CompareTag("Lever"))
+        {
+            colliders.Add(collision);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -116,6 +122,11 @@ public class Player : MonoBehaviour
         if (collision.CompareTag("HideObject"))
         {
             isHide = false;
+        }
+
+        if (collision.CompareTag("Lever"))
+        {
+            colliders.Remove(collision);
         }
     }
 
@@ -168,23 +179,7 @@ public class Player : MonoBehaviour
         gameObject.layer = 3;
         spriter.color = new Color(1, 1, 1, 1);
     }
-
-    //충돌한 물체(lever)를 colliders 리스트에 추가
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Lever"))
-        {
-            colliders.Add(collision);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Lever"))
-        {
-            colliders.Remove(collision);
-        }
-    }
+    
 
     public void UseLever()
     {
