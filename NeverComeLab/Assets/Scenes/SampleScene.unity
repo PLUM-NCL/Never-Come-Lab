@@ -214,11 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &143847206 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8412919729814240201, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
-  m_PrefabInstance: {fileID: 388006276}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &143847207 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6860527134722435763, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
@@ -1197,6 +1192,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeverCity
       objectReference: {fileID: 0}
+    - target: {fileID: 8412919729814240201, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1269,7 +1268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2825430881501660632, guid: 4ea88dd262e834c4eb91e23793ad432b, type: 3}
       propertyPath: targets.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2825430881501660632, guid: 4ea88dd262e834c4eb91e23793ad432b, type: 3}
       propertyPath: target.Array.data[0]
@@ -1302,7 +1301,7 @@ PrefabInstance:
     - target: {fileID: 2825430881501660632, guid: 4ea88dd262e834c4eb91e23793ad432b, type: 3}
       propertyPath: targets.Array.data[1].targetObject
       value: 
-      objectReference: {fileID: 143847206}
+      objectReference: {fileID: 0}
     - target: {fileID: 7984613758742609259, guid: 4ea88dd262e834c4eb91e23793ad432b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.59
