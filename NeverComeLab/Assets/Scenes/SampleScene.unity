@@ -1149,6 +1149,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 795682810}
     m_Modifications:
+    - target: {fileID: 314442832931498207, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
+      propertyPath: m_Area
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6860527134722435763, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2189,7 +2193,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6988878698321820826, guid: 8092e81b6195c794dab41fbcd438b4fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1269925193}
   m_SourcePrefab: {fileID: 100100000, guid: 8092e81b6195c794dab41fbcd438b4fd, type: 3}
 --- !u!224 &1254225379 stripped
 RectTransform:
@@ -2201,6 +2208,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6988878698321820826, guid: 8092e81b6195c794dab41fbcd438b4fd, type: 3}
   m_PrefabInstance: {fileID: 1253662441}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1269925193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269925192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1270508535
 GameObject:
   m_ObjectHideFlags: 0
@@ -5908,6 +5931,10 @@ PrefabInstance:
     - target: {fileID: 1103511221954348163, guid: 2f392449615829a4e943d864bd3e89a7, type: 3}
       propertyPath: m_Name
       value: LeverWallTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 3406504990367929042, guid: 2f392449615829a4e943d864bd3e89a7, type: 3}
+      propertyPath: m_Area
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6109325444902508725, guid: 2f392449615829a4e943d864bd3e89a7, type: 3}
       propertyPath: m_LocalPosition.x

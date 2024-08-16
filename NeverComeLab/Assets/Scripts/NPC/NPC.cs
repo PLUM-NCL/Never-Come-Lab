@@ -34,7 +34,7 @@ public abstract class NPC : MonoBehaviour, Iinteractable
 
     public abstract void Interact();
 
-    protected virtual bool IsInteract()
+    protected bool IsInteract()
     {
         if (Vector2.Distance(playerTransform.position, transform.position) < INTERACT_DISTANCE && isTalkable)
         {
