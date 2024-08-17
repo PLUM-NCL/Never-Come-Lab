@@ -286,6 +286,7 @@ public class Monster : MonoBehaviour
             Vector2 direction = (player.position - pos.position).normalized;
             GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterBullet);
             Debug.Log(rigid.velocity);
             yield return new WaitForSeconds(monsterAttackSpeed);
 
@@ -375,7 +376,7 @@ public class Monster : MonoBehaviour
             mark.text = "!";
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
-
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
         isHit = false;
     }
 

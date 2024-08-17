@@ -62,6 +62,8 @@ public class Lever : MonoBehaviour
         isOn = on;
         anim.SetBool("On", on);
 
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lever);
+
         if (on)
         {
             foreach (var target in targets)
