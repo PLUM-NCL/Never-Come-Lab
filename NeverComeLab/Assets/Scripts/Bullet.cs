@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     private Monster monster;
     private void Awake()
     {
-        monster = FindObjectOfType<Monster>();
+        //monster = FindObjectOfType<Monster>();
         rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = Vector2.zero;
     }
@@ -30,6 +30,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        monster = collision.GetComponent<Monster>();
         if (collision.CompareTag("TileMap"))
             return;
         else if(collision.CompareTag("Wall"))
