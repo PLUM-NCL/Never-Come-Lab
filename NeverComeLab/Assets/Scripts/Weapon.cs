@@ -32,27 +32,7 @@ public class Weapon : MonoBehaviour
 
         if (isSelected == false)
             return;
-        //임시용! 왼쪽마우스시 죽이는 무기, 오른쪽마우스시 기절 무기 
-        //    if (timer > speed)
-        //    {
-        //        if (Input.GetMouseButtonDown(0))
-        //        {
-        //            timer = 0;
-        //            id = 0;
-        //            prefabId = 0;
-        //            damage = 2;
-        //            Fire();
-        //        }
-        //        else if (Input.GetMouseButtonDown(1))
-        //        {
-        //            timer = 0;
-        //            id = 1;
-        //            prefabId = 1;
-        //            damage = 0;
-        //            Fire();
-        //        }
-        //    }
-        //}
+        
         switch (id) //무기 아이디별로 무기로직 실행 
         {
             case 0: //공격 총알인 경우 
@@ -60,6 +40,7 @@ public class Weapon : MonoBehaviour
                 if (timer > speed)
                 {
                     timer = 0f;
+                    AudioManager.instance.PlaySfx(AudioManager.Sfx.Bullet);
                     Fire();
                 }
                 break;
@@ -68,6 +49,7 @@ public class Weapon : MonoBehaviour
                 if (timer > speed)
                 {
                     timer = 0f;
+                    AudioManager.instance.PlaySfx(AudioManager.Sfx.BindBullet);
                     Fire();
                 }
                 break;

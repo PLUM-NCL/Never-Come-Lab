@@ -9,7 +9,6 @@ public class Player : MonoBehaviour
     public float speed = 4f;
     //public float playerHp = 100;
     private bool isDie = false;
-    private bool isStopped = false;
     public bool isHit = false;
     public bool isHide = false;
 
@@ -59,10 +58,20 @@ public class Player : MonoBehaviour
     {
         if (inputVec.magnitude > 0)
         {
-            isStopped = false;
             anim.speed = 1; // 애니메이션 재생 속도 정상화
             anim.SetFloat("Speed", inputVec.magnitude); // 애니메이션 Float값 수정, 벡터의 순수한 크기 값
             AnimReset();
+
+            if (!isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Run))   
+            {
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Run);
+                AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+            }
+            else if(isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Leave))
+            {
+                AudioManager.instance.PlaySfx(AudioManager.Sfx.Leave);
+                AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
+            }
 
             if (inputVec.y > 0)
             {
@@ -83,10 +92,11 @@ public class Player : MonoBehaviour
                 spriter.flipX = true;
             }
         }
-        else if (!isStopped)    //움직임 멈추면 애니메이션 정지 시키기 
+        else if (inputVec.magnitude == 0)    //움직임 멈추면 애니메이션 정지 시키기 
         {
-            StopAnimation();
-            isStopped = true;
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+            StopAnimation();            
         }
     }
 
@@ -130,27 +140,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (!collision.CompareTag("MonsterBullet"))  
-    //        return;
-
-    //    collision.gameObject.SetActive(false);
-    //    playerHp -= collision.GetComponent<Bullet>().damage;
-    //    Debug.Log("남은 몬스터 체력: " + playerHp);
-
-    //    Debug.Log("남은 플레이어 체력: " + playerHp);
-
-    //    if (playerHp > 0)
-    //    {
-    //        //Hit 애니메이션 관련 코드 추가 필요
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("으앙 플레이어 죽음");
-    //    }
-    //}
-
     public void TakeDamage(int damage)
     {
         if (isHit == true)
@@ -160,7 +149,7 @@ public class Player : MonoBehaviour
         spriter.color = new Color(1, 1, 1, 0.4f);
 
         GameManager.Instance.health -= damage;
-
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Damage);
         Debug.Log("남은 플레이어 체력: " + GameManager.Instance.health);
 
         if (GameManager.Instance.health <= 0)

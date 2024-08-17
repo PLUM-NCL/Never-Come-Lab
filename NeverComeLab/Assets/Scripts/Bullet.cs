@@ -42,9 +42,13 @@ public class Bullet : MonoBehaviour
         {
             monster.SetPlayerDetected(true);
             if (gameObject.CompareTag("Bullet"))
+            {
                 monster.TakeDamage();
-            else
+            }
+            else if (gameObject.CompareTag("BindBullet"))
+            {
                 monster.TakeSleep();
+            }
             rigid.velocity = Vector2.zero;
             gameObject.SetActive(false);
             //rigid.AddForce(knockBackForce * knockBack, ForceMode2D.Impulse); // �˹� �� ������ �� ����..
