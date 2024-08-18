@@ -144,7 +144,9 @@ public class Player : MonoBehaviour
         {
             isDie = true;
             Debug.Log("으앙 플레이어 죽음");
-            //Destroy(gameObject);
+
+
+            GameManager.Instance.Invoke("GameOver", 5f);
         }
 
         Invoke("OffDamaged", 0.2f);
