@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
+    private bool isStopped = false;
+
 
 
     public Animator anim;
@@ -25,7 +27,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         if (!isDie)
         {
@@ -38,30 +40,18 @@ public class Player : MonoBehaviour
                 AnimReset();
             }
         }
-
-        
-    }
-
-    private void FixedUpdate()
-    {
-        //Jeong's 방법 : 물리적 이동 고려 x -> FixedUpdate에 써야함
-        //if (inputVec != Vector2.zero)
-        //{
-        //    Vector2 nextVec = inputVec.normalized * speed * Time.fixedDeltaTime;
-        //    rigid.MovePosition(rigid.position + nextVec);
-        //}
-        //지섭쿤 방법 : 물리적 이동 고려시.. -> Update에 써야함 
-        //rigid.velocity = inputVec.normalized * speed; 
     }
 
     private void LateUpdate()
     {
         if (inputVec.magnitude > 0)
         {
+            isStopped = false;
             anim.speed = 1; // 애니메이션 재생 속도 정상화
             anim.SetFloat("Speed", inputVec.magnitude); // 애니메이션 Float값 수정, 벡터의 순수한 크기 값
             AnimReset();
 
+            //음향 관련(일반 걸음소리, 모래 걸음 소리) 
             if (!isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Run))   
             {
                 AudioManager.instance.PlaySfx(AudioManager.Sfx.Run);
@@ -92,8 +82,9 @@ public class Player : MonoBehaviour
                 spriter.flipX = true;
             }
         }
-        else if (inputVec.magnitude == 0)    //움직임 멈추면 애니메이션 정지 시키기 
+        else if (!isStopped)    //움직임 멈추면 애니메이션 정지 시키기 
         {
+            isStopped = true;
             AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
             AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             StopAnimation();            
@@ -105,12 +96,13 @@ public class Player : MonoBehaviour
         anim.ResetTrigger("Forward");
         anim.ResetTrigger("Back");
         anim.ResetTrigger("Right");
+        anim.StopPlayback();
     }
 
     private void StopAnimation()
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);  //현재 재생중인 애니메이션 정보 가져옴
-        anim.Play(stateInfo.fullPathHash, 0, stateInfo.normalizedTime); //현재 애니 해시값, 애니메이션 시작부분, 현재 상태값
+        anim.Play(stateInfo.fullPathHash, 0, 0.25f); //현재 애니 해시값, 애니메이션 시작부분, 현재 상태값(노말화됌) 
         anim.speed = 0; // 애니메이션 멈춤
     }
 
