@@ -11,8 +11,6 @@ public class Player : MonoBehaviour
     private bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
-    private bool isStopped = false;
-
 
 
     public Animator anim;
@@ -46,7 +44,6 @@ public class Player : MonoBehaviour
     {
         if (inputVec.magnitude > 0)
         {
-            isStopped = false;
             anim.speed = 1; // 애니메이션 재생 속도 정상화
             anim.SetFloat("Speed", inputVec.magnitude); // 애니메이션 Float값 수정, 벡터의 순수한 크기 값
             AnimReset();
@@ -82,9 +79,8 @@ public class Player : MonoBehaviour
                 spriter.flipX = true;
             }
         }
-        else if (!isStopped)    //움직임 멈추면 애니메이션 정지 시키기 
+        else if(inputVec.magnitude == 0)    //움직임 멈추면 애니메이션 정지 시키기 
         {
-            isStopped = true;
             AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
             AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             StopAnimation();            
