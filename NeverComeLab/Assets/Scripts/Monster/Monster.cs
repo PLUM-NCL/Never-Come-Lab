@@ -166,7 +166,7 @@ public class Monster : MonoBehaviour
             patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
 
-        if (isPlayerDetected) // 몬스터가 플레이어를 감지하면 Chase
+        if (isPlayerDetected && !GameManager.Instance.player.isHide) // 몬스터가 플레이어를 감지하면 Chase
         {
             
             if (patrolCoroutine != null)
@@ -182,6 +182,12 @@ public class Monster : MonoBehaviour
     private void Chase()
     {
         if (!agent.enabled) return;
+
+        if (GameManager.Instance.player.isHide == true)
+        {
+            Miss();
+            return;
+        }
 
         if (!isShooting && !isHit)
         {
@@ -202,10 +208,7 @@ public class Monster : MonoBehaviour
             //currentState = State.Return;
         }
 
-        if (GameManager.Instance.player.isHide == true)
-        {
-            Miss();
-        }
+        
     }
 
     private void Miss()
