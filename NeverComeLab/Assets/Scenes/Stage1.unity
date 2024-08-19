@@ -858,12 +858,12 @@ GameObject:
   - component: {fileID: 780698902}
   - component: {fileID: 780698905}
   m_Layer: 0
-  m_Name: 2-2 Block (3)
+  m_Name: 1-4 Block (3)
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &780698902
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1017,7 +1017,7 @@ GameObject:
   - component: {fileID: 831352810}
   - component: {fileID: 831352809}
   m_Layer: 0
-  m_Name: 2-1 Block
+  m_Name: 1-3 Block
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1190,12 +1190,12 @@ GameObject:
   - component: {fileID: 867658490}
   - component: {fileID: 867658493}
   m_Layer: 0
-  m_Name: 2-2 Block (2)
+  m_Name: 1-4 Block (2)
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &867658490
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1348,12 +1348,12 @@ GameObject:
   - component: {fileID: 908419320}
   - component: {fileID: 908419321}
   m_Layer: 0
-  m_Name: Target2
+  m_Name: 1-4 Target (1)
   m_TagString: PuzzleTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &908419318
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1450,7 +1450,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1479,6 +1479,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageIndex: 1
+--- !u!1 &999085073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 999085075}
+  - component: {fileID: 999085074}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &999085074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999085073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3df3898c3a2c8545b04031a9ff36d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stages:
+  - stageName: 1-3
+    tilemaps:
+    - {fileID: 1561280013}
+    targets:
+    - {fileID: 1676686807}
+    blocks:
+    - {fileID: 831352805}
+  - stageName: 1-4
+    tilemaps:
+    - {fileID: 2008595182}
+    targets:
+    - {fileID: 908419321}
+    - {fileID: 1764694166}
+    - {fileID: 1163707720}
+    blocks:
+    - {fileID: 2104495119}
+    - {fileID: 867658489}
+    - {fileID: 780698901}
+  - stageName: 1-5
+    tilemaps:
+    - {fileID: 1281905840}
+    targets: []
+    blocks: []
+--- !u!4 &999085075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999085073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.2545724, y: 4.521245, z: -0.12790667}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040256985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,12 +1766,12 @@ GameObject:
   - component: {fileID: 1163707721}
   - component: {fileID: 1163707720}
   m_Layer: 0
-  m_Name: Target4
+  m_Name: 1-4 Target (3)
   m_TagString: PuzzleTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1163707720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,7 +1814,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1838,7 +1906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1204831666}
-  - component: {fileID: 1204831665}
+  - component: {fileID: 1204831667}
   m_Layer: 0
   m_Name: PuzzleManager
   m_TagString: Untagged
@@ -1846,18 +1914,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1204831665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1204831664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8c2b3e2d8f03d4c94c1098e2467d61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1204831666
 Transform:
   m_ObjectHideFlags: 0
@@ -1873,6 +1929,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1204831667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204831664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8c2b3e2d8f03d4c94c1098e2467d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1281905840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1885,7 +1953,7 @@ GameObject:
   - component: {fileID: 1281905843}
   - component: {fileID: 1281905842}
   m_Layer: 0
-  m_Name: 2-2 Door
+  m_Name: 1-5 Door
   m_TagString: Hidden
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4406,7 +4474,7 @@ GameObject:
   - component: {fileID: 1561280015}
   - component: {fileID: 1561280017}
   m_Layer: 0
-  m_Name: 2-1 chairs
+  m_Name: 1-3 chairs
   m_TagString: TileMap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4707,7 +4775,7 @@ GameObject:
   - component: {fileID: 1676686804}
   - component: {fileID: 1676686807}
   m_Layer: 0
-  m_Name: Target1
+  m_Name: 1-3 Target
   m_TagString: PuzzleTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4943,12 +5011,12 @@ GameObject:
   - component: {fileID: 1764694167}
   - component: {fileID: 1764694166}
   m_Layer: 0
-  m_Name: Target3
+  m_Name: 1-4 Target (2)
   m_TagString: PuzzleTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1764694166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4991,7 +5059,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5245,12 +5313,12 @@ GameObject:
   - component: {fileID: 2008595184}
   - component: {fileID: 2008595186}
   m_Layer: 0
-  m_Name: 2-2 chairs
+  m_Name: 1-4 chairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2008595183
 Transform:
   m_ObjectHideFlags: 0
@@ -5500,12 +5568,12 @@ GameObject:
   - component: {fileID: 2104495120}
   - component: {fileID: 2104495123}
   m_Layer: 0
-  m_Name: 2-2 Block (1)
+  m_Name: 1-4 Block (1)
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &2104495120
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5650,6 +5718,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1690586847}
+  - {fileID: 999085075}
   - {fileID: 1204831666}
   - {fileID: 332788250}
   - {fileID: 1106320080}
