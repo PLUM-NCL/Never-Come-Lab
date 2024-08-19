@@ -13,6 +13,7 @@ TagManager:
   - Puzzle
   - Hidden
   - PuzzleTrigger
+  - Block
   layers:
   - Default
   - TransparentFX
