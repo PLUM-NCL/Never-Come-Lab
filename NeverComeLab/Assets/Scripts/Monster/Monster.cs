@@ -194,12 +194,27 @@ public class Monster : MonoBehaviour
 
         if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
         {
-            SetPlayerDetected(false);
+            Miss();
+            //SetPlayerDetected(false);
 
-            mark.text = "?";
-            stopAndResume = StartCoroutine(StopAndResume(3f));
-            currentState = State.Return;
+            //mark.text = "?";
+            //stopAndResume = StartCoroutine(StopAndResume(3f));
+            //currentState = State.Return;
         }
+
+        if (GameManager.Instance.player.isHide == true)
+        {
+            Miss();
+        }
+    }
+
+    private void Miss()
+    {
+        SetPlayerDetected(false);
+
+        mark.text = "?";
+        stopAndResume = StartCoroutine(StopAndResume(3f));
+        currentState = State.Return;
     }
 
     private void Return()
@@ -271,6 +286,7 @@ public class Monster : MonoBehaviour
             Vector2 direction = (player.position - pos.position).normalized;
             GameObject newProjectile = Instantiate(projectile, pos.position, Quaternion.identity);
             newProjectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterBullet);
             Debug.Log(rigid.velocity);
             yield return new WaitForSeconds(monsterAttackSpeed);
 
@@ -360,7 +376,7 @@ public class Monster : MonoBehaviour
             mark.text = "!";
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
-
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
         isHit = false;
     }
 
@@ -385,52 +401,4 @@ public class Monster : MonoBehaviour
         isHit = false;
     }
 
-
-
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    //float knockBackForce = 0.5f;
-    //    //Vector2 knockBack = transform.position - collision.transform.position;
-
-    //    if (!collision.CompareTag("Bullet") || isHit)   //피격후 0.5초간은 무적판정
-    //        return;
-
-    //    collision.gameObject.SetActive(false);
-
-    //    if (collision.CompareTag("BindBullet"))
-    //    {
-    //        StartCoroutine(StopAndResume(5));
-    //        Debug.Log("몬스터 바인드 걸림");
-    //        return;
-    //    }
-
-    //    monsterHp -= collision.GetComponent<Bullet>().damage;
-    //    Debug.Log("남은 몬스터 체력: " + monsterHp);
-
-
-
-    //    if (monsterHp > 0)
-    //    {
-    //        //Hit 애니메이션 관련 코드 추가 필요
-    //        isHit = true;
-    //        StartCoroutine(ResetHit());
-    //    }
-    //    else
-    //    {
-    //        Dead();
-    //    }
-    //}
-
-    IEnumerator ResetHit()
-    {
-        // 0.1초 대기
-        yield return new WaitForSeconds(0.5f);
-        isHit = false;
-    }
-
-    void Dead()
-    {
-        gameObject.SetActive(false);
-        Debug.Log("으앙 몬스터 죽음");
-    }
 }
