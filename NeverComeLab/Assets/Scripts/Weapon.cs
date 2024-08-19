@@ -28,6 +28,9 @@ public class Weapon : MonoBehaviour
     
     private void Update()
     {
+        if (GameManager.Instance.player.isDie)
+            return;
+
         isSelected = Itemdata.isSelected;
 
         if (isSelected == false)

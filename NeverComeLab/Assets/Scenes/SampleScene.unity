@@ -6105,7 +6105,7 @@ MonoBehaviour:
   pool: {fileID: 1847639490}
   player: {fileID: 326468014}
   health: 0
-  maxHealth: 100
+  maxHealth: 10
 --- !u!4 &1856136787
 Transform:
   m_ObjectHideFlags: 0

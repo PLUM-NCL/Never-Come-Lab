@@ -189,7 +189,7 @@ public class Monster : MonoBehaviour
             return;
         }
 
-        if (!isShooting && !isHit)
+        if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         {
             StartCoroutine(Shoot());
         }

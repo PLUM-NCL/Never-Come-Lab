@@ -9,7 +9,8 @@ public class GameOver : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("SampleScene");
+            string currentScene = PlayerPrefs.GetString("CurrentScene", "Unknown Scene");
+            SceneManager.LoadScene(currentScene);
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {

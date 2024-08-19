@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 4f;
     //public float playerHp = 100;
-    private bool isDie = false;
+    public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
 
@@ -42,6 +43,9 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (isDie)
+            return; 
+
         if (inputVec.magnitude > 0)
         {
             anim.speed = 1; // 애니메이션 재생 속도 정상화
@@ -130,6 +134,9 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isDie)
+            return;
+
         if (isHit == true)
             return;
 
@@ -144,7 +151,8 @@ public class Player : MonoBehaviour
         {
             isDie = true;
             Debug.Log("으앙 플레이어 죽음");
-
+            PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
+            PlayerPrefs.Save();
 
             GameManager.Instance.Invoke("GameOver", 5f);
         }
