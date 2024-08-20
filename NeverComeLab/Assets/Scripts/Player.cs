@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     Rigidbody2D rigid;
     public SpriteRenderer spriter;
 
+//블럭 밀기 관련
     private GameObject nearbyBlock = null; // 플레이어가 근접한 블럭을 추적하기 위한 변수
     public KeyCode pushKey = KeyCode.Space; // 블럭을 미는 키 설정
 
@@ -128,6 +129,8 @@ public class Player : MonoBehaviour
     //    }
     //}
 
+
+//블럭 밀기 구현
     private void PushBlock()
     {
         // 현재 위치를 미리 저장
@@ -165,6 +168,9 @@ public class Player : MonoBehaviour
             nearbyBlock = null; // 블럭과의 충돌이 끝나면 추적을 해제
         }
     }
+//블럭 밀기 구현 (여기 위까지)
+
+
     public void TakeDamage(int damage)
     {
         if (isHit == true)
