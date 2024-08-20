@@ -5,16 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
+    public FadeScript fade;
     private void Awake()
     {
-        GameManager.Instance.fade.FadeIn();
+        if (GameManager.Instance.fade == null)
+        {
+            fade = FindObjectOfType<FadeScript>();
+        }
+        else if (GameManager.Instance.fade != null)
+        {
+            fade = GameManager.Instance.fade;
+        }
+
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GameManager.Instance.fade.FadeOut();
+            fade.FadeOut();
             GameManager.Instance.health = GameManager.Instance.maxHealth;
             string currentScene = PlayerPrefs.GetString("CurrentScene", "Unknown Scene");
             SceneManager.LoadScene(currentScene);
