@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
+            if (menuSet == null)
+                return;
+
             if (menuSet.activeSelf)
                 menuSet.SetActive(false);
             else
