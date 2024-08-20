@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     private int killedMonsters = 0;
     public FadeScript fade;
+    public GameObject menuSet;
 
     [Header("# Player Info")]
     public int health;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
             Instance.player = this.player;
             Instance.pool = this.pool;
             Instance.fade = this.fade;
+            Instance.menuSet = this.menuSet;
             Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this.gameObject);
@@ -34,6 +36,27 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
+    }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (menuSet.activeSelf)
+                menuSet.SetActive(false);
+            else
+                menuSet.SetActive(true);
+        }
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("Main_Demo");
     }
 
     public void IncrementKilledMonsters()
