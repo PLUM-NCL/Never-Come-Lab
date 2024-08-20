@@ -30,7 +30,7 @@ public class GameOver : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("Stage1");
+            SceneManager.LoadScene("Main_Demo");
         }
     }
 }
