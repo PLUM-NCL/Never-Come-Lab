@@ -2,6 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+Assets/Bolt.Generated/VisualScripting.Flow/UnitOptions.db
+Assets/Bolt.Generated/VisualScripting.Flow/UnitOptions.db.meta
+Assets/Bolt.Generated/VisualScripting.Core/Property Providers
+Assets/Bolt.Generated/VisualScripting.Core/Property Providers.meta
+
+
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
