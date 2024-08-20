@@ -28,6 +28,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isDie)
+            return;
+
         if (!isDie)
         {
             inputVec.x = Input.GetAxisRaw("Horizontal");
@@ -140,7 +143,6 @@ public class Player : MonoBehaviour
         if (isHit == true)
             return;
 
-        inputVec = Vector2.zero;
         gameObject.layer = 9;
         spriter.color = new Color(1, 1, 1, 0.4f);
 
@@ -151,10 +153,16 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.health <= 0)
         {
             isDie = true;
+            inputVec = Vector2.zero;
+            rigid.velocity = Vector2.zero;
+
             anim.speed = 1;
             anim.SetTrigger("Dead");
+
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             AudioManager.instance.PlaySfx(AudioManager.Sfx.PlayerDie);
-            Debug.Log("으앙 플레이어 죽음");
+
             PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
             PlayerPrefs.Save();
 
