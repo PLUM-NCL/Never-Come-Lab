@@ -140,6 +140,7 @@ public class Player : MonoBehaviour
         if (isHit == true)
             return;
 
+        inputVec = Vector2.zero;
         gameObject.layer = 9;
         spriter.color = new Color(1, 1, 1, 0.4f);
 
@@ -150,6 +151,9 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.health <= 0)
         {
             isDie = true;
+            anim.speed = 1;
+            anim.SetTrigger("Dead");
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.PlayerDie);
             Debug.Log("으앙 플레이어 죽음");
             PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
             PlayerPrefs.Save();
