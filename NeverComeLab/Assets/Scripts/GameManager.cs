@@ -22,9 +22,10 @@ public class GameManager : MonoBehaviour
         }
         else if (Instance != this)
         {
+            Instance.player = this.player;
+            Instance.pool = this.pool;
             Destroy(this.gameObject);
         }
-
         DontDestroyOnLoad(this.gameObject);
     }
 

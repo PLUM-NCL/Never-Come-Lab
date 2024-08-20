@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
             PlayerPrefs.Save();
 
-            GameManager.Instance.Invoke("GameOver", 5f);
+            GameManager.Instance.Invoke("GameOver", 3f);
         }
 
         Invoke("OffDamaged", 0.2f);

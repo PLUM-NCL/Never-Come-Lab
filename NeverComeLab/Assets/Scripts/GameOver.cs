@@ -9,6 +9,7 @@ public class GameOver : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            GameManager.Instance.health = GameManager.Instance.maxHealth;
             string currentScene = PlayerPrefs.GetString("CurrentScene", "Unknown Scene");
             SceneManager.LoadScene(currentScene);
         }
