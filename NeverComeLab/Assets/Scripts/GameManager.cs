@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public Player player;
     private int killedMonsters = 0;
+    public FadeScript fade;
 
     [Header("# Player Info")]
     public int health;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         {
             Instance.player = this.player;
             Instance.pool = this.pool;
+            Instance.fade = this.fade;
             Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this.gameObject);
