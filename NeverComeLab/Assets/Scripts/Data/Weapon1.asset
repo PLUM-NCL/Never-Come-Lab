@@ -15,7 +15,7 @@ MonoBehaviour:
   itemType: 1
   itemId: 1
   itemName: "\uBC14\uC778\uB4DC \uBB34\uAE30"
-  ItemIcon: {fileID: 2140631066, guid: 227bf7dfd97d88844907173cfe046a2e, type: 3}
+  ItemIcon: {fileID: 21300000, guid: 657ad49696b93d446be842c72b86e0ff, type: 3}
   baseDamage: 0
-  isSelected: 0
+  isSelected: 1
   projectile: {fileID: 7950596668381060084, guid: daf1afc5a400e834a989e90bc9b93329, type: 3}
