@@ -51,18 +51,7 @@ public class GameManager : MonoBehaviour
                 menuSet.SetActive(true);
         }
         if (Input.GetKeyDown(KeyCode.R) && !player.isDie)
-            Retry();
-    }
-
-    public void Retry()
-    {
-        if (!player.isDie)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void Exit()
-    {
-        SceneManager.LoadScene("Main_Demo");
+            InGame_Menu.Retry();
     }
 
     public void IncrementKilledMonsters()

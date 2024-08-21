@@ -133,6 +133,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6860527134722435763, guid: 0b8aa50eec5608043b825a9d8bc62464, type: 3}
   m_PrefabInstance: {fileID: 388006276}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &194130177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2935286350609314403, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+  m_PrefabInstance: {fileID: 1742840707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &326468014 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6618804647149729075, guid: 8200035a9327dde4783584522d1fa327, type: 3}
@@ -1256,6 +1261,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ea88dd262e834c4eb91e23793ad432b, type: 3}
+--- !u!1 &482129292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6062453326632635156, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+  m_PrefabInstance: {fileID: 1742840707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &501658447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5669,6 +5679,8 @@ MonoBehaviour:
   player: {fileID: 326468014}
   fade: {fileID: 1416194772}
   menuSet: {fileID: 838312988}
+  retryButton: {fileID: 482129292}
+  exitButton: {fileID: 194130177}
   health: 0
   maxHealth: 10
 --- !u!4 &1856136787
