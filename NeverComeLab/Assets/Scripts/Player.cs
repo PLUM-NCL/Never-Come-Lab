@@ -30,6 +30,18 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            colliders.ForEach(n =>
+            {
+                if (n.CompareTag("Lever"))
+                    n.SendMessage("Use", SendMessageOptions.DontRequireReceiver);
+            });
+        }
+    }
+
     private void FixedUpdate()
     {
         if (isDie)

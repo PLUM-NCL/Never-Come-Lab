@@ -23,6 +23,7 @@ public class Lever : MonoBehaviour
         anim = GetComponent<Animator>();    
     }
 
+
     public void TurnOn()
     {
         if (!isOn)
