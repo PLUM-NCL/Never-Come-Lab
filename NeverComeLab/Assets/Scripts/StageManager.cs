@@ -69,7 +69,10 @@ public class StageManager : MonoBehaviour
 
             foreach (var enemy in stage.enemies)
             {
-                enemy.gameObject.SetActive(false);
+                if (enemy != null && enemy.gameObject != null)
+                {
+                    enemy.gameObject.SetActive(false);
+                }
             }
 
             if (stage.door != null)
@@ -78,15 +81,15 @@ public class StageManager : MonoBehaviour
             }
         }
 
-        // 현재 스테이지의 타일맵과 블럭, 타겟을 활성화
+        // 현재 스테이지의 타일맵, 블럭, 타겟, 몬스터를 활성화
         foreach (var tilemap in stages[stageIndex].tilemaps)
         {
-            tilemap.SetActive(true);
+            tilemap.gameObject.SetActive(true);
         }
 
         foreach (var block in stages[stageIndex].blocks)
         {
-            block.SetActive(true);
+            block.gameObject.SetActive(true);
         }
 
         foreach (var target in stages[stageIndex].targets)
@@ -100,14 +103,80 @@ public class StageManager : MonoBehaviour
         }
 
         // PuzzleManager에서 현재 스테이지의 목표 타겟 설정
-        PuzzleManager.Instance.SetCurrentTargets(stages[stageIndex].targets);
+        PuzzleManager.Instance?.SetCurrentTargets(stages[stageIndex].targets);
 
         if (stages[stageIndex].door != null)
         {
             stages[stageIndex].door.SetActive(false); // 초기에는 문을 비활성화
         }
+    }
 
-        //PuzzleManager.Instance?.SetCurrentTargets(stages[stageIndex].targets);
+    // 몬스터가 처치되었을 때 호출
+    public void OnEnemyDefeated(GameObject enemy)
+    {
+        enemy.SetActive(false);
+        CheckStageCompletion();
+    }
+
+    // 모든 몬스터가 처치되었는지 체크
+    public void CheckStageCompletion()
+    {
+        bool allEnemiesDefeated = true;
+        foreach (var enemy in stages[currentStage].enemies)
+        {
+            if (enemy != null && enemy.activeInHierarchy)
+            {
+                allEnemiesDefeated = false;
+                break;
+            }
+        }
+
+        if (allEnemiesDefeated)
+        {
+            OnStageCompleted();
+        }
+    }
+
+    // 모든 몬스터가 수면 상태인지 체크
+    public void CheckSleepStatus()
+    {
+        bool allEnemiesAsleep = true;
+        foreach (var enemy in stages[currentStage].enemies)
+        {
+            if (enemy != null && enemy.activeInHierarchy)
+            {
+                Monster monster = enemy.GetComponent<Monster>();
+                if (monster != null && !monster.IsAsleep())
+                {
+                    allEnemiesAsleep = false;
+                    break;
+                }
+            }
+        }
+
+        if (allEnemiesAsleep)
+        {
+            ActivateDoorTemporarily();
+        }
+    }
+
+    // 문을 일시적으로 활성화
+    private void ActivateDoorTemporarily()
+    {
+        if (stages[currentStage].door != null)
+        {
+            stages[currentStage].door.SetActive(true);
+            StartCoroutine(DeactivateDoorAfterTime(5f)); // 5초 후 문 비활성화
+        }
+    }
+
+    private IEnumerator DeactivateDoorAfterTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (stages[currentStage].door != null)
+        {
+            stages[currentStage].door.SetActive(false);
+        }
     }
 
     public void OnStageCompleted()
@@ -120,13 +189,14 @@ public class StageManager : MonoBehaviour
 
     public void OnDoorInteracted()
     {
+
         if (!string.IsNullOrEmpty(stages[currentStage].nextSceneName))
         {
             SceneManager.LoadScene(stages[currentStage].nextSceneName); // 씬 전환
         }
         else
         {
-            NextStage();
+            NextStage(); // 다음 스테이지로 이동
         }
     }
 
@@ -140,6 +210,7 @@ public class StageManager : MonoBehaviour
         else
         {
             Debug.Log("All stages completed!");
+            // 모든 스테이지가 완료되었을 때 추가로 처리할 로직
         }
     }
 
@@ -148,120 +219,3 @@ public class StageManager : MonoBehaviour
         return currentStage;
     }
 }
-/*
-public class StageManager : MonoBehaviour
-{
-    public static StageManager Instance; // 싱글톤 패턴으로 StageManager를 쉽게 참조할 수 있게 설정
-
-    [System.Serializable]
-    public class Stage
-    {
-        public string stageName; // 스테이지 이름 (선택 사항)
-        public GameObject[] tilemaps; // 스테이지별로 활성화할 타일맵
-        public PuzzleTarget[] targets;  // 각 스테이지의 목표 타겟 배열
-        public GameObject[] blocks;     // 각 스테이지의 블럭 배열
-        public GameObject[] enemies;    // 각 스테이지에 등장하는 몬스터 배열
-    }
-
-    [SerializeField] private Stage[] stages; // 스테이지 배열
-
-    private int currentStage = 0;
-
-    private void Awake()
-    {
-        // 싱글톤 인스턴스 설정
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject); // 이미 인스턴스가 존재하면 중복된 객체를 파괴
-        }
-    }
-
-    private void Start()
-    {
-        InitializeStage(currentStage);
-    }
-
-    // 스테이지 초기화: 타일맵, 퍼즐 구성요소 및 타겟 초기화
-    public void InitializeStage(int stageIndex)
-    {
-        if (stageIndex < 0 || stageIndex >= stages.Length)
-        {
-            Debug.LogError("Invalid stage index");
-            return;
-        }
-
-        // 모든 스테이지의 타일맵과 블럭, 타겟을 비활성화
-        foreach (var stage in stages)
-        {
-            foreach (var tilemap in stage.tilemaps)
-            {
-                tilemap.SetActive(false);
-            }
-
-            foreach (var block in stage.blocks)
-            {
-                block.SetActive(false);
-            }
-
-            foreach (var target in stage.targets)
-            {
-                target.gameObject.SetActive(false);
-            }
-
-            foreach (var enemy in stage.enemies)
-            {
-                enemy.gameObject.SetActive(false);
-            }
-        }
-
-        // 현재 스테이지의 타일맵과 블럭, 타겟을 활성화
-        foreach (var tilemap in stages[stageIndex].tilemaps)
-        {
-            tilemap.SetActive(true);
-        }
-
-        foreach (var block in stages[stageIndex].blocks)
-        {
-            block.SetActive(true);
-        }
-
-        foreach (var target in stages[stageIndex].targets)
-        {
-            target.gameObject.SetActive(true);
-        }
-
-        foreach (var enemy in stages[stageIndex].enemies)
-        {
-            enemy.gameObject.SetActive(true);
-        }
-
-        // PuzzleManager에서 현재 스테이지의 목표 타겟 설정
-        PuzzleManager.Instance.SetCurrentTargets(stages[stageIndex].targets);
-    }
-
-    // 다음 스테이지로 이동
-    public void NextStage()
-    {
-        currentStage++;
-        if (currentStage < stages.Length)
-        {
-            InitializeStage(currentStage);
-        }
-        else
-        {
-            Debug.Log("All stages completed!");
-            // 게임 완료 또는 다음 씬으로 전환
-        }
-    }
-
-    // 현재 스테이지의 인덱스를 반환
-    public int GetCurrentStage()
-    {
-        return currentStage;
-    }
-}
-*/

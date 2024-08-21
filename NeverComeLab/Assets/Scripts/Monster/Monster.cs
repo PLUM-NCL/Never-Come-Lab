@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
-    private enum State { Patrol, Chase, Return }
+    private enum State { Patrol, Chase, Return, Sleep }     //'Sleep' State added
     private State currentState = State.Patrol;
 
     private Vector3 initialPosition;
@@ -30,16 +30,16 @@ public class Monster : MonoBehaviour
         get { return monsterHp; }
         set {
             monsterHp = value;
-            if (monsterHp > 10000000) // Hp´Â 100 ÀÌ»ó ¸ø¿Ã¶ó°¨
+            if (monsterHp > 10000000) // Hpï¿½ï¿½ 100 ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½Ã¶ï¿½
             {
                 monsterHp = 100;
-                Debug.Log("Hp 100 ÇÑµµ ÃÊ°ú");
+                Debug.Log("Hp 100 ï¿½Ñµï¿½ ï¿½Ê°ï¿½");
             }
-            else if(monsterHp <= 0) // Hp°¡ 0 ÀÌÇÏ·Î ³»·Á°¡¸é Á×À½
+            else if(monsterHp <= 0) // Hpï¿½ï¿½ 0 ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             {
                 Death();
-                mark.text = "²ÙŸy";
-                Debug.Log("²ÙŸy");
+                mark.text = "ï¿½ÙŸy";
+                Debug.Log("ï¿½ÙŸy");
             }
             
         }
@@ -49,12 +49,13 @@ public class Monster : MonoBehaviour
     private float monsterAttackSpeed;
     private int monsterType;
 
-    private bool isHit = false; // °ø°Ý¹ÞÀ½?
-    private bool isShooting = false; // ¹ß»ç Áß?
-    private bool isDie = false; // Á×À½?
-    private bool isPlayerDetected = false; // ÇÃ·¹ÀÌ¾î ¹ß°ß?
-    private bool isPatrol = false; // ¼øÂû Áß?
-    private bool isBlink = false; // ¹«Àû?
+    private bool isHit = false; // ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½?
+    private bool isShooting = false; // ï¿½ß»ï¿½ ï¿½ï¿½?
+    private bool isDie = false; // ï¿½ï¿½ï¿½ï¿½?
+    private bool isPlayerDetected = false; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß°ï¿½?
+    private bool isPatrol = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½?
+    private bool isBlink = false; // ï¿½ï¿½ï¿½ï¿½?
+    private bool isAsleep = false; // sleep or not
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
@@ -79,7 +80,7 @@ public class Monster : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // ÇÃ·¹ÀÌ¾î°¡ Ç¥¸é¿¡¼­ ¿òÁ÷ÀÌ´Â °ÍÀ» ¹æÁö
+        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ Ç¥ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -104,50 +105,50 @@ public class Monster : MonoBehaviour
     private void Update()
     {
         if (isDie) 
-            return; // Á×À¸¸é µ¿ÀÛ ¾ÈÇÏµµ·Ï
+            return; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½
 
-        AnimationSet(); // »óÇÏÁÂ¿ì ¾Ö´Ï¸ÞÀÌ¼Ç
+        AnimationSet(); // ï¿½ï¿½ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½
 
-        distanceToPlayer = Vector2.Distance(transform.position, player.position); // ÇÁ·¹ÀÓ¸¶´Ù ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ °Å¸® °è»ê
+        distanceToPlayer = Vector2.Distance(transform.position, player.position); // ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
 
-        switch (currentState) // ÇöÀç »óÅÂ°¡
+        switch (currentState) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½
         {
-            case State.Patrol: // ¼øÂû ÁßÀÌ¸é
+            case State.Patrol: // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
                 Patrol();
                 break;
 
-            case State.Chase: // ÃßÀû ÁßÀÌ¸é
+            case State.Chase: // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
                 Chase();
                 break;
 
-            case State.Return: // ³õÃÄ¼­ µ¹¾Æ°¡´Â ÁßÀÌ¸é
+            case State.Return: // ï¿½ï¿½ï¿½Ä¼ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
                 Return();
                 break;
         }
     }
 
-    private void AnimationSet() // ¸ó½ºÅÍ »óÇÏÁÂ¿ì ¾Ö´Ï¸ÞÀÌ¼Ç Àû¿ë
+    private void AnimationSet() // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     {
         Vector3 velocity = agent.velocity;
         float inputX = 0f;
         float inputY = 0f;
 
-        if (velocity.x > 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // right ÀÌµ¿
+        if (velocity.x > 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // right ï¿½Ìµï¿½
         {
             inputX = 1f;
             inputY = 0f;
         }
-        else if (velocity.x < 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // left ÀÌµ¿
+        else if (velocity.x < 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // left ï¿½Ìµï¿½
         {
             inputX = -1f;
             inputY = 0f;
         }
-        else if (velocity.y > 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // back ÀÌµ¿
+        else if (velocity.y > 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // back ï¿½Ìµï¿½
         {
             inputX = 0f;
             inputY = 1f;
         }
-        else if (velocity.y < 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // forward ÀÌµ¿
+        else if (velocity.y < 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // forward ï¿½Ìµï¿½
         {
             inputX = 0f;
             inputY = -1f;
@@ -166,7 +167,8 @@ public class Monster : MonoBehaviour
             patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
 
-        if (isPlayerDetected && !GameManager.Instance.player.isHide) // ¸ó½ºÅÍ°¡ ÇÃ·¹ÀÌ¾î¸¦ °¨ÁöÇÏ¸é Chase
+        //if (isPlayerDetected && !GameManager.Instance.player.isHide) // ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ Chase
+        if( isPlayerDetected )
         {
             
             if (patrolCoroutine != null)
@@ -183,12 +185,13 @@ public class Monster : MonoBehaviour
     {
         if (!agent.enabled) return;
 
+/*
         if (GameManager.Instance.player.isHide == true)
         {
             Miss();
             return;
         }
-
+*/
         if (!isShooting && !isHit)
         {
             StartCoroutine(Shoot());
@@ -198,7 +201,7 @@ public class Monster : MonoBehaviour
             agent.SetDestination(player.position);
         }
 
-        if (distanceToPlayer > stopChasingDistance) // ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®°¡ ¸Ö¾îÁö¸é Return
+        if (distanceToPlayer > stopChasingDistance) // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ Return
         {
             Miss();
             //SetPlayerDetected(false);
@@ -226,7 +229,7 @@ public class Monster : MonoBehaviour
 
         agent.SetDestination(initialPosition);
 
-        if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // Á¦ÀÚ¸®·Î µ¹¾Æ°¡¸é Patrol
+        if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ Patrol
         {
             mark.text = "";
             currentState = State.Patrol;
@@ -234,7 +237,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void Death() // Á×À½
+    private void Death() // ï¿½ï¿½ï¿½ï¿½
     {
         if (!agent.enabled) return;
 
@@ -249,13 +252,14 @@ public class Monster : MonoBehaviour
             StopCoroutine(stopAndResume);
             stopAndResume = null;
         }
-        agent.enabled = false; // ¿¡ÀÌÀüÆ® ºñÈ°¼ºÈ­
+        agent.enabled = false; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½È°ï¿½ï¿½È­
 
-        //rigid.velocity = Vector2.zero; // ¼Óµµ ¸ØÃç
+        //rigid.velocity = Vector2.zero; // ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        monsterAnimator.SetBool("isDeath", true); // Death ¾Ö´Ï¸ÞÀÌ¼Ç °¡µ¿
+        monsterAnimator.SetBool("isDeath", true); // Death ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        Destroy(gameObject, 3f); // 3ÃÊ ÈÄ ¿ÀºêÁ§Æ® ÇÒ´ç ÇØÁ¦
+        Destroy(gameObject, 3f); // 3ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò´ï¿½ ï¿½ï¿½ï¿½ï¿½
+        StageManager.Instance.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
     }
 
     IEnumerator PatrolRoutine()
@@ -264,23 +268,23 @@ public class Monster : MonoBehaviour
         
         isPatrol = true;
 
-        // ¿ÞÂÊÀ¸·Î ÀÌµ¿
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1ÃÊ µ¿¾È ¸ØÃã
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-        // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1ÃÊ µ¿¾È ¸ØÃã
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         isPatrol = false;
 
     }
 
-    IEnumerator Shoot() // projectile ¹ß»ç
+    IEnumerator Shoot() // projectile ï¿½ß»ï¿½
     {
         if (agent.enabled)
         {
@@ -297,7 +301,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    IEnumerator StopAndResume(float delay) // delayÃÊ µ¿¾È ¸ØÃè´Ù ´Ù½Ã ¿òÁ÷ÀÓ
+    IEnumerator StopAndResume(float delay) // delayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {
         if (!agent.enabled || agent.isStopped) yield break;
 
@@ -309,7 +313,7 @@ public class Monster : MonoBehaviour
 
     }
 
-    // // »¡°£»öÀ¸·Î blink
+    // // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ blink
     //private IEnumerator BlinkEffect()
     //{
     //    Color originalColor = spriteRenderer.color;
@@ -330,39 +334,39 @@ public class Monster : MonoBehaviour
     //    spriteRenderer.color = originalColor;
     //}
 
-    // Åõ¸í+»¡°­ÇÏ°Ô blink
+    // ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ blink
     private IEnumerator BlinkEffect()
     {
         if (!agent.enabled) yield break;
 
         Color originalColor = spriteRenderer.color;
-        Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // »¡°£»ö(1, 0, 0)°ú ¹ÝÅõ¸í(¾ËÆÄ°ª 0.5)
+        Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(1, 0, 0)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ä°ï¿½ 0.5)
         float duration = 1.0f;
         float blinkInterval = 0.1f;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            // »¡°£»ö ¹ÝÅõ¸íÀ¸·Î º¯°æ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             spriteRenderer.color = blinkColor;
-            yield return new WaitForSeconds(blinkInterval); //¿©±â
+            yield return new WaitForSeconds(blinkInterval); //ï¿½ï¿½ï¿½ï¿½
 
-            // ¿ø·¡ »ö»óÀ¸·Î º¯°æ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             spriteRenderer.color = originalColor;
             yield return new WaitForSeconds(blinkInterval);
 
             elapsedTime += blinkInterval * 2;
         }
 
-        // Blink È¿°ú°¡ ³¡³­ ÈÄ ¿ø·¡ »ö»óÀ¸·Î µÇµ¹¸®±â
+        // Blink È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½
         spriteRenderer.color = originalColor;
         isBlink = false;
     }
 
     public void TakeDamage()
     {
-        Hp -= 10; // µ¥¹ÌÁö ÀÔÀ½
-        Debug.Log("³²Àº ¸ó½ºÅÍ Ã¼·Â: " + Hp);
+        Hp -= 10; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½: " + Hp);
        
         if (isBlink) return;
         isBlink = true;
@@ -387,7 +391,14 @@ public class Monster : MonoBehaviour
     {
         if (isBlink) return;
         isBlink = true;
+        isAsleep = true; // setting to sleep state
+        currentState = State.Sleep; // change Monster State as 'Sleep'
+
         StartCoroutine(BlinkEffect());
+
+        mark.text = "Zzz";
+        StageManager.Instance.CheckSleepStatus(); // Notice Sleep state to StageManager
+
         isHit = true;
         if (currentState == State.Return)
         {
@@ -402,6 +413,11 @@ public class Monster : MonoBehaviour
         stopAndResume = StartCoroutine(StopAndResume(3f));
 
         isHit = false;
+    }
+
+    public bool IsAsleep()
+    {
+        return isAsleep;
     }
 
 }
