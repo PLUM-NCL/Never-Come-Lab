@@ -166,7 +166,7 @@ public class StageManager : MonoBehaviour
         if (stages[currentStage].door != null)
         {
             stages[currentStage].door.SetActive(true);
-            StartCoroutine(DeactivateDoorAfterTime(5f)); // 5초 후 문 비활성화
+            StartCoroutine(DeactivateDoorAfterTime(10f)); // 10초 후 문 비활성화
         }
     }
 
@@ -178,7 +178,22 @@ public class StageManager : MonoBehaviour
             stages[currentStage].door.SetActive(false);
         }
     }
+    public void OnPuzzleCompleted()
+    {
+        if (stages[currentStage].door != null)
+        {
+            stages[currentStage].door.SetActive(true);  // 퍼즐 완성 시 문 활성화
+        }
+    }
 
+    public void OnPuzzleIncomplete()
+    {
+        if (stages[currentStage].door != null)
+        {
+            stages[currentStage].door.SetActive(false);  // 퍼즐이 망가지면 문 비활성화
+        }
+    }
+    
     public void OnStageCompleted()
     {
         if (stages[currentStage].door != null)

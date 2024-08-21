@@ -23,19 +23,31 @@ public class PuzzleManager : MonoBehaviour
     public void SetCurrentTargets(PuzzleTarget[] targets)
     {
         currentTargets = targets;
+        CheckPuzzleCompletion();  // 새로운 타겟이 설정될 때 퍼즐 상태 확인
     }
 
     public void CheckPuzzleCompletion()
     {
+        bool allTargetsFilled = true;
+
         foreach (var target in currentTargets)
         {
             if (!target.IsOccupied())
             {
-                return;
+                allTargetsFilled = false;
+                break;
             }
         }
 
-        Debug.Log($"Puzzle for Stage {StageManager.Instance.GetCurrentStage()} Completed!");
-        StageManager.Instance.OnStageCompleted(); // 문 활성화 및 스테이지 완료 처리
+        if (allTargetsFilled)
+        {
+            Debug.Log("Puzzle Completed!");
+            StageManager.Instance.OnPuzzleCompleted();  // 퍼즐이 완성되었을 때 StageManager에 알림
+        }
+        else
+        {
+            Debug.Log("Puzzle Incomplete");
+            StageManager.Instance.OnPuzzleIncomplete();  // 퍼즐이 망가졌을 때 StageManager에 알림
+        }
     }
 }

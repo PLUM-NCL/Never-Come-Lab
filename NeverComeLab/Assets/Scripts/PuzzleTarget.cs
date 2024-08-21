@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PuzzleTarget : MonoBehaviour
 {
-    private bool isOccupied = false; // 이 목표 위치에 블럭이 있는지 여부를 추적
-    public int stageIndex; // 이 목표 위치가 속한 스테이지의 인덱스
+    private bool isOccupied; // 이 목표 위치에 블럭이 있는지 여부를 추적
 
     private void OnTriggerEnter2D(Collider2D other)
     {
