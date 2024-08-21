@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
-    private enum State { Patrol, Chase, Return, Sleep }     //'Sleep' State added
+    private enum State { Patrol, Chase, Return }
     private State currentState = State.Patrol;
 
     private Vector3 initialPosition;
@@ -185,13 +185,12 @@ public class Monster : MonoBehaviour
     {
         if (!agent.enabled) return;
 
-/*
         if (GameManager.Instance.player.isHide == true)
         {
             Miss();
             return;
         }
-*/
+
         if (!isShooting && !isHit)
         {
             StartCoroutine(Shoot());
@@ -210,8 +209,6 @@ public class Monster : MonoBehaviour
             //stopAndResume = StartCoroutine(StopAndResume(3f));
             //currentState = State.Return;
         }
-
-        
     }
 
     private void Miss()
@@ -259,6 +256,7 @@ public class Monster : MonoBehaviour
         monsterAnimator.SetBool("isDeath", true); // Death �ִϸ��̼� ����
 
         Destroy(gameObject, 3f); // 3�� �� ������Ʈ �Ҵ� ����
+
         StageManager.Instance.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
     }
 
@@ -367,7 +365,6 @@ public class Monster : MonoBehaviour
     {
         Hp -= 10; // ������ ����
         Debug.Log("���� ���� ü��: " + Hp);
-       
         if (isBlink) return;
         isBlink = true;
         StartCoroutine(BlinkEffect());
@@ -391,8 +388,8 @@ public class Monster : MonoBehaviour
     {
         if (isBlink) return;
         isBlink = true;
+        
         isAsleep = true; // setting to sleep state
-        currentState = State.Sleep; // change Monster State as 'Sleep'
 
         StartCoroutine(BlinkEffect());
 
