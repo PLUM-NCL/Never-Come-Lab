@@ -138,6 +138,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2935286350609314403, guid: 155414691e21cd24eb3060142583a16b, type: 3}
   m_PrefabInstance: {fileID: 1742840707}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &194130182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194130177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061d33636ee7244aac77535d56e79c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &326468014 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6618804647149729075, guid: 8200035a9327dde4783584522d1fa327, type: 3}
@@ -1266,6 +1278,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6062453326632635156, guid: 155414691e21cd24eb3060142583a16b, type: 3}
   m_PrefabInstance: {fileID: 1742840707}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &482129297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 482129292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2061d33636ee7244aac77535d56e79c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &501658447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5477,7 +5501,15 @@ PrefabInstance:
     - target: {fileID: 1217128886204607734, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1856136786}
+      objectReference: {fileID: 194130182}
+    - target: {fileID: 1217128886204607734, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Exit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1217128886204607734, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGame_Menu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1265481116011543712, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5501,7 +5533,15 @@ PrefabInstance:
     - target: {fileID: 6057001478043710720, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1856136786}
+      objectReference: {fileID: 482129297}
+    - target: {fileID: 6057001478043710720, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Retry
+      objectReference: {fileID: 0}
+    - target: {fileID: 6057001478043710720, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGame_Menu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6708768723528191906, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -5597,7 +5637,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6062453326632635156, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 482129297}
+    - targetCorrespondingSourceObject: {fileID: 2935286350609314403, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 194130182}
   m_SourcePrefab: {fileID: 100100000, guid: 155414691e21cd24eb3060142583a16b, type: 3}
 --- !u!1 &1847639489
 GameObject:
@@ -5679,8 +5725,6 @@ MonoBehaviour:
   player: {fileID: 326468014}
   fade: {fileID: 1416194772}
   menuSet: {fileID: 838312988}
-  retryButton: {fileID: 482129292}
-  exitButton: {fileID: 194130177}
   health: 0
   maxHealth: 10
 --- !u!4 &1856136787
