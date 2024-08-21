@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
+    public bool isObstacleHit = false;
 
 
     public Animator anim;
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (!isDie)
+        if (!isDie && !isObstacleHit)
         {
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");
@@ -38,7 +39,6 @@ public class Player : MonoBehaviour
                 AnimReset();
             }
         }
-
         
     }
 

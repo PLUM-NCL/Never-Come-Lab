@@ -12,6 +12,7 @@ TagManager:
   - BindBullet
   - Lever
   - HideObject
+  - Clue
   layers:
   - Default
   - TransparentFX
