@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel") && !player.isDie)
         {
             if (menuSet == null)
                 return;
@@ -50,11 +50,14 @@ public class GameManager : MonoBehaviour
             else
                 menuSet.SetActive(true);
         }
+        if (Input.GetKeyDown(KeyCode.R) && !player.isDie)
+            Retry();
     }
 
     public void Retry()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (!player.isDie)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void Exit()
