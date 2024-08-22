@@ -408,7 +408,7 @@ public class Monster : MonoBehaviour
         if (isBlink) return;
         isBlink = true;
         isAsleep = true;
-        StartCoroutine(BlinkEffect());
+        //StartCoroutine(BlinkEffect());
 
         mark.text = "Zzz";
 
@@ -426,9 +426,6 @@ public class Monster : MonoBehaviour
             mark.text = "!";
         }
         stopAndResume = StartCoroutine(StopAndResume(10f));
-
-        isHit = false;
-
     }
 
     public void WakeUp()
