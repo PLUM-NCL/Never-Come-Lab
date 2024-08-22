@@ -12,4 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db540238d9149644590e83ce1a98c47a, type: 3}
   m_Name: Stage2_Boss_Stage_Entry
   m_EditorClassIdentifier: 
-  speakerData: []
+  speakerData:
+  - speakerName: "\uC758\uBB38\uC758 \uC0AC\uB0B4"
+    dialogText: "\uD0A4\uD0A4 \uB4DC\uB514\uC5B4 \uC654\uAD70.."
+  - speakerName: "\uB098"
+    dialogText: ".... \uC774 \uBAA9\uC18C\uB9AC\uB294?"
+  - speakerName: "\uC758\uBB38\uC758 \uC0AC\uB0B4"
+    dialogText: "\uB9DE\uC544~ \uBCBD \uB108\uBA38\uC5D0\uC11C \uB124\uAC00 \uC5EC\uAE30\uAE4C\uC9C0
+      \uC624\uB3C4\uB85D \uC720\uB3C4\uD588\uC9C0"
+  - speakerName: "\uB098"
+    dialogText: "\uC774\uC720\uAC00 \uBB50\uC8E0?"
+  - speakerName: "\uC758\uBB38\uC758 \uC0AC\uB0B4"
+    dialogText: "'\uC2E0'\uB2D8\uAED8\uC11C \uC5EC\uAE30\uC11C \uB110 \uC8FD\uC774\uBA74
+      \uB0A0 \uC774 \uC9C0\uC625\uC5D0\uC11C \uB0B4\uBCF4\uB0B4\uC900\uB2E4\uACE0
+      \uD558\uC168\uAC70\uB4E0!"
+  - speakerName: "\uB098"
+    dialogText: "...? \uC800\uB294 \uAE30\uB9D0\uACE0\uC0AC \uBCF4\uB294\uC911\uC778\uB370\uC694..?"
+  - speakerName: "\uB098"
+    dialogText: "\uADF8\uB7F0\uAC74 \uBAA8\uB974\uACA0\uACE0 \uC77C\uB2E8 \uB364\uBCBC!! 
+      \uC544\uBD64! \u2606"

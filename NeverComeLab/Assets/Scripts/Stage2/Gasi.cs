@@ -5,6 +5,8 @@ using UnityEngine;
 public class Gasi : MonoBehaviour
 {
     [SerializeField] Player player;
+    [SerializeField] float x;
+    [SerializeField] float y;
     Rigidbody2D playerRigid;
     private void Start()
     {
@@ -32,7 +34,7 @@ public class Gasi : MonoBehaviour
         Debug.Log($"Force Direction: {forceDirection}");
 
         // 넉백 힘을 설정, 크기를 크게 조정
-        playerRigid.AddForce(2 * new Vector2(-1,0), ForceMode2D.Impulse);
+        playerRigid.AddForce(2 * new Vector2(x, y), ForceMode2D.Impulse);
 
         Debug.Log(playerRigid.velocity);
 

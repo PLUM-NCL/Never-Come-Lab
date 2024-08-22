@@ -142,12 +142,12 @@ MonoBehaviour:
     m_PreExtrapolationMode: 0
     m_PostExtrapolationTime: 0
     m_PreExtrapolationTime: 0
-    m_DisplayName: Virtual Camera
+    m_DisplayName: Player Camera
   - m_Version: 1
     m_Start: 1.5
     m_ClipIn: 0
     m_Asset: {fileID: 4736684666800451229}
-    m_Duration: 3.533333333333335
+    m_Duration: 2.2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 4816373602754654666}
     m_EaseInDuration: 0
