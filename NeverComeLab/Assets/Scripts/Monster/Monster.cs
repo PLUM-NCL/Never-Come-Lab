@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Monster : MonoBehaviour
 {
-    private enum State { Patrol, Chase, Return }
+    private enum State { Patrol, Chase, Return, Sleep}
     private State currentState = State.Patrol;
 
     private Vector3 initialPosition;
@@ -61,7 +61,7 @@ public class Monster : MonoBehaviour
     private AudioSource monsterAudio;
 
     private float distanceToPlayer;
-    private float stopChasingDistance = 5f;
+    [SerializeField] private float stopChasingDistance = 7f;
 
     public Transform player;
     public float projectileSpeed = 5f;
@@ -70,6 +70,9 @@ public class Monster : MonoBehaviour
 
     private Coroutine patrolCoroutine;
     private Coroutine stopAndResume;
+    private Coroutine shoot;
+    private Coroutine sleep;
+    private Coroutine blink;
 
     public delegate void MonsterStateChange(Monster monster);
     public event MonsterStateChange OnDeath;
@@ -103,13 +106,11 @@ public class Monster : MonoBehaviour
         monsterAnimator = GetComponent<Animator>();
         monsterAudio = GetComponent<AudioSource>();
         rigid = GetComponent<Rigidbody2D>();
-
-        Patrol();
     }
 
     private void Update()
     {
-        if (isDie) 
+        if (isDie)
             return; // 죽으면 동작 안하도록
 
         AnimationSet(); // 상하좌우 애니메이션
@@ -127,7 +128,10 @@ public class Monster : MonoBehaviour
                 break;
 
             case State.Return: // 놓쳐서 돌아가는 중이면
+                if(isPlayerDetected) currentState= State.Chase;
                 Return();
+                break;
+            case State.Sleep:
                 break;
         }
     }
@@ -166,7 +170,7 @@ public class Monster : MonoBehaviour
     private void Patrol()
     {
         if (!agent.enabled) return;
-
+        mark.text = "";
         if (!isPatrol)
         {
             patrolCoroutine = StartCoroutine(PatrolRoutine());
@@ -181,14 +185,14 @@ public class Monster : MonoBehaviour
                 patrolCoroutine = null;
             }
             currentState = State.Chase;
-            mark.text = "!";
+            
         }
     }
 
     private void Chase()
     {
         if (!agent.enabled) return;
-
+        mark.text = "!";
         if (GameManager.Instance.player.isHide == true)
         {
             Miss();
@@ -198,23 +202,14 @@ public class Monster : MonoBehaviour
         if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         {
-            StartCoroutine(Shoot());
-        }
-        else
-        {
+            shoot = StartCoroutine(Shoot());
             agent.SetDestination(player.position);
         }
 
         if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
         {
             Miss();
-            //SetPlayerDetected(false);
-
-            //mark.text = "?";
-            //stopAndResume = StartCoroutine(StopAndResume(3f));
-            //currentState = State.Return;
         }
-
         
     }
 
@@ -235,12 +230,39 @@ public class Monster : MonoBehaviour
 
         if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // 제자리로 돌아가면 Patrol
         {
-            mark.text = "";
             currentState = State.Patrol;
             patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
     }
-
+    private void StopAllCoroutine()
+    {
+        if (patrolCoroutine != null)
+        {
+            StopCoroutine(patrolCoroutine);
+            patrolCoroutine = null;
+        }
+        if (stopAndResume != null)
+        {
+            StopCoroutine(stopAndResume);
+            stopAndResume = null;
+        }
+        if(shoot != null)
+        {
+            StopCoroutine(shoot);
+            stopAndResume = null;
+        }
+        if(blink != null)
+        {
+            StopCoroutine(blink);
+            stopAndResume = null;
+        }
+        if (sleep != null)
+        {
+            StopCoroutine(sleep);
+            stopAndResume = null;
+        }
+        
+    }
     private void Death() // 죽음
     {
         if (!agent.enabled) return;
@@ -293,7 +315,6 @@ public class Monster : MonoBehaviour
         stopAndResume = StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
         isPatrol = false;
-
     }
 
     IEnumerator Shoot() // projectile 발사
@@ -327,6 +348,25 @@ public class Monster : MonoBehaviour
         WakeUp();
     }
 
+    IEnumerator Sleep(float delay) // delay초 동안 멈췄다 다시 움직임
+    {
+        if (!agent.enabled || agent.isStopped) yield break;
+        mark.text = "Zzz";
+        StopAllCoroutine();
+        agent.isStopped = true;
+        yield return new WaitForSeconds(delay);
+        isHit = false;
+        agent.isStopped = false;
+        if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
+        {
+            Miss();
+        }
+        else
+        {
+            currentState = State.Chase;
+        }
+        WakeUp();
+    }
     // // 빨간색으로 blink
     //private IEnumerator BlinkEffect()
     //{
@@ -384,7 +424,8 @@ public class Monster : MonoBehaviour
 
         if (isBlink) return;
         isBlink = true;
-        StartCoroutine(BlinkEffect());
+        if(blink == null)
+            blink = StartCoroutine(BlinkEffect());
         isHit = true;
         if (currentState == State.Return)
         {
@@ -404,28 +445,27 @@ public class Monster : MonoBehaviour
 
     public void TakeSleep()
     {
+        currentState = State.Sleep;
         if (isDie || isAsleep) return;   // 이미 죽었거나 잠들어 있으면 아무 작업도 하지 않음
-        if (isBlink) return;
-        isBlink = true;
+        //if (isBlink) return;
+        //isBlink = true;
         isAsleep = true;
         //StartCoroutine(BlinkEffect());
-
-        mark.text = "Zzz";
 
         OnSleep?.Invoke(this); // 스테이지 매니저에 잠들었음을 알림
 
         isHit = true;
-        if (currentState == State.Return)
-        {
-            currentState = State.Chase;
-            if (patrolCoroutine != null)
-            {
-                StopCoroutine(PatrolRoutine());
-                patrolCoroutine = null;
-            }
-            mark.text = "!";
-        }
-        stopAndResume = StartCoroutine(StopAndResume(10f));
+        //if (currentState == State.Sleep)
+        //{
+        //    currentState = State.Chase;
+        //    if (patrolCoroutine != null)
+        //    {
+        //        StopCoroutine(PatrolRoutine());
+        //        patrolCoroutine = null;
+        //    }
+        //    mark.text = "!";
+        //}
+        sleep = StartCoroutine(Sleep(10f));
     }
 
     public void WakeUp()
