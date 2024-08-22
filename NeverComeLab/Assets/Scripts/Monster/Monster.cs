@@ -38,8 +38,8 @@ public class Monster : MonoBehaviour
             else if(monsterHp <= 0) // Hp가 0 이하로 내려가면 죽음
             {
                 Death();
-                mark.text = "꾸y";
-                Debug.Log("꾸y");
+                mark.text = "꾸엑";
+                Debug.Log("꾸엑");
             }
             
         }
@@ -399,6 +399,7 @@ public class Monster : MonoBehaviour
         stopAndResume = StartCoroutine(StopAndResume(1f));
         AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
         
+        isHit = false;
     }
 
     public void TakeSleep()
@@ -426,6 +427,21 @@ public class Monster : MonoBehaviour
         }
         stopAndResume = StartCoroutine(StopAndResume(10f));
 
+        isHit = false;
+
     }
+
+    public void WakeUp()
+    {
+        if (isDie || !isAsleep) return; // 죽었거나 잠들어 있지 않으면 아무 작업도 하지 않음
+        isAsleep = false;
+        OnWake?.Invoke(this); // 스테이지 매니저에 깨어났음을 알림
+    }
+
+    public bool IsAsleep()
+    {
+        return isAsleep;
+    }
+
 
 }
