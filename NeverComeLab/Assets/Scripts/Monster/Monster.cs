@@ -282,7 +282,7 @@ public class Monster : MonoBehaviour
 
     IEnumerator Shoot() // projectile น฿ป็
     {
-        if (agent.enabled)
+        if (agent.enabled && !isHit)
         {
             isShooting = true;
 
@@ -306,6 +306,7 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         agent.isStopped = false;
+        isHit = false;
 
     }
 
@@ -380,7 +381,7 @@ public class Monster : MonoBehaviour
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
         AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
-        isHit = false;
+        
     }
 
     public void TakeSleep()
@@ -401,7 +402,5 @@ public class Monster : MonoBehaviour
         }
         stopAndResume = StartCoroutine(StopAndResume(10f));
 
-        isHit = false;
     }
-
 }
