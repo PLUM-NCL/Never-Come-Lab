@@ -59,6 +59,7 @@ public class Monster : MonoBehaviour
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
+    private StageManager stageManager;      //StageManager Singleton removed
 
     private float distanceToPlayer;
     private float stopChasingDistance = 5f;
@@ -74,6 +75,12 @@ public class Monster : MonoBehaviour
     public void SetPlayerDetected(bool detected)
     {
         isPlayerDetected = detected;
+    }
+    
+    // StageManager를 Monster에 전달하는 메서드
+    public void SetStageManager(StageManager manager)
+    {
+        stageManager = manager;
     }
 
     private void Awake()
@@ -257,7 +264,7 @@ public class Monster : MonoBehaviour
 
         Destroy(gameObject, 3f); // 3�� �� ������Ʈ �Ҵ� ����
 
-        StageManager.Instance.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
+        stageManager.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
     }
 
     IEnumerator PatrolRoutine()
@@ -394,7 +401,7 @@ public class Monster : MonoBehaviour
         StartCoroutine(BlinkEffect());
 
         mark.text = "Zzz";
-        StageManager.Instance.CheckSleepStatus(); // Notice Sleep state to StageManager
+        stageManager.CheckSleepStatus(); // Notice Sleep state to StageManager
 
         isHit = true;
         if (currentState == State.Return)
