@@ -74,6 +74,7 @@ public class Monster : MonoBehaviour
     public delegate void MonsterStateChange(Monster monster);
     public event MonsterStateChange OnDeath;
     public event MonsterStateChange OnSleep;
+    public event MonsterStateChange OnWake;
 
     public void SetPlayerDetected(bool detected)
     {
@@ -314,6 +315,7 @@ public class Monster : MonoBehaviour
 
         agent.isStopped = false;
 
+        WakeUp();
     }
 
     // // 빨간색으로 blink
@@ -392,10 +394,13 @@ public class Monster : MonoBehaviour
 
     public void TakeSleep()
     {
+        if (isAsleep) return;   // 이미 잠들어 있으면 아무 작업도 하지 않음
         if (isBlink) return;
         isBlink = true;
         isAsleep = true;
         StartCoroutine(BlinkEffect());
+
+        mark.text = "Zzz";
 
         OnSleep?.Invoke(this); // 스테이지 매니저에 잠들었음을 알림
 
@@ -410,9 +415,17 @@ public class Monster : MonoBehaviour
             }
             mark.text = "!";
         }
-        stopAndResume = StartCoroutine(StopAndResume(3f));
+        stopAndResume = StartCoroutine(StopAndResume(15f));
 
         isHit = false;
+    }
+
+    public void WakeUp()
+    {
+        if (!isAsleep) return;
+
+        isAsleep = false;
+        OnWake?.Invoke(this); // 스테이지 매니저에 깨어났음을 알림
     }
 
     public bool IsAsleep()
