@@ -261,6 +261,13 @@ public class Monster : MonoBehaviour
 
         monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
 
+        // 몬스터가 죽을 때 수면 상태를 먼저 해제합니다.
+        if (isAsleep)
+        {
+            isAsleep = false;
+            OnWake?.Invoke(this); // 몬스터가 죽으면 수면 상태를 해제하고 깨어남 처리
+        }
+
         OnDeath?.Invoke(this); // 스테이지 매니저에 죽음을 알림
 
         Destroy(gameObject, 3f); // 3초 후 오브젝트 할당 해제
@@ -394,7 +401,7 @@ public class Monster : MonoBehaviour
 
     public void TakeSleep()
     {
-        if (isAsleep) return;   // 이미 잠들어 있으면 아무 작업도 하지 않음
+        if (isDie || isAsleep) return;   // 이미 죽었거나 잠들어 있으면 아무 작업도 하지 않음
         if (isBlink) return;
         isBlink = true;
         isAsleep = true;
@@ -422,8 +429,7 @@ public class Monster : MonoBehaviour
 
     public void WakeUp()
     {
-        if (!isAsleep) return;
-
+        if (isDie || !isAsleep) return; // 죽었거나 잠들어 있지 않으면 아무 작업도 하지 않음
         isAsleep = false;
         OnWake?.Invoke(this); // 스테이지 매니저에 깨어났음을 알림
     }

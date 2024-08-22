@@ -120,6 +120,12 @@ public class StageManager : MonoBehaviour
     // 몬스터가 죽었을 때 호출되는 메서드
     private void HandleMonsterDeath(Monster monster)
     {
+        // 죽은 몬스터가 수면 상태였다면 수면 상태를 해제하고 asleepEnemies를 감소시킴
+        if (monster.IsAsleep())
+        {
+            asleepEnemies--;
+        }
+
         remainingEnemies--;
         CheckDoorStatus();
     }
@@ -141,8 +147,8 @@ public class StageManager : MonoBehaviour
     // 문 상태를 체크하고 활성화 또는 비활성화
     private void CheckDoorStatus()
     {
-        // 문을 활성화할 조건
-        if (asleepEnemies == remainingEnemies || remainingEnemies == 0)
+        // 남은 적이 없거나, 모든 남은 적이 수면 상태인 경우 문을 활성화
+        if (remainingEnemies == 0 || asleepEnemies == remainingEnemies)
         {
             ActivateDoor();
         }
