@@ -15,6 +15,4 @@ public class InGame_Menu : MonoBehaviour
     {
         SceneManager.LoadScene("Main_Demo");
     }
-
-    
 }

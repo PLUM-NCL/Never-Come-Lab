@@ -249,8 +249,8 @@ public class Monster : MonoBehaviour
             StopCoroutine(stopAndResume);
             stopAndResume = null;
         }
-        agent.enabled = false; // 에이전트 비활성화
-
+        //agent.enabled = false; // 에이전트 비활성화
+        stopAndResume = StartCoroutine(StopAndResume(3f));
         //rigid.velocity = Vector2.zero; // 속도 멈춰
 
         monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
@@ -282,7 +282,7 @@ public class Monster : MonoBehaviour
 
     IEnumerator Shoot() // projectile 발사
     {
-        if (agent.enabled)
+        if (agent.enabled && !isHit)
         {
             isShooting = true;
 
@@ -306,6 +306,7 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         agent.isStopped = false;
+        isHit = false;
 
     }
 
@@ -380,7 +381,7 @@ public class Monster : MonoBehaviour
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
         AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
-        isHit = false;
+        
     }
 
     public void TakeSleep()
@@ -399,9 +400,7 @@ public class Monster : MonoBehaviour
             }
             mark.text = "!";
         }
-        stopAndResume = StartCoroutine(StopAndResume(3f));
+        stopAndResume = StartCoroutine(StopAndResume(10f));
 
-        isHit = false;
     }
-
 }

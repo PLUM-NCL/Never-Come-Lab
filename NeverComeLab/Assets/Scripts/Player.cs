@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
+    public bool isStop = false;
+    public bool isObstacleHit = false;
 
 
     public Animator anim;
@@ -44,10 +46,17 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDie)
+        if (isDie || isStop == true)
+        {
+            AnimReset();
+            inputVec = Vector2.zero;
+            rigid.velocity = Vector2.zero;
+            anim.speed = 0;
             return;
+        }
+            
 
-        if (!isDie)
+        if (!isDie && !isObstacleHit)
         {
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");

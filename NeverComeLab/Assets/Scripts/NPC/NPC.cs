@@ -5,30 +5,34 @@ using UnityEngine;
 public abstract class NPC : MonoBehaviour, Iinteractable
 {
     [SerializeField] private SpriteRenderer interactCheckSprite;
-    private Transform playerTransform;
+    private Player player;
   
     private const float INTERACT_DISTANCE = 2f;
 
     protected bool isTalkable = true;
     void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        player = FindObjectOfType<Player>();
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsInteract())
         {
+            
             Interact();
+            player.isStop = true;
         }
 
         if (interactCheckSprite.gameObject.activeSelf && !IsInteract() || !isTalkable)
         {
             interactCheckSprite.gameObject.SetActive(false);
+            player.isStop = false;
         }
 
         else if(!interactCheckSprite.gameObject.activeSelf && IsInteract())
         {
             interactCheckSprite.gameObject.SetActive(true);
+            
         }
     }
 
@@ -36,7 +40,7 @@ public abstract class NPC : MonoBehaviour, Iinteractable
 
     protected bool IsInteract()
     {
-        if (Vector2.Distance(playerTransform.position, transform.position) < INTERACT_DISTANCE && isTalkable)
+        if (Vector2.Distance(player.transform.position, transform.position) < INTERACT_DISTANCE && isTalkable)
         {
             return true;
         }
