@@ -48,6 +48,8 @@ public class Player : MonoBehaviour
     {
         if (isDie || isStop == true)
         {
+            AnimReset();
+            inputVec = Vector2.zero;
             rigid.velocity = Vector2.zero;
             anim.speed = 0;
             return;
