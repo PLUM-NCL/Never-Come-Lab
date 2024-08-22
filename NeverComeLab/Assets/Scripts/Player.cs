@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public Vector2 inputVec;
     public float speed = 4f;
     //public float playerHp = 100;
-    private bool isDie = false;
+    public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
 

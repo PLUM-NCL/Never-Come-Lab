@@ -11,8 +11,8 @@ public class Baker : MonoBehaviour
     private NavMeshModifier navModifier;
     void Start()
     {
-        navSurface = FindObjectOfType<NavMeshSurface>();
         navModifier = GetComponent<NavMeshModifier>();
+        navSurface = FindObjectOfType<NavMeshSurface>();
         DynamicBake("Not Walkable");
     }
 

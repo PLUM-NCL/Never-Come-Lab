@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Center: {x: 4.670249, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2047
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -420,7 +420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242344490}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7069834, y: 0, z: 0, w: 0.70723015}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -5.0792685, y: -1.3038911, z: 0.06366431}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -441,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1925319239129126521, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3320917354551095441, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_IsTrigger
@@ -452,8 +452,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e9bc5775c751af9419cecc3bccee4f72, type: 2}
+    - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4954915168514474542, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -502,10 +510,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4954915168514474542, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
 --- !u!1001 &332788250
 PrefabInstance:
@@ -2723,7 +2728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1925319239129126521, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3320917354551095441, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_IsTrigger
@@ -2734,8 +2739,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e9bc5775c751af9419cecc3bccee4f72, type: 2}
+    - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4954915168514474542, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2784,10 +2797,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4954915168514474542, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
 --- !u!1 &905943495 stripped
 GameObject:
@@ -2937,7 +2947,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020a4eb8139ef548b7c38222006fc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageIndex: 1
 --- !u!1 &999085073
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,7 +3273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020a4eb8139ef548b7c38222006fc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageIndex: 1
 --- !u!61 &1163707721
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3497,7 +3505,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1281905841
 Transform:
   m_ObjectHideFlags: 0
@@ -3786,8 +3794,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e9bc5775c751af9419cecc3bccee4f72, type: 2}
+    - target: {fileID: 3908121424751230003, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_hasFontAssetChanged
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4954915168514474542, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6135424395035700388, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8072,7 +8088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020a4eb8139ef548b7c38222006fc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageIndex: 0
 --- !u!1 &1764694165
 GameObject:
   m_ObjectHideFlags: 0
@@ -8104,7 +8119,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6020a4eb8139ef548b7c38222006fc41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageIndex: 1
 --- !u!61 &1764694167
 BoxCollider2D:
   m_ObjectHideFlags: 0

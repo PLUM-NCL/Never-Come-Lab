@@ -30,16 +30,16 @@ public class Monster : MonoBehaviour
         get { return monsterHp; }
         set {
             monsterHp = value;
-            if (monsterHp > 10000000) // Hp�� 100 �̻� ���ö�
+            if (monsterHp > 10000000) // Hp는 100 이상 못올라감
             {
                 monsterHp = 100;
-                Debug.Log("Hp 100 �ѵ� �ʰ�");
+                Debug.Log("Hp 100 한도 초과");
             }
-            else if(monsterHp <= 0) // Hp�� 0 ���Ϸ� �������� ����
+            else if(monsterHp <= 0) // Hp가 0 이하로 내려가면 죽음
             {
                 Death();
-                mark.text = "�ٟy";
-                Debug.Log("�ٟy");
+                mark.text = "꾸y";
+                Debug.Log("꾸y");
             }
             
         }
@@ -49,17 +49,16 @@ public class Monster : MonoBehaviour
     private float monsterAttackSpeed;
     private int monsterType;
 
-    private bool isHit = false; // ���ݹ���?
-    private bool isShooting = false; // �߻� ��?
-    private bool isDie = false; // ����?
-    private bool isPlayerDetected = false; // �÷��̾� �߰�?
-    private bool isPatrol = false; // ���� ��?
-    private bool isBlink = false; // ����?
-    private bool isAsleep = false; // sleep or not
+    private bool isHit = false; // 공격받음?
+    private bool isShooting = false; // 발사 중?
+    private bool isDie = false; // 죽음?
+    private bool isPlayerDetected = false; // 플레이어 발견?
+    private bool isPatrol = false; // 순찰 중?
+    private bool isBlink = false; // 무적?
+    private bool isAsleep = false;  // 잠들었는가?
 
     private Animator monsterAnimator;
     private AudioSource monsterAudio;
-    private StageManager stageManager;      //StageManager Singleton removed
 
     private float distanceToPlayer;
     private float stopChasingDistance = 5f;
@@ -72,22 +71,20 @@ public class Monster : MonoBehaviour
     private Coroutine patrolCoroutine;
     private Coroutine stopAndResume;
 
+    public delegate void MonsterStateChange(Monster monster);
+    public event MonsterStateChange OnDeath;
+    public event MonsterStateChange OnSleep;
+
     public void SetPlayerDetected(bool detected)
     {
         isPlayerDetected = detected;
-    }
-    
-    // StageManager를 Monster에 전달하는 메서드
-    public void SetStageManager(StageManager manager)
-    {
-        stageManager = manager;
     }
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
 
-        // �÷��̾ ǥ�鿡�� �����̴� ���� ����
+        // 플레이어가 표면에서 움직이는 것을 방지
         agent.updateRotation = false;
         agent.updateUpAxis = false;
     }
@@ -112,50 +109,50 @@ public class Monster : MonoBehaviour
     private void Update()
     {
         if (isDie) 
-            return; // ������ ���� ���ϵ���
+            return; // 죽으면 동작 안하도록
 
-        AnimationSet(); // �����¿� �ִϸ��̼�
+        AnimationSet(); // 상하좌우 애니메이션
 
-        distanceToPlayer = Vector2.Distance(transform.position, player.position); // �����Ӹ��� �÷��̾�� ���� ���� �Ÿ� ���
+        distanceToPlayer = Vector2.Distance(transform.position, player.position); // 프레임마다 플레이어와 몬스터 사이 거리 계산
 
-        switch (currentState) // ���� ���°�
+        switch (currentState) // 현재 상태가
         {
-            case State.Patrol: // ���� ���̸�
+            case State.Patrol: // 순찰 중이면
                 Patrol();
                 break;
 
-            case State.Chase: // ���� ���̸�
+            case State.Chase: // 추적 중이면
                 Chase();
                 break;
 
-            case State.Return: // ���ļ� ���ư��� ���̸�
+            case State.Return: // 놓쳐서 돌아가는 중이면
                 Return();
                 break;
         }
     }
 
-    private void AnimationSet() // ���� �����¿� �ִϸ��̼� ����
+    private void AnimationSet() // 몬스터 상하좌우 애니메이션 적용
     {
         Vector3 velocity = agent.velocity;
         float inputX = 0f;
         float inputY = 0f;
 
-        if (velocity.x > 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // right �̵�
+        if (velocity.x > 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // right 이동
         {
             inputX = 1f;
             inputY = 0f;
         }
-        else if (velocity.x < 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // left �̵�
+        else if (velocity.x < 0f && Mathf.Abs(velocity.y) < Mathf.Abs(velocity.x)) // left 이동
         {
             inputX = -1f;
             inputY = 0f;
         }
-        else if (velocity.y > 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // back �̵�
+        else if (velocity.y > 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // back 이동
         {
             inputX = 0f;
             inputY = 1f;
         }
-        else if (velocity.y < 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // forward �̵�
+        else if (velocity.y < 0f && Mathf.Abs(velocity.y) > Mathf.Abs(velocity.x)) // forward 이동
         {
             inputX = 0f;
             inputY = -1f;
@@ -174,8 +171,7 @@ public class Monster : MonoBehaviour
             patrolCoroutine = StartCoroutine(PatrolRoutine());
         }
 
-        //if (isPlayerDetected && !GameManager.Instance.player.isHide) // ���Ͱ� �÷��̾ �����ϸ� Chase
-        if( isPlayerDetected )
+        if (isPlayerDetected && !GameManager.Instance.player.isHide) // 몬스터가 플레이어를 감지하면 Chase
         {
             
             if (patrolCoroutine != null)
@@ -198,7 +194,7 @@ public class Monster : MonoBehaviour
             return;
         }
 
-        if (!isShooting && !isHit)
+        if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         {
             StartCoroutine(Shoot());
         }
@@ -207,7 +203,7 @@ public class Monster : MonoBehaviour
             agent.SetDestination(player.position);
         }
 
-        if (distanceToPlayer > stopChasingDistance) // �÷��̾���� �Ÿ��� �־����� Return
+        if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
         {
             Miss();
             //SetPlayerDetected(false);
@@ -216,6 +212,8 @@ public class Monster : MonoBehaviour
             //stopAndResume = StartCoroutine(StopAndResume(3f));
             //currentState = State.Return;
         }
+
+        
     }
 
     private void Miss()
@@ -233,7 +231,7 @@ public class Monster : MonoBehaviour
 
         agent.SetDestination(initialPosition);
 
-        if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // ���ڸ��� ���ư��� Patrol
+        if (Vector2.Distance(transform.position, initialPosition) < 0.01f) // 제자리로 돌아가면 Patrol
         {
             mark.text = "";
             currentState = State.Patrol;
@@ -241,7 +239,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    private void Death() // ����
+    private void Death() // 죽음
     {
         if (!agent.enabled) return;
 
@@ -256,24 +254,15 @@ public class Monster : MonoBehaviour
             StopCoroutine(stopAndResume);
             stopAndResume = null;
         }
-        agent.enabled = false; // ������Ʈ ��Ȱ��ȭ
+        agent.enabled = false; // 에이전트 비활성화
 
-        //rigid.velocity = Vector2.zero; // �ӵ� ����
+        //rigid.velocity = Vector2.zero; // 속도 멈춰
 
-        monsterAnimator.SetBool("isDeath", true); // Death �ִϸ��̼� ����
+        monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
 
-        if (stageManager != null)
-        {
-            stageManager.OnEnemyDefeated(gameObject); // StageManager에 알림
-        }
-        else
-        {
-            Debug.LogError("StageManager is not assigned to Monster.");
-        }
+        OnDeath?.Invoke(this); // 스테이지 매니저에 죽음을 알림
 
-        Destroy(gameObject, 3f); // 3�� �� ������Ʈ �Ҵ� ����
-
-        //stageManager.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
+        Destroy(gameObject, 3f); // 3초 후 오브젝트 할당 해제
     }
 
     IEnumerator PatrolRoutine()
@@ -282,23 +271,23 @@ public class Monster : MonoBehaviour
         
         isPatrol = true;
 
-        // �������� �̵�
+        // 왼쪽으로 이동
         agent.SetDestination(new Vector3(initialPosition.x - 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1�� ���� ����
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
-        // ���������� �̵�
+        // 오른쪽으로 이동
         agent.SetDestination(new Vector3(initialPosition.x + 2, initialPosition.y, initialPosition.z));
         yield return new WaitUntil(() => !agent.pathPending && agent.remainingDistance <= agent.stoppingDistance);
 
-        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1�� ���� ����
+        stopAndResume = StartCoroutine(StopAndResume(1f)); // 1초 동안 멈춤
 
         isPatrol = false;
 
     }
 
-    IEnumerator Shoot() // projectile �߻�
+    IEnumerator Shoot() // projectile 발사
     {
         if (agent.enabled)
         {
@@ -315,7 +304,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    IEnumerator StopAndResume(float delay) // delay�� ���� ����� �ٽ� ������
+    IEnumerator StopAndResume(float delay) // delay초 동안 멈췄다 다시 움직임
     {
         if (!agent.enabled || agent.isStopped) yield break;
 
@@ -327,7 +316,7 @@ public class Monster : MonoBehaviour
 
     }
 
-    // // ���������� blink
+    // // 빨간색으로 blink
     //private IEnumerator BlinkEffect()
     //{
     //    Color originalColor = spriteRenderer.color;
@@ -348,39 +337,40 @@ public class Monster : MonoBehaviour
     //    spriteRenderer.color = originalColor;
     //}
 
-    // ����+�����ϰ� blink
+    // 투명+빨강하게 blink
     private IEnumerator BlinkEffect()
     {
         if (!agent.enabled) yield break;
 
         Color originalColor = spriteRenderer.color;
-        Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // ������(1, 0, 0)�� ������(���İ� 0.5)
+        Color blinkColor = new Color(1f, 0f, 0f, 0.5f); // 빨간색(1, 0, 0)과 반투명(알파값 0.5)
         float duration = 1.0f;
         float blinkInterval = 0.1f;
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
         {
-            // ������ ���������� ����
+            // 빨간색 반투명으로 변경
             spriteRenderer.color = blinkColor;
-            yield return new WaitForSeconds(blinkInterval); //����
+            yield return new WaitForSeconds(blinkInterval); //여기
 
-            // ���� �������� ����
+            // 원래 색상으로 변경
             spriteRenderer.color = originalColor;
             yield return new WaitForSeconds(blinkInterval);
 
             elapsedTime += blinkInterval * 2;
         }
 
-        // Blink ȿ���� ���� �� ���� �������� �ǵ�����
+        // Blink 효과가 끝난 후 원래 색상으로 되돌리기
         spriteRenderer.color = originalColor;
         isBlink = false;
     }
 
     public void TakeDamage()
     {
-        Hp -= 10; // ������ ����
-        Debug.Log("���� ���� ü��: " + Hp);
+        Hp -= 10; // 데미지 입음
+        Debug.Log("남은 몬스터 체력: " + Hp);
+
         if (isBlink) return;
         isBlink = true;
         StartCoroutine(BlinkEffect());
@@ -404,13 +394,10 @@ public class Monster : MonoBehaviour
     {
         if (isBlink) return;
         isBlink = true;
-        
-        isAsleep = true; // setting to sleep state
-
+        isAsleep = true;
         StartCoroutine(BlinkEffect());
 
-        mark.text = "Zzz";
-        stageManager.CheckSleepStatus(); // Notice Sleep state to StageManager
+        OnSleep?.Invoke(this); // 스테이지 매니저에 잠들었음을 알림
 
         isHit = true;
         if (currentState == State.Return)
