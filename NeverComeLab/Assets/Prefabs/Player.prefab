@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputVec: {x: 0, y: 0}
   speed: 3
+  isDie: 0
   isHit: 0
   isHide: 0
   anim: {fileID: 0}
