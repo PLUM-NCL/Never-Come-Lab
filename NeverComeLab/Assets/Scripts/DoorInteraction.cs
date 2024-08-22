@@ -14,10 +14,20 @@ public class DoorInteraction : MonoBehaviour
 
     void Update()
     {
+        if (stageManager == null)
+        {
+            Debug.LogError("StageManager is not assigned to DoorInteraction.");
+            return; // stageManager가 null이면 Update를 실행하지 않음
+        }
+
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
         {
             stageManager.OnDoorInteracted(); // 문과 상호작용 시 StageManager에 알림
         }
+        /*if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
+        {
+            stageManager.OnDoorInteracted(); // 문과 상호작용 시 StageManager에 알림
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D other)

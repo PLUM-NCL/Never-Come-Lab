@@ -262,9 +262,18 @@ public class Monster : MonoBehaviour
 
         monsterAnimator.SetBool("isDeath", true); // Death �ִϸ��̼� ����
 
+        if (stageManager != null)
+        {
+            stageManager.OnEnemyDefeated(gameObject); // StageManager에 알림
+        }
+        else
+        {
+            Debug.LogError("StageManager is not assigned to Monster.");
+        }
+
         Destroy(gameObject, 3f); // 3�� �� ������Ʈ �Ҵ� ����
 
-        stageManager.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
+        //stageManager.OnEnemyDefeated(gameObject); // When Monster died, notice it to StageManager
     }
 
     IEnumerator PatrolRoutine()

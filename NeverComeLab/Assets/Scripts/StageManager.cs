@@ -28,63 +28,86 @@ public class StageManager : MonoBehaviour
     }
 
     public void InitializeStage(int stageIndex)
+{
+    if (stageIndex < 0 || stageIndex >= stages.Length)
     {
-        if (stageIndex < 0 || stageIndex >= stages.Length)
-        {
-            Debug.LogError("Invalid stage index");
-            return;
-        }
-
-        // 이전 스테이지 비활성화
-        foreach (var stage in stages)
-        {
-            SetStageActive(stage, false);
-        }
-
-        // 현재 스테이지 활성화
-        SetStageActive(stages[stageIndex], true);
-
-        // PuzzleManager에 현재 스테이지의 타겟 설정
-        PuzzleManager puzzleManager = FindObjectOfType<PuzzleManager>();
-        if (puzzleManager != null)
-        {
-            puzzleManager.SetCurrentTargets(stages[stageIndex].targets, this); // StageManager 참조 전달
-        }
-
-        // 문 비활성화
-        if (stages[stageIndex].door != null)
-            stages[stageIndex].door.SetActive(false);
+        Debug.LogError("Invalid stage index");
+        return;
     }
 
-    private void SetStageActive(Stage stage, bool isActive)
+    // 이전 스테이지 비활성화
+    foreach (var stage in stages)
     {
-        foreach (var tilemap in stage.tilemaps)
-        {
-            if (tilemap != null)
-                tilemap.SetActive(isActive);
-        }
-
-        foreach (var block in stage.blocks)
-        {
-            if (block != null)
-                block.SetActive(isActive);
-        }
-
-        foreach (var target in stage.targets)
-        {
-            if (target != null)
-                target.gameObject.SetActive(isActive);
-        }
-
-        foreach (var enemy in stage.enemies)
-        {
-            if (enemy != null)
-                enemy.SetActive(isActive);
-        }
-
-        if (stage.door != null)
-            stage.door.SetActive(isActive);
+        SetStageActive(stage, false);
     }
+
+    // 현재 스테이지 활성화
+    SetStageActive(stages[stageIndex], true);
+
+    // PuzzleManager에 현재 스테이지의 타겟 설정
+    PuzzleManager puzzleManager = FindObjectOfType<PuzzleManager>();
+    if (puzzleManager != null)
+    {
+        puzzleManager.SetCurrentTargets(stages[stageIndex].targets, this); // StageManager 참조 전달
+    }
+
+    // 문 비활성화 및 StageManager 할당
+    if (stages[stageIndex].door != null)
+    {
+        stages[stageIndex].door.SetActive(false);
+
+        // DoorInteraction 컴포넌트에 StageManager 할당
+        DoorInteraction doorInteraction = stages[stageIndex].door.GetComponent<DoorInteraction>();
+        if (doorInteraction != null)
+        {
+            doorInteraction.SetStageManager(this); // StageManager를 DoorInteraction에 할당
+        }
+    }
+    
+    // 각 Monster 오브젝트에 StageManager 할당
+    foreach (var enemy in stages[stageIndex].enemies)
+    {
+        if (enemy != null)
+        {
+            Monster monster = enemy.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.SetStageManager(this); // Monster에 StageManager 할당
+            }
+        }
+    }
+}
+
+private void SetStageActive(Stage stage, bool isActive)
+{
+    foreach (var tilemap in stage.tilemaps)
+    {
+        if (tilemap != null)
+            tilemap.SetActive(isActive);
+    }
+
+    foreach (var block in stage.blocks)
+    {
+        if (block != null)
+            block.SetActive(isActive);
+    }
+
+    foreach (var target in stage.targets)
+    {
+        if (target != null)
+            target.gameObject.SetActive(isActive);
+    }
+
+    foreach (var enemy in stage.enemies)
+    {
+        if (enemy != null)
+            enemy.SetActive(isActive);
+    }
+
+    if (stage.door != null)
+        stage.door.SetActive(isActive);
+}
+
 
     /*
     public static StageManager Instance; // 싱글톤 패턴으로 StageManager를 쉽게 참조할 수 있게 설정
