@@ -396,7 +396,7 @@ public class Monster : MonoBehaviour
             }
             mark.text = "!";
         }
-        stopAndResume = StartCoroutine(StopAndResume(3f));
+        stopAndResume = StartCoroutine(StopAndResume(10f));
 
         isHit = false;
     }

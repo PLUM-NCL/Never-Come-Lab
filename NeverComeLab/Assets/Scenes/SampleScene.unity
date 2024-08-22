@@ -1935,6 +1935,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6743395ed38e8ff4599ab53b9e92f255, type: 2}
+    - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
       propertyPath: m_SortingLayer
       value: 3
       objectReference: {fileID: 0}
@@ -1945,6 +1949,10 @@ PrefabInstance:
     - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
       propertyPath: m_SortingLayerID
       value: 607328335
+      objectReference: {fileID: 0}
+    - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2226,6 +2234,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6743395ed38e8ff4599ab53b9e92f255, type: 2}
+    - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
       propertyPath: m_SortingLayer
       value: 3
       objectReference: {fileID: 0}
@@ -2236,6 +2248,10 @@ PrefabInstance:
     - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
       propertyPath: m_SortingLayerID
       value: 607328335
+      objectReference: {fileID: 0}
+    - target: {fileID: 8356690882932029235, guid: f3121b83222c3d74c9512184a242334c, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2517,7 +2533,7 @@ MonoBehaviour:
   m_VoxelSize: 0.022
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
-  m_NavMeshData: {fileID: 23800000, guid: f361b039f6a3b7448b893fbcc5a99d24, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 36dcb94c9d9b0394fb66db94f172f4ab, type: 2}
 --- !u!4 &1480676244
 Transform:
   m_ObjectHideFlags: 0
