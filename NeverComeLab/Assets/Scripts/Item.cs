@@ -14,8 +14,6 @@ public class Item : MonoBehaviour
 
     Image icon;
     Text textLevel;
-    //GameObject newWeapon;
-
 
     private void Awake()
     {
@@ -24,8 +22,8 @@ public class Item : MonoBehaviour
 
         Text[] texts = GetComponentsInChildren<Text>();
         //player = GameManager.Instance.player;
-
     }
+
 
     public void OnClick()
     {

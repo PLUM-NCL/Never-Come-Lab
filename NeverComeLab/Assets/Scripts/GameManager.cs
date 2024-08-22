@@ -50,8 +50,17 @@ public class GameManager : MonoBehaviour
             else
                 menuSet.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.R) && !player.isDie)
+        else if (Input.GetKeyDown(KeyCode.R) && !player.isDie)
             InGame_Menu.Retry();
+
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                GameObject.Find("Weapon0").GetComponent<Item>().OnClick();
+            }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            GameObject.Find("Weapon1").GetComponent<Item>().OnClick();
+        }
     }
 
     public void IncrementKilledMonsters()
