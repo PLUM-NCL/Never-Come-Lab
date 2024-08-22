@@ -5532,7 +5532,7 @@ PrefabInstance:
     - target: {fileID: 2409056882427916182, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5bb352c0b3ce2314289656059ffc358e, type: 3}
+      objectReference: {fileID: 21300000, guid: f94f70fd9a0c13c42b785ce4bcaef07c, type: 3}
     - target: {fileID: 2913809672745981596, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: player
       value: 
@@ -5672,6 +5672,14 @@ PrefabInstance:
     - target: {fileID: 8142856113227713044, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398307477221109149, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398307477221109149, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8436195762742918154, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_IsActive
