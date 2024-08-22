@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     public float speed = 4f;
     //public float playerHp = 100;
-    private bool isDie = false;
+    public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
 
@@ -29,8 +30,23 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            colliders.ForEach(n =>
+            {
+                if (n.CompareTag("Lever"))
+                    n.SendMessage("Use", SendMessageOptions.DontRequireReceiver);
+            });
+        }
+    }
+
     private void FixedUpdate()
     {
+        if (isDie)
+            return;
+
         if (!isDie)
         {
             inputVec.x = Input.GetAxisRaw("Horizontal");
@@ -51,6 +67,9 @@ public class Player : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (isDie)
+            return; 
+
         if (inputVec.magnitude > 0)
         {
             anim.speed = 1; // 애니메이션 재생 속도 정상화
@@ -181,6 +200,9 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isDie)
+            return;
+
         if (isHit == true)
             return;
 
@@ -194,8 +216,23 @@ public class Player : MonoBehaviour
         if (GameManager.Instance.health <= 0)
         {
             isDie = true;
-            Debug.Log("으앙 플레이어 죽음");
-            //Destroy(gameObject);
+            inputVec = Vector2.zero;
+            rigid.velocity = Vector2.zero;
+
+            anim.speed = 1;
+            anim.SetTrigger("Dead");
+
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
+            AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+            AudioManager.instance.PlaySfx(AudioManager.Sfx.PlayerDie);
+
+            PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);
+            PlayerPrefs.Save();
+
+            GameManager.Instance.fade.FadeOut();
+            GameManager.Instance.Invoke("GameOver", 2f);
+
+                    
         }
 
         Invoke("OffDamaged", 0.2f);
