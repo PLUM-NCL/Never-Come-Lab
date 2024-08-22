@@ -196,6 +196,7 @@ public class Monster : MonoBehaviour
         }
 
         if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
+        if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         {
             StartCoroutine(Shoot());
         }
@@ -297,7 +298,7 @@ public class Monster : MonoBehaviour
 
     IEnumerator Shoot() // projectile 발사
     {
-        if (agent.enabled)
+        if (agent.enabled && !isHit)
         {
             isShooting = true;
 
@@ -321,6 +322,7 @@ public class Monster : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         agent.isStopped = false;
+        isHit = false;
 
         WakeUp();
     }
@@ -396,7 +398,7 @@ public class Monster : MonoBehaviour
         }
         stopAndResume = StartCoroutine(StopAndResume(1f));
         AudioManager.instance.PlaySfx(AudioManager.Sfx.MonsterDamage);
-        isHit = false;
+        
     }
 
     public void TakeSleep()
@@ -422,21 +424,8 @@ public class Monster : MonoBehaviour
             }
             mark.text = "!";
         }
-        stopAndResume = StartCoroutine(StopAndResume(15f));
+        stopAndResume = StartCoroutine(StopAndResume(10f));
 
-        isHit = false;
-    }
-
-    public void WakeUp()
-    {
-        if (isDie || !isAsleep) return; // 죽었거나 잠들어 있지 않으면 아무 작업도 하지 않음
-        isAsleep = false;
-        OnWake?.Invoke(this); // 스테이지 매니저에 깨어났음을 알림
-    }
-
-    public bool IsAsleep()
-    {
-        return isAsleep;
     }
 
 }

@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class InGame_Menu : MonoBehaviour
+{
+    public static void Retry()
+    {
+        if (!GameManager.Instance.player.isDie)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public static void Exit()
+    {
+        SceneManager.LoadScene("Main_Demo");
+    }
+}

@@ -16,6 +16,7 @@ TagManager:
   - Block
   - Lever
   - HideObject
+  - Clue
   layers:
   - Default
   - TransparentFX

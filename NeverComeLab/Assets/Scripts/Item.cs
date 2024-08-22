@@ -14,8 +14,6 @@ public class Item : MonoBehaviour
 
     Image icon;
     Text textLevel;
-    //GameObject newWeapon;
-
 
     private void Awake()
     {
@@ -24,8 +22,8 @@ public class Item : MonoBehaviour
 
         Text[] texts = GetComponentsInChildren<Text>();
         //player = GameManager.Instance.player;
-
     }
+
 
     public void OnClick()
     {
@@ -43,6 +41,10 @@ public class Item : MonoBehaviour
                         if (child.name == weaponName)
                         {
                             existingWeapon = child.gameObject;
+                        }
+                        else if (child.name == "clue1" || child.name == "clue2" || child.name == "clue3")
+                        {
+                            continue;
                         }
                         else // 다른 무기라면 off 시킴  
                         {

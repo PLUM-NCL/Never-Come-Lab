@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db540238d9149644590e83ce1a98c47a, type: 3}
+  m_Name: Stage2_window1
+  m_EditorClassIdentifier: 
+  speakerData:
+  - speakerName: "\uCC3D\uBB38 \uB108\uBA38\uB85C \uB4E4\uB9AC\uB294 \uBAA9\uC18C\uB9AC"
+    dialogText: "\uAC70\uAE30 \uB204\uAD6C \uC5C6\uC5B4\uC694?!!!!"
+  - speakerName: "\uB098"
+    dialogText: "\uB204\uAD6C\uC138\uC694..?"
+  - speakerName: "\uCC3D\uBB38 \uB108\uBA38\uB85C \uB4E4\uB9AC\uB294 \uBAA9\uC18C\uB9AC"
+    dialogText: "\uB2F9\uC2E0\uC740 \uC774\uACF3\uC744 \uD0C8\uCD9C\uD558\uAE30 \uC704\uD574
+      \uD30C\uB780\uACF5, \uBE68\uAC04\uACF5, \uCD08\uB85D\uACF5\uC744 \uC81C\uBB3C\uB300\uC5D0
+      \uC62C\uB824\uB193\uC544\uC57C\uD574\uC694."
+  - speakerName: "\uCC3D\uBB38 \uB108\uBA38\uB85C \uB4E4\uB9AC\uB294 \uBAA9\uC18C\uB9AC"
+    dialogText: "\uC800\uB294 \uADF8 \uB108\uBA38\uC5D0 \uC788\uB294 \uC874\uC7AC...
+      \uB2F9\uC2E0\uC744 \uAE30\uB2E4\uB9AC\uACE0 \uC788\uACA0\uC2B5\uB2C8\uB2E4."
+  - speakerName: "\uCC3D\uBB38 \uB108\uBA38\uB85C \uB4E4\uB9AC\uB294 \uBAA9\uC18C\uB9AC"
+    dialogText: "\uC544! \uADF8\uB9AC\uACE0 \uC120\uBB3C\uB85C \uD30C\uB780\uACF5\uC744
+      \uB4DC\uB9B4\uAC8C\uC694"
