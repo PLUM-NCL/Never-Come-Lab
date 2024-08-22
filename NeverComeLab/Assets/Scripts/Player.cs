@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         if (!isDie)
         {
             // 블럭 밀기 처리
-            if (nearbyBlock != null && Input.GetKeyDown(pushKey))
+            if (nearbyBlock != null && Input.GetKey(pushKey))
             {
                 PushBlock();
             }
