@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
+    public bool isStop = false;
     public bool isObstacleHit = false;
 
 
@@ -45,8 +46,12 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDie)
+        if (isDie && isStop == true)
+        {
+            rigid.velocity = Vector2.zero;
             return;
+        }
+            
 
         if (!isDie && !isObstacleHit)
         {
