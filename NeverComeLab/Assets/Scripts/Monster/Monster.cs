@@ -249,8 +249,8 @@ public class Monster : MonoBehaviour
             StopCoroutine(stopAndResume);
             stopAndResume = null;
         }
-        agent.enabled = false; // 에이전트 비활성화
-
+        //agent.enabled = false; // 에이전트 비활성화
+        stopAndResume = StartCoroutine(StopAndResume(3f));
         //rigid.velocity = Vector2.zero; // 속도 멈춰
 
         monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동

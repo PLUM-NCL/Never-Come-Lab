@@ -8,7 +8,7 @@ public class Stage2Boss : MonoBehaviour, ITalkable
     [SerializeField] private DialogText dialogText;
     [SerializeField] private DialogController dialogController;
     [SerializeField] private CinemachineVirtualCamera BossCamera;
-
+    [SerializeField] private GameObject Demo;
 
     [SerializeField] private BossStage bossStage;
     private bool isFirst = true;
@@ -37,6 +37,7 @@ public class Stage2Boss : MonoBehaviour, ITalkable
         if (!DialogController.IsConversation)
         {
             BossCamera.Priority = 0;
+            Demo.SetActive(true);
         }
     }
 }
