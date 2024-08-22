@@ -30,7 +30,7 @@ public class Monster : MonoBehaviour
         get { return monsterHp; }
         set {
             monsterHp = value;
-            if (monsterHp > 10000000) // Hp는 100 이상 못올라감
+            if (monsterHp > 100) // Hp는 100 이상 못올라감
             {
                 monsterHp = 100;
                 Debug.Log("Hp 100 한도 초과");
@@ -38,8 +38,6 @@ public class Monster : MonoBehaviour
             else if(monsterHp <= 0) // Hp가 0 이하로 내려가면 죽음
             {
                 Death();
-                mark.text = "꾸엑";
-                Debug.Log("꾸엑");
             }
             
         }
@@ -268,34 +266,33 @@ public class Monster : MonoBehaviour
         if (!agent.enabled) return;
 
         isDie = true;
-        if (patrolCoroutine != null)
-        {
-            StopCoroutine(patrolCoroutine);
-            patrolCoroutine = null;
-        }
-        if (stopAndResume != null)
-        {
-            StopCoroutine(stopAndResume);
-            stopAndResume = null;
-        }
-        agent.enabled = false; // 에이전트 비활성화
 
-        //rigid.velocity = Vector2.zero; // 속도 멈춰
+        // 순찰 및 기타 코루틴 종료
+        StopAllCoroutine();
 
-        monsterAnimator.SetBool("isDeath", true); // Death 애니메이션 가동
+        // 에이전트 비활성화
+        agent.enabled = false;
 
-        // 몬스터가 죽을 때 수면 상태를 먼저 해제합니다.
-        if (isAsleep)
+        // 죽음 애니메이션 시작
+        monsterAnimator.SetBool("isDeath", true);
+
+        // 텍스트 표시 (텍스트 갱신을 먼저 처리)
+        mark.text = "꾸엑";
+        Debug.Log("몬스터 죽음: " + gameObject.name);
+
+        if (isAsleep)// 몬스터가 죽을 때 수면 상태를 먼저 해제합니다.
         {
             isAsleep = false;
             OnWake?.Invoke(this); // 몬스터가 죽으면 수면 상태를 해제하고 깨어남 처리
         }
 
-        OnDeath?.Invoke(this); // 스테이지 매니저에 죽음을 알림
-
-        Destroy(gameObject, 3f); // 3초 후 오브젝트 할당 해제
+        // 스테이지 매니저에 죽음을 알림
+        OnDeath?.Invoke(this);
+        
+        // 일정 시간 후 오브젝트 삭제
+        Destroy(gameObject, 3f);
     }
-
+        
     IEnumerator PatrolRoutine()
     {
         if (!agent.enabled) yield break;
@@ -342,7 +339,8 @@ public class Monster : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
-        agent.isStopped = false;
+        if(!isDie)
+            agent.isStopped = false;
         isHit = false;
 
         WakeUp();
@@ -367,27 +365,7 @@ public class Monster : MonoBehaviour
         }
         WakeUp();
     }
-    // // 빨간색으로 blink
-    //private IEnumerator BlinkEffect()
-    //{
-    //    Color originalColor = spriteRenderer.color;
-    //    Color blinkColor = Color.red;
-    //    float duration = 1.0f;
-    //    float blinkInterval = 0.1f;
-    //    float elapsedTime = 0f;
-
-    //    while (elapsedTime < duration)
-    //    {
-    //        spriteRenderer.color = blinkColor;
-    //        yield return new WaitForSeconds(blinkInterval);
-    //        spriteRenderer.color = originalColor;
-    //        yield return new WaitForSeconds(blinkInterval);
-    //        elapsedTime += blinkInterval * 2;
-    //    }
-
-    //    spriteRenderer.color = originalColor;
-    //}
-
+    
     // 투명+빨강하게 blink
     private IEnumerator BlinkEffect()
     {
@@ -422,8 +400,6 @@ public class Monster : MonoBehaviour
         Hp -= 10; // 데미지 입음
         Debug.Log("남은 몬스터 체력: " + Hp);
 
-        if (isBlink) return;
-        isBlink = true;
         if(blink == null)
             blink = StartCoroutine(BlinkEffect());
         isHit = true;
@@ -447,24 +423,13 @@ public class Monster : MonoBehaviour
     {
         currentState = State.Sleep;
         if (isDie || isAsleep) return;   // 이미 죽었거나 잠들어 있으면 아무 작업도 하지 않음
-        //if (isBlink) return;
-        //isBlink = true;
+
         isAsleep = true;
-        //StartCoroutine(BlinkEffect());
 
         OnSleep?.Invoke(this); // 스테이지 매니저에 잠들었음을 알림
 
         isHit = true;
-        //if (currentState == State.Sleep)
-        //{
-        //    currentState = State.Chase;
-        //    if (patrolCoroutine != null)
-        //    {
-        //        StopCoroutine(PatrolRoutine());
-        //        patrolCoroutine = null;
-        //    }
-        //    mark.text = "!";
-        //}
+        
         sleep = StartCoroutine(Sleep(10f));
     }
 
