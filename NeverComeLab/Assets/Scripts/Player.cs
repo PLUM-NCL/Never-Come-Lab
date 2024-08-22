@@ -46,9 +46,10 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDie && isStop == true)
+        if (isDie || isStop == true)
         {
             rigid.velocity = Vector2.zero;
+            anim.speed = 0;
             return;
         }
             
