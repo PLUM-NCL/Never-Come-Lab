@@ -4259,6 +4259,8 @@ MonoBehaviour:
     - {fileID: 780698901}
     door: {fileID: 1281905840}
     nextSceneName: Stage2
+  player: {fileID: 332788251}
+  weaponbutton: {fileID: 1483774602}
 --- !u!4 &999085075
 Transform:
   m_ObjectHideFlags: 0
@@ -10305,6 +10307,11 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!1 &1483774602 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5715504517061708145, guid: 155414691e21cd24eb3060142583a16b, type: 3}
+  m_PrefabInstance: {fileID: 1788165558}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1542443504 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1925319239129126521, guid: 3d1f4cb829346d446ba4147833787d33, type: 3}
@@ -11903,7 +11910,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8142856113227713044, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8398307477221109149, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_AnchorMax.x

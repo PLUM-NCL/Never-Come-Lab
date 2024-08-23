@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class StageManager : MonoBehaviour
     private int currentStage = 0;
     private int remainingEnemies;
     private int asleepEnemies;
+    public Player player;
+    public GameObject weaponbutton;
 
     private void Start()
     {
@@ -210,7 +213,23 @@ public class StageManager : MonoBehaviour
     public void NextStage()
     {
         currentStage++;
-        if (currentStage < stages.Length)
+
+        foreach (Transform child in player.transform)   //생성되어 있는 무기 찾고 다른 무기 Seleted false시키기
+        {
+            child.GetComponent<Weapon>().Itemdata.isSelected = false;
+            foreach (Transform button in weaponbutton.transform)
+            {
+                Button buttonComponent = button.GetComponent<Button>();
+                ColorBlock colorBlock = buttonComponent.colors; // 현재 색상 블록 가져오기
+                colorBlock.normalColor = Color.white;
+                colorBlock.selectedColor = Color.white;
+                colorBlock.highlightedColor = Color.white;
+                button.GetComponent<Button>().colors = colorBlock; // 수정된 색상 블록 다시 할당
+            }
+        }
+
+
+            if (currentStage < stages.Length)
         {
             InitializeStage(currentStage);
         }
