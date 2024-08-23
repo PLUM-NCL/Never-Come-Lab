@@ -24712,7 +24712,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8142856113227713044, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8398307477221109149, guid: 155414691e21cd24eb3060142583a16b, type: 3}
       propertyPath: m_AnchorMax.x
@@ -29489,7 +29489,7 @@ MonoBehaviour:
   fade: {fileID: 801144326}
   menuSet: {fileID: 801144325}
   health: 0
-  maxHealth: 10
+  maxHealth: 100
 --- !u!4 &1591766748
 Transform:
   m_ObjectHideFlags: 0

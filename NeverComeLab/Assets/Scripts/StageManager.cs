@@ -29,6 +29,7 @@ public class StageManager : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage1);
         InitializeStage(currentStage);
     }
 
@@ -247,6 +248,7 @@ public class StageManager : MonoBehaviour
         else
         {
             Debug.Log("All stages completed!");
+            AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage2);
             // 모든 스테이지가 완료되었을 때 추가로 처리할 로직
         }
     }
