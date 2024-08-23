@@ -18,7 +18,7 @@ public abstract class NPC : MonoBehaviour, Iinteractable
     {
         if (Input.GetKeyDown(KeyCode.Space) && IsInteract())
         {
-            
+            AudioManager.instance.VolumeController(0.1f);
             Interact();
             Player.isStop = true;
         }
@@ -27,6 +27,7 @@ public abstract class NPC : MonoBehaviour, Iinteractable
         {
             interactCheckSprite.gameObject.SetActive(false);
             Player.isStop = false;
+            AudioManager.instance.VolumeController(0.5f);
         }
 
         else if(!interactCheckSprite.gameObject.activeSelf && IsInteract())
