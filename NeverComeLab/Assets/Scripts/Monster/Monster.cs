@@ -198,12 +198,11 @@ public class Monster : MonoBehaviour
         }
 
         if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
-        if (!isShooting && !isHit && !GameManager.Instance.player.isDie)
         {
             shoot = StartCoroutine(Shoot());
-            agent.SetDestination(player.position);
+            
         }
-
+            agent.SetDestination(player.position);
         if (distanceToPlayer > stopChasingDistance) // 플레이어와의 거리가 멀어지면 Return
         {
             Miss();
@@ -244,11 +243,11 @@ public class Monster : MonoBehaviour
             StopCoroutine(stopAndResume);
             stopAndResume = null;
         }
-        if(shoot != null)
-        {
-            StopCoroutine(shoot);
-            stopAndResume = null;
-        }
+        //if(shoot != null)
+        //{
+        //    StopCoroutine(shoot);
+        //    stopAndResume = null;
+        //}
         if(blink != null)
         {
             StopCoroutine(blink);
@@ -341,7 +340,6 @@ public class Monster : MonoBehaviour
 
         if(!isDie)
             agent.isStopped = false;
-        isHit = false;
 
         WakeUp();
     }
@@ -363,6 +361,7 @@ public class Monster : MonoBehaviour
         {
             currentState = State.Chase;
         }
+
         WakeUp();
     }
     
@@ -437,6 +436,7 @@ public class Monster : MonoBehaviour
     {
         if (isDie || !isAsleep) return; // 죽었거나 잠들어 있지 않으면 아무 작업도 하지 않음
         isAsleep = false;
+        isHit = false;
         OnWake?.Invoke(this); // 스테이지 매니저에 깨어났음을 알림
     }
 
