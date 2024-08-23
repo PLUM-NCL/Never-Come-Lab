@@ -27,6 +27,15 @@ public class StageManager : MonoBehaviour
         InitializeStage(currentStage);
     }
 
+    private void Update()
+    {
+        // 특정 키 입력 감지 (예: 엔터 키)
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ActivateDoor();
+        }
+    }
+
     public void InitializeStage(int stageIndex)
     {
         if (stageIndex < 0 || stageIndex >= stages.Length)
