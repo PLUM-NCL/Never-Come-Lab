@@ -87,7 +87,15 @@ public class StageManager : MonoBehaviour
         // 문 비활성화 및 StageManager 할당
         if (stages[stageIndex].door != null)
         {
-            stages[stageIndex].door.SetActive(false);
+            if (stageIndex == 0)  // 1-0 스테이지 (즉 첫 스테이지)
+            {
+                stages[stageIndex].door.SetActive(true); // 문을 자동으로 활성화
+            }
+            else
+            {
+                stages[stageIndex].door.SetActive(false); // 기본적으로 비활성화
+            }
+            
 
             // DoorInteraction 컴포넌트에 StageManager 할당
             DoorInteraction doorInteraction = stages[stageIndex].door.GetComponent<DoorInteraction>();
