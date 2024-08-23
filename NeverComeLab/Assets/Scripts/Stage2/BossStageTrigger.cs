@@ -14,7 +14,7 @@ public class BossStageTrigger : MonoBehaviour
         // 플레이어가 트리거 영역에 들어왔는지 확인
         if (other.CompareTag("Player"))
         {
-            player.isStop = true;
+            Player.isStop = true;
             BossCamera.Priority = 100;
             // 보스 이벤트 시작
             bossStage.StartBossEvent();

@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
-    public bool isStop = false;
+    public static bool isStop = false;
     public bool isObstacleHit = false;
 
 
