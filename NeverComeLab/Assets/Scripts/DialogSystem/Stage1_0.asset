@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db540238d9149644590e83ce1a98c47a, type: 3}
-  m_Name: New Dialog Text
+  m_Name: Stage1_0
   m_EditorClassIdentifier: 
   speakerData:
   - speakerName: "\uB098"
@@ -46,3 +46,5 @@ MonoBehaviour:
   - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
     dialogText: "\uADF8\uB7FC \uC544\uB798\uC758 \uBB38\uC73C\uB85C \uB4E4\uC5B4\uAC00\uC8FC\uC2ED\uC2DC\uC624!
       \uACE7 \uC2DC\uD5D8\uC774 \uC2DC\uC791\uB429\uB2C8\uB2E4!"
+  - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    dialogText: "\uBB38\uC744 \uC5EC\uB294 \uD0A4\uB294 F \uC785\uB2C8\uB2E4."
