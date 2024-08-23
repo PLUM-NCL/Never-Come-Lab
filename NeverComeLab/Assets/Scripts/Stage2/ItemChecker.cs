@@ -16,11 +16,6 @@ public class ItemChecker : MonoBehaviour
             isOn = true;
             Debug.Log("Clue = " + isOn);
         }
-        else
-        {
-            isOn = false;
-            Debug.Log(isOn);
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
