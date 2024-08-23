@@ -18,9 +18,11 @@ public class StageManager : MonoBehaviour
     }
 
     [SerializeField] private Stage[] stages;
-    private int currentStage = 0;
+    public int currentStage = 0;
     private int remainingEnemies;
     private int asleepEnemies;
+    
+    public bool isStageChange = false;
 
     private void Start()
     {
@@ -204,6 +206,7 @@ public class StageManager : MonoBehaviour
         else
         {
             NextStage(); // 다음 스테이지로 이동
+            isStageChange = true;
         }
     }
 
