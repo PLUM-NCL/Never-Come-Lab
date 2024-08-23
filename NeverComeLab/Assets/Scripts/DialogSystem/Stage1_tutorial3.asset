@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerData:
   - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
-    dialogText: "\uC774\uBC88 \uC2A4\uD14C\uC774\uC9C0\uB294 '\uBC00\uAE30'\uC785\uB2C8\uB2E4.\t"
+    dialogText: "\uC774\uBC88 \uC2A4\uD14C\uC774\uC9C0\uB294 '\uD37C\uC990 \uD574\uACB0'\uC785\uB2C8\uB2E4.\t"
   - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
     dialogText: "\uCC45\uC0C1\uC744 \uBC00\uBA74\uC11C Space\uB97C \uB20C\uB7EC \uCC45\uC0C1\uC744
       \uC6C0\uC9C1\uC5EC\uBCF4\uC138\uC694."

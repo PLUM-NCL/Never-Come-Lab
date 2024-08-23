@@ -38,6 +38,11 @@ public class DialogCall : MonoBehaviour, ITalkable
         {
             TutorialConversation();
         }
+
+        if (stageManager.currentStage == 4 && isTalkable)
+        {
+            TutorialConversation();
+        }
     }
     public void Talk(DialogText dialog)
     {
