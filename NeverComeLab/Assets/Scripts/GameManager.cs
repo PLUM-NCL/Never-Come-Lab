@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name == "GameOver")
+            return;
+
         if (Input.GetButtonDown("Cancel") && !player.isDie)
         {
             if (menuSet == null)

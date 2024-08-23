@@ -3939,7 +3939,7 @@ MonoBehaviour:
   player: {fileID: 332788251}
   fade: {fileID: 1788165561}
   menuSet: {fileID: 1788165560}
-  health: 0
+  health: 100
   maxHealth: 100
 --- !u!4 &861146512
 Transform:
@@ -4558,7 +4558,7 @@ MonoBehaviour:
     - {fileID: 867658489}
     - {fileID: 780698901}
     door: {fileID: 1281905840}
-    nextSceneName: Stage2
+    nextSceneName: Stage1to2
   currentStage: 0
   player: {fileID: 332788251}
   weaponbutton: {fileID: 1483774602}
@@ -11527,6 +11527,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3b5401e3c78a38c47ad331d76ca76bf0, type: 3}
   - {fileID: 8300000, guid: ba1bc010ca1859344a5a1bab07d642ec, type: 3}
   - {fileID: 8300000, guid: fddb931ec1cfe9b478308f6e0ef38e01, type: 3}
+  - {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
   - {fileID: 8300000, guid: d42eeacebce729047b25eca546691f1d, type: 3}
   sfxVolume: 0.3
   channels: 12

@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d490ea83331945644a64463d17fdbc9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmClip: {fileID: 0}
+  bgmClips:
+  - {fileID: 8300000, guid: f916f78172eaf4044ab21dc3e1ec5fc2, type: 3}
+  - {fileID: 8300000, guid: a173c8cdbec1142449420993f90c1ad4, type: 3}
   bgmVolume: 0.2
   sfxClips:
   - {fileID: 8300000, guid: e2a17d807ff545b4e8f8cecc88ae4e9a, type: 3}
@@ -55,7 +57,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3b5401e3c78a38c47ad331d76ca76bf0, type: 3}
   - {fileID: 8300000, guid: 291608b8d286e2a4580ff36324455ce2, type: 3}
   - {fileID: 8300000, guid: fddb931ec1cfe9b478308f6e0ef38e01, type: 3}
-  - {fileID: 8300000, guid: d42eeacebce729047b25eca546691f1d, type: 3}
   - {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
+  - {fileID: 8300000, guid: d42eeacebce729047b25eca546691f1d, type: 3}
   sfxVolume: 0.3
-  channels: 12
+  channels: 15
