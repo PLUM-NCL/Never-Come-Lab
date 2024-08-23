@@ -7,9 +7,10 @@ public class AudioManager : MonoBehaviour
     public static AudioManager instance;
 
     [Header("#BGM")]
-    public AudioClip bgmClip;
+    public AudioClip[] bgmClips;
     public float bgmVolume;
     AudioSource bgmPlayer;
+    //AudioHighPassFilter bgmEffect;
 
     [Header("#SFX")]
     public AudioClip[] sfxClips;
@@ -18,6 +19,7 @@ public class AudioManager : MonoBehaviour
     AudioSource[] sfxPlayers;
     int channelIndex;
 
+    public enum Bgm { Stage1, Stage2 }
     public enum Sfx { Lever, Bullet, BindBullet, Run, RunGround, Damage, MonsterDamage, MonsterBullet, Leave, PlayerDie}
 
     private void Awake()
@@ -29,7 +31,16 @@ public class AudioManager : MonoBehaviour
     void Init()
     {
         //배경음 플레이어 초기화
+        GameObject bgmObject = new GameObject("BgmPlayer");
+        bgmObject.transform.parent = transform;
+        bgmPlayer = new AudioSource();
 
+        bgmPlayer = bgmObject.AddComponent<AudioSource>();
+        bgmPlayer.playOnAwake = false;
+        bgmPlayer.loop = true;
+        bgmPlayer.volume = bgmVolume;
+        //bgmEffect = Camera.main.GetComponent<AudioHighPassFilter>();
+            
 
 
         //효과음 플레이어 초기화 
@@ -41,9 +52,33 @@ public class AudioManager : MonoBehaviour
         {
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
+            sfxPlayers[index].bypassListenerEffects = true;
             sfxPlayers[index].volume = sfxVolume;
         }
     }
+
+    public void PlayBgm(Bgm bgm)
+    {
+        bgmPlayer.clip = bgmClips[(int)bgm];
+        bgmPlayer.Play();
+    }
+
+    public void StopBgm(Bgm bgm)
+    {
+         bgmPlayer.Stop();
+    }
+
+    //public void EffectBgm(bool isPlay)
+    //{
+    //    bgmEffect.enabled = isPlay;  
+    //}
+
+    public void VolumeController(float volume)
+    {
+        bgmVolume = volume;
+        bgmPlayer.volume = bgmVolume;
+    }
+
 
     public void PlaySfx(Sfx sfx)
     {
@@ -63,6 +98,8 @@ public class AudioManager : MonoBehaviour
            
         }
     }
+
+    
 
     public bool isPlaying(Sfx sfx)  //이 음원 실행중이면 실행안하도록 함(ex: 걷기 소리..) 
     {

@@ -244,10 +244,10 @@ public class StageManager : MonoBehaviour
     }
 
     [SerializeField] private Stage[] stages;
-    private int currentStage = 0;
+    public int currentStage = 0;
     private int remainingEnemies;
     private int asleepEnemies;
-
+    public bool isStageChange = false;
     private void Start()
     {
         InitializeStage(currentStage);
@@ -427,6 +427,7 @@ public class StageManager : MonoBehaviour
     public void NextStage()
     {
         currentStage++;
+        isStageChange = true;
         if (currentStage < stages.Length)
         {
             InitializeStage(currentStage);
