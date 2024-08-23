@@ -13,6 +13,7 @@ public class InGame_Menu : MonoBehaviour
 
     public static void Exit()
     {
+        GameManager.Instance.health = GameManager.Instance.maxHealth;
         SceneManager.LoadScene("Main_Demo");
     }
 }
