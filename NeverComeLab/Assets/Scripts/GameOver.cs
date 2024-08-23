@@ -30,6 +30,7 @@ public class GameOver : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
+            GameManager.Instance.health = GameManager.Instance.maxHealth;
             SceneManager.LoadScene("Main_Demo");
         }
     }
