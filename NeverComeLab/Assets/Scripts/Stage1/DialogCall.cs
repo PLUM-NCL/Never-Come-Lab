@@ -43,6 +43,7 @@ public class DialogCall : MonoBehaviour, ITalkable
         {
             TutorialConversation();
         }
+
     }
     public void Talk(DialogText dialog)
     {

@@ -16,4 +16,10 @@ public class InGame_Menu : MonoBehaviour
         GameManager.Instance.health = GameManager.Instance.maxHealth;
         SceneManager.LoadScene("Main_Demo");
     }
+
+    public static void GoStage2()
+    {
+        GameManager.Instance.health = GameManager.Instance.maxHealth;
+        SceneManager.LoadScene("Stage2");
+    }
 }
