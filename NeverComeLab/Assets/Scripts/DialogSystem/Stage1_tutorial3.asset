@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db540238d9149644590e83ce1a98c47a, type: 3}
+  m_Name: Stage1_tutorial3
+  m_EditorClassIdentifier: 
+  speakerData:
+  - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    dialogText: "\uC774\uBC88 \uC2A4\uD14C\uC774\uC9C0\uB294 '\uBC00\uAE30'\uC785\uB2C8\uB2E4.\t"
+  - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    dialogText: "\uCC45\uC0C1\uC744 \uBC00\uBA74\uC11C Space\uB97C \uB20C\uB7EC \uCC45\uC0C1\uC744
+      \uC6C0\uC9C1\uC5EC\uBCF4\uC138\uC694."
+  - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    dialogText: "\uC8FC\uBCC0\uC758 \uD78C\uD2B8\uB97C \uBCF4\uACE0 \uD2B9\uC815
+      \uD328\uD134\uC5D0 \uB9DE\uAC8C \uC9C0\uD615\uC9C0\uBB3C\uC744 \uBCC0\uD654\uC2DC\uD0A4\uC138\uC694."
+  - speakerName: "\uD29C\uD1A0\uB9AC\uC5BC"
+    dialogText: "\uC6C0\uC9C1\uC77C \uC218 \uC788\uB294 \uBE14\uB7ED\uACFC \uC6C0\uC9C1\uC774\uC9C0
+      \uBABB\uD558\uB294 \uBE14\uB7ED\uC740 \uC815\uD574\uC838 \uC788\uC2B5\uB2C8\uB2E4."
