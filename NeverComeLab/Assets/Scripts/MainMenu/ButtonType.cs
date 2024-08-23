@@ -21,12 +21,12 @@ public class NewBehaviourScript : MonoBehaviour, IPointerEnterHandler, IPointerE
         switch (currentType)
         {
             case ButtonType.New:
-                SceneManager.LoadScene(2);  // New ¹öÆ° ¼±ÅÃ½Ã ÇÁ·Ñ·Î±× È­¸éÀ¸·Î ÁøÀÔ
+                SceneManager.LoadScene("Prologue");  // New ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Ã½ï¿½ ï¿½ï¿½ï¿½Ñ·Î±ï¿½ È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 break;
             case ButtonType.Exit:
                 Application.Quit();
                 break;
-            // ÃßÈÄ ¹öÆ° Ãß°¡¿¡ µû¶ó ÄÚµå Ãß°¡ ÀÛ¼º
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ß°ï¿½ ï¿½Û¼ï¿½
         }
     }
 
