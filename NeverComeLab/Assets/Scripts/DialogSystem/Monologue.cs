@@ -15,10 +15,25 @@ public class Monologue : MonoBehaviour, ITalkable
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(!DialogController.IsConversation)
+            if (!DialogController.IsConversation)
+            {
                 Talk(dialogText);
-            else gameObject.SetActive(false);
+                
+            }
+            else
+            {
+                //Player.isStop = false;
+                //gameObject.SetActive(false);
+            }
         }
 
+    }
+    void OnEnable()
+    {
+        Player.isStop = true;
+    }
+    void OnDisable()
+    {
+         Player.isStop = false;
     }
 }

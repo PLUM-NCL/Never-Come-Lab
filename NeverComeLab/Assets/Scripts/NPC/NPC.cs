@@ -20,13 +20,13 @@ public abstract class NPC : MonoBehaviour, Iinteractable
         {
             
             Interact();
-            player.isStop = true;
+            Player.isStop = true;
         }
 
         if (interactCheckSprite.gameObject.activeSelf && !IsInteract() || !isTalkable)
         {
             interactCheckSprite.gameObject.SetActive(false);
-            player.isStop = false;
+            Player.isStop = false;
         }
 
         else if(!interactCheckSprite.gameObject.activeSelf && IsInteract())

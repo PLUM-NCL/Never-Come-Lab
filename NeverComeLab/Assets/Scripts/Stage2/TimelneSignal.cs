@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class TimelneSignal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void PlayerStop()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Player.isStop = true;
     }
 }
