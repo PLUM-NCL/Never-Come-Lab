@@ -10,6 +10,7 @@ public class DialogCall : MonoBehaviour, ITalkable
     public StageManager stageManager;
     private bool isTalkable = true;
     private bool isFirst = true;
+    
     private void Update()
     {
         if (stageManager.isStageChange == true)

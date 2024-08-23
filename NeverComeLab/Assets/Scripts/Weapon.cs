@@ -85,7 +85,7 @@ public class Weapon : MonoBehaviour
             }
         }
 
-        //id에 따라 다르게..
+        //id에 따라 다르게.. -> Refacotring 필요
         switch (id)
         {
             case 0: //공격 총알인 경우 
@@ -95,11 +95,13 @@ public class Weapon : MonoBehaviour
                 //bullet.GetComponent<Bullet>().Init(damage, Vector3.zero);
                 break;
             case 1:
-                speed = 0.5f;
+                speed = 2f;
                 break;
             default:
                 break;
         }
+
+        
     }
 
 

@@ -17,7 +17,15 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector2.right * 5f * Time.deltaTime);
+        // 탄환 별로 발사속도가 다르도록 설정
+        if (gameObject.CompareTag("Bullet"))
+        {
+            transform.Translate(Vector2.right * 5f * Time.deltaTime);
+        }
+        else if (gameObject.CompareTag("BindBullet"))
+        {
+            transform.Translate(Vector2.right * 15f * Time.deltaTime);
+        }
 
         Dead();
     }
@@ -62,10 +70,23 @@ public class Bullet : MonoBehaviour
         Transform target = GameManager.Instance.player.transform;
         Vector3 targetPos = target.position;
         float dir = Vector3.Distance(targetPos, transform.position);
-        if (dir > 5f)
+        
+        // 탄환 별로 발사속도가 다르도록 설정 // 으엥 리펙토링 해줘
+        if (gameObject.CompareTag("Bullet"))
         {
-            this.gameObject.SetActive(false);
-            rigid.velocity = Vector2.zero;
+            if (dir > 5f)
+            {
+                this.gameObject.SetActive(false);
+                rigid.velocity = Vector2.zero;
+            }
+        }
+        else if (gameObject.CompareTag("BindBullet"))
+        {
+            if (dir > 10f)
+            {
+                this.gameObject.SetActive(false);
+                rigid.velocity = Vector2.zero;
+            }
         }
     }
 }
