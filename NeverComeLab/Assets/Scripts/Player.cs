@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     public bool isDie = false;
     public bool isHit = false;
     public bool isHide = false;
+    public static bool isStop = false;
+    public bool isObstacleHit = false;
 
 
     public Animator anim;
@@ -44,11 +46,24 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDie)
-            return;
-
-        if (!isDie)
+        if (isDie || isStop == true)
         {
+            AnimReset();
+            inputVec = Vector2.zero;
+            rigid.velocity = Vector2.zero;
+            anim.speed = 0;
+            return;
+        }
+            
+
+        if (!isDie && !isObstacleHit)
+        {
+            // 블럭 밀기 처리
+            if (nearbyBlock != null && Input.GetKey(pushKey))
+            {
+                PushBlock();
+            }
+            
             inputVec.x = Input.GetAxisRaw("Horizontal");
             inputVec.y = Input.GetAxisRaw("Vertical");
 
@@ -57,11 +72,7 @@ public class Player : MonoBehaviour
             {
                 AnimReset();
             }
-            // 블럭 밀기 처리
-            if (nearbyBlock != null && Input.GetKeyDown(pushKey))
-            {
-                PushBlock();
-            }
+            
         }
     }
 
@@ -162,8 +173,23 @@ public class Player : MonoBehaviour
     {
         // 현재 위치를 미리 저장
         Vector2 originalPosition = transform.position;
-
         Vector2 direction = inputVec.normalized; // 현재 플레이어의 입력 방향 사용
+
+        // 대각선 입력 방지
+        if (Mathf.Abs(direction.x) > 0.1f && Mathf.Abs(direction.y) > 0.1f)
+        {
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                direction.y = 0f; // 가로 방향 우선
+            }
+            else
+            {
+                direction.x = 0f; // 세로 방향 우선
+            }
+        }
+
+        direction = direction.normalized; // 수정된 방향을 정규화
+
         if (direction != Vector2.zero)
         {
             Vector2 targetPosition = (Vector2)nearbyBlock.transform.position + direction; // 블럭의 목표 위치 계산

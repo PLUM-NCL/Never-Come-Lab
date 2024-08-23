@@ -10,6 +10,7 @@ public class PrologueController : MonoBehaviour
     void Start()
     {
         playableDirector.stopped += OnPlayableDirectorStopped;
+        
     }
 
     void OnPlayableDirectorStopped(PlayableDirector director)

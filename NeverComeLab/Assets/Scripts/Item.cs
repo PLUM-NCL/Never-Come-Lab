@@ -42,6 +42,10 @@ public class Item : MonoBehaviour
                         {
                             existingWeapon = child.gameObject;
                         }
+                        else if (child.name == "clue1" || child.name == "clue2" || child.name == "clue3")
+                        {
+                            continue;
+                        }
                         else // 다른 무기라면 off 시킴  
                         {
                             child.GetComponent<Weapon>().Itemdata.isSelected = false;

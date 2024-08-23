@@ -1,19 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class DoorInteraction : MonoBehaviour
 {
-    private bool isPlayerInRange = false; // 플레이어가 문 근처에 있는지 여부
-    public int nextStageIndex = 1; // 다음으로 이동할 스테이지 인덱스
+    private bool isPlayerInRange = false;
+    private StageManager stageManager;
+
+    // StageManager를 DoorInteraction에 전달하는 메서드
+    public void SetStageManager(StageManager manager)
+    {
+        stageManager = manager;
+    }
 
     void Update()
     {
+        if (stageManager == null)
+        {
+            Debug.LogError("StageManager is not assigned to DoorInteraction.");
+            return; // stageManager가 null이면 Update를 실행하지 않음
+        }
+
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
         {
-            StageManager.Instance.InitializeStage(nextStageIndex);
-            nextStageIndex++;
+            stageManager.OnDoorInteracted(); // 문과 상호작용 시 StageManager에 알림
         }
+        /*if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
+        {
+            stageManager.OnDoorInteracted(); // 문과 상호작용 시 StageManager에 알림
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -33,4 +47,32 @@ public class DoorInteraction : MonoBehaviour
             Debug.Log("Player left the range of the door.");
         }
     }
+    /*
+    private bool isPlayerInRange = false;
+
+    void Update()
+    {
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.F))
+        {
+            StageManager.Instance.OnDoorInteracted(); // 문과 상호작용 시 StageManager에 알림
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
+            Debug.Log("Player in range of the door.");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = false;
+            Debug.Log("Player left the range of the door.");
+        }
+    }*/
 }

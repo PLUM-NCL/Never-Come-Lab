@@ -4,9 +4,52 @@ using UnityEngine;
 
 public class PuzzleManager : MonoBehaviour
 {
-    public static PuzzleManager Instance; // 싱글톤 패턴으로 퍼즐 매니저를 쉽게 참조할 수 있게 설정
+    private PuzzleTarget[] currentTargets;
+    private StageManager stageManager;
 
-    private PuzzleTarget[] currentTargets; // 현재 스테이지의 목표 타겟 배열
+    public void SetCurrentTargets(PuzzleTarget[] targets, StageManager manager)
+    {
+        currentTargets = targets;
+        stageManager = manager;
+
+        // 각 PuzzleTarget에 PuzzleManager를 설정
+        foreach (var target in currentTargets)
+        {
+            target.SetPuzzleManager(this);
+        }
+
+        CheckPuzzleCompletion();  // 새로운 타겟이 설정될 때 퍼즐 상태 확인
+    }
+
+    public void CheckPuzzleCompletion()
+    {
+        bool allTargetsFilled = true;
+
+        foreach (var target in currentTargets)
+        {
+            if (!target.IsOccupied())
+            {
+                allTargetsFilled = false;
+                break;
+            }
+        }
+
+        if (allTargetsFilled)
+        {
+            Debug.Log("Puzzle Completed!");
+            stageManager.OnPuzzleCompleted();  // 퍼즐이 완성되었을 때 StageManager에 알림
+        }
+        else
+        {
+            Debug.Log("Puzzle Incomplete");
+            stageManager.OnPuzzleIncomplete();  // 퍼즐이 망가졌을 때 StageManager에 알림
+        }
+    }
+
+    /*
+    public static PuzzleManager Instance;
+
+    private PuzzleTarget[] currentTargets;
 
     private void Awake()
     {
@@ -20,25 +63,35 @@ public class PuzzleManager : MonoBehaviour
         }
     }
 
-    // 현재 스테이지의 타겟을 설정
     public void SetCurrentTargets(PuzzleTarget[] targets)
     {
         currentTargets = targets;
+        CheckPuzzleCompletion();  // 새로운 타겟이 설정될 때 퍼즐 상태 확인
     }
 
-    // 퍼즐 완료 상태를 체크하는 메서드
     public void CheckPuzzleCompletion()
     {
+        bool allTargetsFilled = true;
+
         foreach (var target in currentTargets)
         {
             if (!target.IsOccupied())
             {
-                return; // 목표 위치 중 하나라도 블럭이 없으면 퍼즐이 완료되지 않음
+                allTargetsFilled = false;
+                break;
             }
         }
 
-        Debug.Log($"Puzzle for Stage {StageManager.Instance.GetCurrentStage()} Completed!");
-        StageManager.Instance.NextStage();
+        if (allTargetsFilled)
+        {
+            Debug.Log("Puzzle Completed!");
+            StageManager.Instance.OnPuzzleCompleted();  // 퍼즐이 완성되었을 때 StageManager에 알림
+        }
+        else
+        {
+            Debug.Log("Puzzle Incomplete");
+            StageManager.Instance.OnPuzzleIncomplete();  // 퍼즐이 망가졌을 때 StageManager에 알림
+        }
     }
-    
+    */
 }
