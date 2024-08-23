@@ -2996,7 +2996,7 @@ MonoBehaviour:
     - {fileID: 867658489}
     - {fileID: 780698901}
     door: {fileID: 1281905840}
-    nextSceneName: 
+    nextSceneName: Stage2
 --- !u!4 &999085075
 Transform:
   m_ObjectHideFlags: 0
