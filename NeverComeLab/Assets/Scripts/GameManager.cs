@@ -36,17 +36,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
-
-        if (SceneManager.GetActiveScene().name == "Stage1")
-        {
-            AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage1); //브금 시작
-            //AudioManager.instance.EffectBgm(true); //주파수 관련 필터 
-        }
-        else if (SceneManager.GetActiveScene().name == "Stage2")
-        {
-            AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage2); //브금 시작
-            //AudioManager.instance.EffectBgm(true); //주파수 관련 필터 
-        }
     }
 
     private void Update()
@@ -72,9 +61,6 @@ public class GameManager : MonoBehaviour
         {
             GameObject.Find("Weapon1").GetComponent<Item>().OnClick();
         }
-
-        
-
     }
 
     public void IncrementKilledMonsters()

@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: 125735148}
   - component: {fileID: 125735147}
   - component: {fileID: 125735146}
-  - component: {fileID: 125735152}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -482,16 +481,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!165 &125735152
-AudioHighPassFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 125735145}
-  m_Enabled: 1
-  m_CutoffFrequency: 5000
-  m_HighpassResonanceQ: 1
 --- !u!1 &165571601
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +951,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: channels
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
       propertyPath: bgmClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -973,6 +966,26 @@ PrefabInstance:
       propertyPath: bgmClips.Array.data[1]
       value: 
       objectReference: {fileID: 8300000, guid: a173c8cdbec1142449420993f90c1ad4, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: bgmClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: bgmClips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: a173c8cdbec1142449420993f90c1ad4, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: bgmClips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: a173c8cdbec1142449420993f90c1ad4, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: sfxClips.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: sfxClips.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: d42eeacebce729047b25eca546691f1d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
