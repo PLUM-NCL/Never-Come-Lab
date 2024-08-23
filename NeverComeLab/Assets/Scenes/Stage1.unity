@@ -979,6 +979,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: a173c8cdbec1142449420993f90c1ad4, type: 3}
     - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: sfxClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1c5f0c1c9a78e5a4b81926acdf57cd31, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
+      propertyPath: sfxClips.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 340b427f4ddd01845bec125589c01a41, type: 3}
+    - target: {fileID: 5876206842137312043, guid: 07bf8857d6ea2da4ab41e9baabda4039, type: 3}
       propertyPath: sfxClips.Array.data[8]
       value: 
       objectReference: {fileID: 8300000, guid: c8a3fe17a6641ec48b38fb455a40a223, type: 3}
