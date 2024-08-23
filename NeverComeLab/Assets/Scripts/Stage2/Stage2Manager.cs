@@ -10,6 +10,11 @@ public class Stage2Manager : MonoBehaviour
     [SerializeField] Animator[] anim;
     [SerializeField] GameObject gasi;
 
+    private void Start()
+    {
+        AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage2);
+    }
+
     void Update()
     {
         if (checker1.isOn && checker2.isOn && checker3.isOn)

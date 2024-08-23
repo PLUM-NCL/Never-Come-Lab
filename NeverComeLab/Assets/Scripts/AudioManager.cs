@@ -20,7 +20,7 @@ public class AudioManager : MonoBehaviour
     int channelIndex;
 
     public enum Bgm { Stage1, Stage2 }
-    public enum Sfx { Lever, Bullet, BindBullet, Run, RunGround, Damage, MonsterDamage, MonsterBullet, Leave, PlayerDie}
+    public enum Sfx { Lever, Bullet, BindBullet, Run, RunGround, Damage, MonsterDamage, MonsterBullet, PlayerDie, Leave }
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class AudioManager : MonoBehaviour
         {
             sfxPlayers[index] = sfxObject.AddComponent<AudioSource>();
             sfxPlayers[index].playOnAwake = false;
-            sfxPlayers[index].bypassListenerEffects = true;
+            //sfxPlayers[index].bypassListenerEffects = true;
             sfxPlayers[index].volume = sfxVolume;
         }
     }

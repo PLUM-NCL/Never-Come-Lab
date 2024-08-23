@@ -91,13 +91,13 @@ public class Player : MonoBehaviour
             if (!isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Run))   
             {
                 AudioManager.instance.PlaySfx(AudioManager.Sfx.Run);
-                AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+                //AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             }
-            else if(isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Leave))
-            {
-                AudioManager.instance.PlaySfx(AudioManager.Sfx.Leave);
-                AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
-            }
+            //else if(isHide && AudioManager.instance.isPlaying(AudioManager.Sfx.Leave))
+            //{
+            //    //AudioManager.instance.PlaySfx(AudioManager.Sfx.Leave);
+            //    AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
+            //}
 
             if (inputVec.y > 0)
             {
@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
         else if(inputVec.magnitude == 0)    //움직임 멈추면 애니메이션 정지 시키기 
         {
             AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
-            AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+            //AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             StopAnimation();            
         }
     }
@@ -249,7 +249,7 @@ public class Player : MonoBehaviour
             anim.SetTrigger("Dead");
 
             AudioManager.instance.StopSfx(AudioManager.Sfx.Run);
-            AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
+            //AudioManager.instance.StopSfx(AudioManager.Sfx.Leave);
             AudioManager.instance.PlaySfx(AudioManager.Sfx.PlayerDie);
 
             PlayerPrefs.SetString("CurrentScene", SceneManager.GetActiveScene().name);

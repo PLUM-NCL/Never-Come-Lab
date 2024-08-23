@@ -26,6 +26,16 @@ public class GameOver : MonoBehaviour
             fade.FadeOut();
             GameManager.Instance.health = GameManager.Instance.maxHealth;
             string currentScene = PlayerPrefs.GetString("CurrentScene", "Unknown Scene");
+
+            if (currentScene == "Stage1")
+            {
+                AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage1); //브금 시작
+            }
+            else if (currentScene == "Stage2")
+            {
+                AudioManager.instance.PlayBgm(AudioManager.Bgm.Stage2); //브금 시작
+            }
+
             SceneManager.LoadScene(currentScene);
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
